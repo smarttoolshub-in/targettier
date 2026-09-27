@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en" class="dark scroll-smooth">
 <head>
@@ -8,6 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -77,7 +80,7 @@
                         </div>
                     </div>
 
-                    <!-- Header Exams Dropdown with Cascading Nested Accordions -->
+                    <!-- Header Exams Dropdown -->
                     <div class="relative">
                         <button onclick="toggleExamDropdown(event)" class="flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition shadow-sm">
                             <i class="fa-solid fa-graduation-cap text-indigo-600 dark:text-indigo-400"></i>
@@ -87,66 +90,44 @@
                         <div id="exam-dropdown-menu" class="absolute left-0 mt-2 w-80 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl py-2 hidden z-50 max-h-[80vh] overflow-y-auto">
                             <div class="px-4 py-2 border-b border-slate-100 dark:border-slate-800 text-[10px] uppercase font-bold text-slate-400 tracking-wider">Select Examination Category</div>
                             
-                            <!-- 1. SSC Exams Group -->
+                            <!-- SSC Group -->
                             <div>
                                 <div onclick="toggleHeaderGroup('ssc-group')" class="flex items-center justify-between px-4 py-2.5 hover:bg-indigo-500/10 cursor-pointer text-xs font-bold text-slate-800 dark:text-slate-200 transition">
                                     <span class="flex items-center gap-2"><i class="fa-solid fa-building-columns text-indigo-500 w-4"></i> SSC Exams</span>
                                     <i id="icon-ssc-group" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
                                 </div>
                                 <div id="header-group-ssc-group" class="hidden bg-slate-50 dark:bg-[#0b0f19]/50 py-1 border-y border-slate-100 dark:border-slate-800">
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC CGL')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC CGL (Combined Graduate Level)</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC CHSL')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC CHSL (Higher Secondary)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC CGL')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC CGL</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC CHSL')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC CHSL</a>
                                     <a href="javascript:void(0)" onclick="selectExamCategory('SSC GD Constable')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC GD Constable</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC Selection Post')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC Selection Post</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC MTS')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC MTS (Multi-Tasking Staff)</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC CPO')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC CPO (Central Police Org)</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC Stenographer')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC Stenographer</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC JE')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC JE (Junior Engineer)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC MTS')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC MTS</a>
                                 </div>
                             </div>
 
-                            <!-- 2. Banking Exams Group -->
+                            <!-- Banking Group -->
                             <div>
                                 <div onclick="toggleHeaderGroup('banking-group')" class="flex items-center justify-between px-4 py-2.5 hover:bg-teal-500/10 cursor-pointer text-xs font-bold text-slate-800 dark:text-slate-200 transition border-t border-slate-100 dark:border-slate-800">
                                     <span class="flex items-center gap-2"><i class="fa-solid fa-landmark text-teal-500 w-4"></i> Banking Exams</span>
                                     <i id="icon-banking-group" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
                                 </div>
                                 <div id="header-group-banking-group" class="hidden bg-slate-50 dark:bg-[#0b0f19]/50 py-1 border-y border-slate-100 dark:border-slate-800">
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('IBPS RRB Clerk')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS RRB Clerk</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('IBPS RRB PO')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS RRB PO</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('IBPS Clerk')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS Clerk</a>
                                     <a href="javascript:void(0)" onclick="selectExamCategory('IBPS PO')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS PO</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('SBI Clerk')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• SBI Clerk</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('IBPS Clerk')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS Clerk</a>
                                     <a href="javascript:void(0)" onclick="selectExamCategory('SBI PO')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• SBI PO</a>
                                 </div>
                             </div>
 
-                            <!-- 3. Railway Exams Group -->
+                            <!-- Railway Group -->
                             <div>
                                 <div onclick="toggleHeaderGroup('railway-group')" class="flex items-center justify-between px-4 py-2.5 hover:bg-amber-500/10 cursor-pointer text-xs font-bold text-slate-800 dark:text-slate-200 transition border-t border-slate-100 dark:border-slate-800">
-                                    <span class="flex items-center gap-2"><i class="fa-solid fa-train text-amber-500 w-4"></i> Railway Exams (RRB)</span>
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-train text-amber-500 w-4"></i> Railway Exams</span>
                                     <i id="icon-railway-group" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
                                 </div>
                                 <div id="header-group-railway-group" class="hidden bg-slate-50 dark:bg-[#0b0f19]/50 py-1 border-y border-slate-100 dark:border-slate-800">
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB NTPC')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB NTPC (Graduate)</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB NTPC UG')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB NTPC UG (Under Graduate)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB NTPC')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB NTPC</a>
                                     <a href="javascript:void(0)" onclick="selectExamCategory('RRB Group D')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Group D</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB ALP')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB ALP (Assistant Loco Pilot)</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB Technician Grade 1')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Technician Grade 1</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB Technician Grade 3')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Technician Grade 3</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB JE')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB JE (Junior Engineer)</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB Section Controller')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Section Controller</a>
-                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB Constable')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Constable (RPF)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB ALP')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB ALP</a>
                                 </div>
-                            </div>
-
-                            <!-- 4. Other Categories Group -->
-                            <div class="border-t border-slate-100 dark:border-slate-800">
-                                <a href="javascript:void(0)" onclick="selectExamCategory('Civil Service')" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 transition"><i class="fa-solid fa-scale-balanced text-indigo-500 w-4"></i> Civil Service Exam (UPSC)</a>
-                                <a href="javascript:void(0)" onclick="selectExamCategory('Defense')" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 transition"><i class="fa-solid fa-shield-halved text-rose-500 w-4"></i> Defense Exam (NDA, CDS)</a>
-                                <a href="javascript:void(0)" onclick="selectExamCategory('State Government')" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 transition"><i class="fa-solid fa-map-location-dot text-emerald-500 w-4"></i> State Government Exam</a>
-                                <a href="javascript:void(0)" onclick="selectExamCategory('Police')" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 transition"><i class="fa-solid fa-user-shield text-blue-500 w-4"></i> Police Exam (SI, Constable)</a>
-                                <a href="javascript:void(0)" onclick="selectExamCategory('Other Government')" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 transition"><i class="fa-solid fa-file-lines text-purple-500 w-4"></i> Other Government Exam</a>
                             </div>
                         </div>
                     </div>
@@ -176,9 +157,12 @@
                         <i id="theme-icon" class="fa-solid fa-moon text-xs"></i>
                     </button>
 
-                    <button onclick="openAuthModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-user-shield"></i> <span data-i18n="portalLogin">Portal Login</span>
-                    </button>
+                    <!-- Dynamic Auth Header Slot with Firebase & Gmail Session -->
+                    <div id="header-auth-container">
+                        <button onclick="openAuthModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-shield"></i> <span data-i18n="portalLogin">Portal Login</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -264,7 +248,6 @@
             </section>
         </div>
 
-        <!-- Exam Intelligence Portal Tab -->
         <div id="tab-exam-detail" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
                 <div class="flex items-center space-x-4">
@@ -283,7 +266,6 @@
                 </div>
             </div>
 
-            <!-- Exam Sub-tabs -->
             <div class="flex border-b border-slate-200 dark:border-slate-800 mb-8 space-x-6 overflow-x-auto">
                 <button onclick="switchExamSubTab('overview')" id="esub-btn-overview" class="exam-sub-tab-btn pb-3 text-xs font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 whitespace-nowrap">Overview</button>
                 <button onclick="switchExamSubTab('info')" id="esub-btn-info" class="exam-sub-tab-btn pb-3 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white whitespace-nowrap">Exam Information</button>
@@ -370,7 +352,6 @@
             </div>
         </div>
 
-        <!-- Practice Hub Tab -->
         <div id="tab-practice" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div id="practice-main-view">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
@@ -379,14 +360,12 @@
                         <h2 class="text-2xl font-bold mt-2 text-slate-900 dark:text-white transition-colors" data-i18n="practiceHubTitle">Practice Hub (Exams & Subjects)</h2>
                         <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 transition-colors" data-i18n="practiceHubSub">Select between Exam Hub Categories or Subject Streams below.</p>
                     </div>
-                    <!-- Dual Mode Switcher -->
                     <div class="flex gap-2 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800">
                         <button onclick="switchPracticeMode('exams')" id="pmode-exams-btn" class="px-4 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition"><i class="fa-solid fa-graduation-cap mr-1"></i> Exam Hub</button>
                         <button onclick="switchPracticeMode('subjects')" id="pmode-subjects-btn" class="px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition"><i class="fa-solid fa-book-open mr-1"></i> Subject Streams</button>
                     </div>
                 </div>
 
-                <!-- Mode 1: Exam Hub Hierarchical Container -->
                 <div id="practice-exams-container" class="space-y-6">
                     <div id="practice-exam-breadcrumb" class="hidden items-center gap-2 mb-6 text-xs font-semibold text-slate-600 dark:text-slate-400 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 px-4 py-3 rounded-xl flex-wrap">
                         <button onclick="resetPracticeExamNav()" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fa-solid fa-house mr-1"></i> Exam Hub</button>
@@ -398,9 +377,7 @@
                     <div id="practice-exam-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
                 </div>
 
-                <!-- Mode 2: Subject Streams Repository -->
                 <div id="practice-subjects-container" class="hidden space-y-6">
-                    <!-- Main Streams Pill Bar -->
                     <div id="practice-subject-pills" class="flex flex-wrap gap-2 mb-6">
                         <button onclick="selectSubjectStream('mathematics')" id="subj-btn-mathematics" class="practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-indigo-600 text-white transition">Mathematics (गणित)</button>
                         <button onclick="selectSubjectStream('reasoning')" id="subj-btn-reasoning" class="practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">Reasoning (तर्कशक्ति)</button>
@@ -410,22 +387,10 @@
                         <button onclick="selectSubjectStream('english')" id="subj-btn-english" class="practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">English (अंग्रेजी)</button>
                     </div>
 
-                    <!-- Breadcrumb for Subject Hierarchy -->
-                    <div id="practice-breadcrumb" class="hidden items-center gap-2 mb-6 text-xs font-semibold text-slate-600 dark:text-slate-400 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 px-4 py-3 rounded-xl flex-wrap">
-                        <button onclick="resetPracticeBreadcrumb()" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fa-solid fa-house mr-1"></i> Practice Hub</button>
-                        <span id="breadcrumb-sep-1" class="hidden text-slate-400">/</span>
-                        <span id="breadcrumb-subject" class="hidden text-indigo-600 dark:text-indigo-400 cursor-pointer"></span>
-                        <span id="breadcrumb-sep-sub" class="hidden text-slate-400">/</span>
-                        <span id="breadcrumb-substream" class="hidden text-amber-500 cursor-pointer"></span>
-                        <span id="breadcrumb-sep-2" class="hidden text-slate-400">/</span>
-                        <span id="breadcrumb-section" class="hidden text-teal-600 dark:text-teal-400"></span>
-                    </div>
-
                     <div id="practice-container-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                 </div>
             </div>
 
-            <!-- Practice Runner View -->
             <div id="practice-runner-view" class="hidden max-w-5xl mx-auto">
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <div class="lg:col-span-1 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-5 rounded-2xl shadow-xl transition-colors duration-300 h-fit">
@@ -522,7 +487,6 @@
             </div>
         </div>
 
-        <!-- Mock Vault Tab -->
         <div id="tab-vault" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div id="vault-main-view">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
@@ -531,14 +495,12 @@
                         <h2 class="text-2xl font-bold mt-2 text-slate-900 dark:text-white transition-colors" data-i18n="mockVaultTitle">Mock Vault (Exams & Subjects)</h2>
                         <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 transition-colors">Select between Exam Hub Categories or Subject Streams to launch proctored simulation exams.</p>
                     </div>
-                    <!-- Dual Mode Switcher for Vault -->
                     <div class="flex gap-2 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800">
                         <button onclick="switchVaultMode('exams')" id="vmode-exams-btn" class="px-4 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition"><i class="fa-solid fa-graduation-cap mr-1"></i> Exam Hub</button>
                         <button onclick="switchVaultMode('subjects')" id="vmode-subjects-btn" class="px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition"><i class="fa-solid fa-book-open mr-1"></i> Subject Streams</button>
                     </div>
                 </div>
 
-                <!-- Vault Mode 1: Exam Hub Hierarchical Container -->
                 <div id="vault-exams-container" class="space-y-6">
                     <div id="vault-exam-breadcrumb" class="hidden items-center gap-2 mb-6 text-xs font-semibold text-slate-600 dark:text-slate-400 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 px-4 py-3 rounded-xl flex-wrap">
                         <button onclick="resetVaultExamNav()" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fa-solid fa-house mr-1"></i> Exam Hub</button>
@@ -550,7 +512,6 @@
                     <div id="vault-exam-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
                 </div>
 
-                <!-- Vault Mode 2: Subject Streams Repository -->
                 <div id="vault-subjects-container" class="hidden space-y-6">
                     <div id="vault-subject-pills" class="flex flex-wrap gap-2 mb-6">
                         <button onclick="selectVaultSubjectStream('mathematics')" id="vault-subj-mathematics" class="vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-indigo-600 text-white transition">Mathematics</button>
@@ -565,7 +526,6 @@
                 </div>
             </div>
 
-            <!-- Vault Exam Runner View -->
             <div id="vault-runner-view" class="hidden max-w-5xl mx-auto">
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <div class="lg:col-span-1 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-5 rounded-2xl shadow-xl transition-colors duration-300 h-fit">
@@ -654,7 +614,6 @@
             </div>
         </div>
 
-        <!-- Custom Chapters Tab -->
         <div id="tab-chapters" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
@@ -668,7 +627,6 @@
             <div id="custom-chapters-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
 
-        <!-- PYQ Hub Tab -->
         <div id="tab-pyq" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
@@ -689,7 +647,6 @@
             <div id="pyq-container-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
         </div>
 
-        <!-- My Exams Tab -->
         <div id="tab-my_exams" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
@@ -704,7 +661,6 @@
             <div id="my-exams-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
 
-        <!-- Telemetry Tab -->
         <div id="tab-analytics" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-2xl mx-auto text-center mb-10">
                 <span class="text-[10px] bg-teal-500/10 text-teal-700 dark:text-teal-300 font-bold px-2.5 py-1 rounded border border-teal-500/20 uppercase" data-i18n="telemetryData">Telemetry Data</span>
@@ -816,7 +772,7 @@
         </div>
     </div>
 
-    <!-- Auth & Registration Modal -->
+    <!-- Firebase Auth & Registration Modal -->
     <div id="auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-[#131b2e] w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-7">
             <div class="flex justify-between items-center mb-5">
@@ -829,7 +785,6 @@
                 <button onclick="closeAuthModal()" class="text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- Auth Tabs (Sign In / Register) -->
             <div class="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl mb-5">
                 <button onclick="switchAuthMode('login')" id="auth-tab-login" class="flex-1 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition">Sign In</button>
                 <button onclick="switchAuthMode('register')" id="auth-tab-register" class="flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Register / Sign Up</button>
@@ -838,46 +793,34 @@
             <!-- Login View -->
             <form id="auth-form-login" onsubmit="handleAuthSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5" data-i18n="emailLabel">Gmail or Mobile Number *</label>
-                    <input type="text" required placeholder="aspirant@gmail.com or 1234567890" class="w-full px-3.5 py-3 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Gmail or Email Address *</label>
+                    <input type="email" id="login-identifier" required placeholder="aspirant@gmail.com" class="w-full px-3.5 py-3 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
                 </div>
                 <div>
                     <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5" data-i18n="passcodeLabel">Secure Passcode *</label>
-                    <input type="password" required placeholder="••••••••" class="w-full px-3.5 py-3 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                    <input type="password" id="login-passcode" required placeholder="••••••••" class="w-full px-3.5 py-3 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
                 </div>
+                <div id="login-status-msg" class="text-xs text-center min-h-[20px]"></div>
                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider shadow transition" data-i18n="authSessionBtn">Authenticate Session</button>
             </form>
 
-            <!-- Register View -->
+            <!-- Register View with Gmail Verification Notice -->
             <form id="auth-form-register" onsubmit="handleRegisterSubmit(event)" class="space-y-3.5 hidden">
-                <button type="button" onclick="handleGoogleRegister()" class="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm">
-                    <i class="fa-brands fa-google text-rose-500"></i> Continue with Google
-                </button>
-
-                <div class="relative flex py-2 items-center">
-                    <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
-                    <span class="flex-shrink mx-4 text-[10px] uppercase text-slate-400 font-bold">Or register with details</span>
-                    <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
-                </div>
-
                 <div>
                     <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Full Name *</label>
-                    <input type="text" required placeholder="Aspirant Name" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                    <input type="text" id="reg-name" required placeholder="Premchandra" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Gmail / Email Address *</label>
-                    <input type="email" required placeholder="aspirant@gmail.com" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Phone Number *</label>
-                    <input type="tel" required placeholder="1234567890" pattern="[0-9]{10}" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                    <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Gmail / Email Address (Mandatory for OTP) *</label>
+                    <input type="email" id="reg-email" required placeholder="aspirant@gmail.com" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Secure Passcode *</label>
-                    <input type="password" id="reg-password" minlength="8" maxlength="10" required placeholder="8-10 chars (e.g. Abc@123)" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
-                    <p class="text-[9px] text-slate-400 mt-1">Must be 8 to 10 characters with alphabets, numbers & symbols.</p>
+                    <input type="password" id="reg-password" minlength="6" required placeholder="Minimum 6 characters" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                    <p class="text-[9px] text-teal-600 dark:text-teal-400 mt-1">Firebase Auth will automatically send a verification email/OTP to your Gmail inbox.</p>
                 </div>
-                <button type="submit" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider shadow transition mt-2">Register & Create Account</button>
+                <div id="reg-status-msg" class="text-xs text-center min-h-[20px]"></div>
+                <button type="submit" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider shadow transition mt-2">Register & Send Gmail OTP</button>
             </form>
         </div>
     </div>
@@ -904,8 +847,21 @@
     </div>
 
     <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC3ar3PmMmglXlBZA3zP05uXorPNt37GKE",
+            authDomain: "targettire.firebaseapp.com",
+            projectId: "targettire",
+            storageBucket: "targettire.firebasestorage.app",
+            messagingSenderId: "480086745143",
+            appId: "1:480086745143:web:12d52cd4dc7184a0f75fb2",
+            measurementId: "G-391KVE9LTN"
+        };
+        firebase.initializeApp(firebaseConfig);
+
         let currentLang = 'en';
-        let myExamsList = ["SSC CGL", "IBPS PO", "RRB NTPC"]; // Default pinned exams
+        let myExamsList = ["SSC CGL", "IBPS PO", "RRB NTPC"]; 
+        let currentUser = null;
 
         // Header Exam Dropdown Toggle Logic
         function toggleExamDropdown(e) {
@@ -1007,7 +963,6 @@
                 comprehensiveCurr: "Competitive Curriculum Hub",
                 practiceHubTitle: "Practice Hub (Exams & Subjects)",
                 practiceHubSub: "Select between Exam Hub Categories or Subject Streams below.",
-                subAll: "All Subjects",
                 chaptersRepoTitle: "Custom Chapter Manager",
                 chaptersRepoSub: "Add or review custom chapters into your personal revision repository.",
                 addChapterBtn: "Add Chapter",
@@ -1019,11 +974,8 @@
                 accuracyIndex: "Overall Accuracy Index",
                 projectedRank: "Projected All-India Rank",
                 addChapterModalTitle: "Add Custom Chapter",
-                chapterTitleLabel: "Chapter Title",
-                subjectStreamLabel: "Subject Stream",
                 saveChapterBtn: "Save to Repository",
-                emailLabel: "Email or Aspirant ID",
-                passcodeLabel: "Secure Passcode",
+                passcodeLabel: "Secure Passcode *",
                 authSessionBtn: "Authenticate Session",
                 timerLabel: "Time Left",
                 practiceFinished: "Practice Session Completed!",
@@ -1058,7 +1010,6 @@
                 comprehensiveCurr: "प्रतियोगी पाठ्यक्रम हब",
                 practiceHubTitle: "प्रैक्टिस हब (परीक्षाएं और विषय)",
                 practiceHubSub: "नीचे परीक्षा श्रेणियाँ या विषय धाराएँ चुनें।",
-                subAll: "सभी विषय",
                 chaptersRepoTitle: "कस्टम चैप्टर मैनेजर",
                 chaptersRepoSub: "अपनी व्यक्तिगत संशोधन रिपॉजिटरी में कस्टम चैप्टर जोड़ें या समीक्षा करें.",
                 addChapterBtn: "चैप्टर जोड़ें",
@@ -1070,11 +1021,8 @@
                 accuracyIndex: "कुल सटीकता सूचकांक",
                 projectedRank: "अनुमानित अखिल भारतीय रैंक",
                 addChapterModalTitle: "कस्टम चैप्टर जोड़ें",
-                chapterTitleLabel: "चैप्टर का शीर्षक",
-                subjectStreamLabel: "विषय धारा",
                 saveChapterBtn: "रिपॉजिटरी में सहेजें",
-                emailLabel: "ईमेल या उम्मीदवार आईडी",
-                passcodeLabel: "सुरक्षित पासकोड",
+                passcodeLabel: "सुरक्षित पासकोड *",
                 authSessionBtn: "सत्र प्रमाणित करें",
                 timerLabel: "शेष समय",
                 practiceFinished: "अभ्यास सत्र पूर्ण हुआ!",
@@ -1146,7 +1094,6 @@
             }
         }
 
-        // Master Exam Groups Data
         const examGroupsData = {
             "SSC": {
                 name: "SSC Exams (कर्मचारी चयन आयोग)",
@@ -1206,7 +1153,6 @@
             }
         };
 
-        // Add Exam Modal Logic
         function openAddExamModal() {
             const container = document.getElementById('add-exam-list-container');
             if(!container) return;
@@ -1300,7 +1246,6 @@
             });
         }
 
-        // PYQ Hub Hierarchical Navigation
         let pyqNavState = { groupKey: null, subExamName: null };
 
         function resetPYQHub() {
@@ -1432,7 +1377,6 @@
             }
         }
 
-        // Practice Hub Dual Mode Switcher (Exams vs Subjects)
         let practiceNavState = { groupKey: null, subExamName: null };
         function switchPracticeMode(mode) {
             const examsContainer = document.getElementById('practice-exams-container');
@@ -1583,7 +1527,6 @@
             }
         }
 
-        // Mock Vault Dual Mode Switcher
         let vaultNavState = { groupKey: null, subExamName: null };
         function switchVaultMode(mode) {
             const examsContainer = document.getElementById('vault-exams-container');
@@ -1728,7 +1671,6 @@
             }
         }
 
-        // Subject Streams Curriculum Data for Practice & Vault
         const curriculumData = {
             mathematics: {
                 name: "Mathematics (गणित)",
@@ -1874,7 +1816,7 @@
                         <h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title} - Mock Exam</h3>
                         <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subj.name}</span></p>
                     </div>
-                    <button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 50)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                    <button onclick="launchChapterSimulation('${safeTitle}',${ch.totalQuestions}, 50)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow">
                         Launch Simulation Exam
                     </button>
                 `;
@@ -1882,7 +1824,6 @@
             });
         }
 
-        // Practice Runner Engine
         let currentChapter = null;
         let practiceQuestions = [];
         let pIndex = 0;
@@ -1903,7 +1844,7 @@
             let list = [];
             for (let i = 1; i <= count; i++) {
                 list.push({
-                    q: `Question #${i} for ${chapterTitle}: What is the core analytical or theoretical principle applied in solving this problem?\n${chapterTitle} के लिए प्रश्न #${i}: इस विषय से संबंधित मुख्य वैचारिक एवं तथ्यात्मक सिद्धांत क्या है?`,
+                    q: `Question #${i} for${chapterTitle}: What is the core analytical or theoretical principle applied in solving this problem?\n${chapterTitle} के लिए प्रश्न #${i}: इस विषय से संबंधित मुख्य वैचारिक एवं तथ्यात्मक सिद्धांत क्या है?`,
                     options: [
                         `Option A: Standard analytical derivation / मानक विश्लेषणात्मक विधि`,
                         `Option B: Direct conceptual application / प्रत्यक्ष वैचारिक अनुप्रयोग`,
@@ -1984,7 +1925,7 @@
             }
 
             const q = practiceQuestions[pIndex];
-            document.getElementById('runner-q-progress').innerText = `Question ${pIndex + 1} of ${practiceQuestions.length}`;
+            document.getElementById('runner-q-progress').innerText = `Question ${pIndex + 1} of${practiceQuestions.length}`;
             document.getElementById('runner-q-text').innerText = q.q;
 
             const grid = document.getElementById('runner-options-grid');
@@ -2011,7 +1952,7 @@
             }
 
             let answeredCount = Object.keys(userAnswers).length;
-            document.getElementById('runner-score-display').innerText = `Attempted: ${answeredCount} / ${practiceQuestions.length}`;
+            document.getElementById('runner-score-display').innerText = `Attempted: ${answeredCount} /${practiceQuestions.length}`;
             document.getElementById('runner-prev-btn').disabled = (pIndex === 0);
             document.getElementById('runner-next-btn').innerText = (pIndex === practiceQuestions.length - 1) ? "Finish Session" : "Next";
 
@@ -2101,7 +2042,7 @@
             document.getElementById('summary-correct').innerText = correct;
             document.getElementById('summary-incorrect').innerText = incorrect;
             document.getElementById('summary-unattempted').innerText = unattempted;
-            document.getElementById('runner-final-summary').innerText = `You completed ${currentChapter.title} with ${correct} correct answers out of ${practiceQuestions.length} total questions.`;
+            document.getElementById('runner-final-summary').innerText = `You completed ${currentChapter.title} with ${correct} correct answers out of${practiceQuestions.length} total questions.`;
         }
 
         function exitPracticeRunner() {
@@ -2112,7 +2053,6 @@
             document.getElementById('runner-finished-box').classList.add('hidden');
         }
 
-        // Mock Vault Simulation Engine
         let examTitle = "";
         let examQuestions = [];
         let eIndex = 0;
@@ -2202,7 +2142,7 @@
             if (eIndex >= examQuestions.length) return;
 
             const q = examQuestions[eIndex];
-            document.getElementById('exam-q-progress').innerText = `Question ${eIndex + 1} of ${examQuestions.length}`;
+            document.getElementById('exam-q-progress').innerText = `Question ${eIndex + 1} of${examQuestions.length}`;
             document.getElementById('exam-q-text').innerText = q.q;
 
             const grid = document.getElementById('exam-options-grid');
@@ -2295,7 +2235,7 @@
             document.getElementById('exam-summary-correct').innerText = correct;
             document.getElementById('exam-summary-incorrect').innerText = incorrect;
             document.getElementById('exam-summary-unattempted').innerText = unattempted;
-            document.getElementById('exam-final-summary').innerText = `You completed ${examTitle} with ${correct} correct answers out of ${examQuestions.length} total questions under proctored exam conditions.`;
+            document.getElementById('exam-final-summary').innerText = `You completed ${examTitle} with ${correct} correct answers out of${examQuestions.length} total questions under proctored exam conditions.`;
         }
 
         function exitExamVault() {
@@ -2306,7 +2246,6 @@
             document.getElementById('exam-submitted-box').classList.add('hidden');
         }
 
-        // Custom Chapters Manager
         let customChaptersList = [];
 
         function renderCustomChapters() {
@@ -2345,7 +2284,7 @@
                         <button onclick="switchTab('practice'); startChapterPractice('${safeTitle}', '${ch.subject}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow">
                             Launch Practice
                         </button>
-                        <button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 50)" class="w-full bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow">
+                        <button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}',${ch.questions}, 50)" class="w-full bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow">
                             Launch Mock Exam
                         </button>
                         <button onclick="deleteCustomChapter(${ch.id})" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-red-500 hover:text-white text-slate-600 dark:text-slate-300 text-xs font-semibold py-2.5 rounded-xl transition">Remove Chapter</button>
@@ -2411,7 +2350,6 @@
             showToast('Chapter removed successfully.');
         }
 
-        // Gemini AI Tutor Integration
         function openGeminiModal() {
             document.getElementById('gemini-modal').classList.remove('hidden');
         }
@@ -2474,7 +2412,7 @@
             chatHistory.scrollTop = chatHistory.scrollHeight;
         }
 
-        // Auth & Registration Handlers
+        // Firebase & Session Handlers with Gmail Verification
         function openAuthModal() {
             document.getElementById('auth-modal').classList.remove('hidden');
             switchAuthMode('login');
@@ -2500,28 +2438,103 @@
                 loginForm.classList.add('hidden');
             }
         }
+
+        function updateHeaderAuthUI() {
+            const container = document.getElementById('header-auth-container');
+            if(!container) return;
+
+            if (currentUser) {
+                container.innerHTML = `
+                    <div class="relative group">
+                        <button class="flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-600 dark:text-indigo-300 font-bold text-xs px-3.5 py-2.5 rounded-xl transition">
+                            <i class="fa-solid fa-user-check"></i> <span>Hi, ${currentUser.name}</span> <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl py-2 hidden group-hover:block z-50">
+                            <div class="px-4 py-2 border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 truncate">${currentUser.email}</div>
+                            <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 font-semibold transition flex items-center gap-2">
+                                <i class="fa-solid fa-right-from-bracket"></i> Sign Out / Logout
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button onclick="openAuthModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-user-shield"></i> <span data-i18n="portalLogin">Portal Login</span>
+                    </button>
+                `;
+            }
+        }
+
         function handleAuthSubmit(e) {
             e.preventDefault();
-            closeAuthModal();
-            showToast('Session authenticated successfully!');
+            const email = document.getElementById('login-identifier').value.trim();
+            const passcode = document.getElementById('login-passcode').value.trim();
+            const statusMsg = document.getElementById('login-status-msg');
+
+            statusMsg.innerHTML = `<span class="text-amber-500">Authenticating...</span>`;
+
+            firebase.auth().signInWithEmailAndPassword(email, passcode)
+                .then((userCredential) => {
+                    currentUser = {
+                        name: email.split('@')[0],
+                        email: email
+                    };
+                    localStorage.setItem('targettier_user', JSON.stringify(currentUser));
+                    closeAuthModal();
+                    updateHeaderAuthUI();
+                    showToast(`Welcome back, ${currentUser.name}! Session authenticated.`);
+                    statusMsg.innerHTML = ``;
+                    e.target.reset();
+                })
+                .catch((err) => {
+                    statusMsg.innerHTML = `<span class="text-rose-500">Error: ${err.message}</span>`;
+                });
         }
+
         function handleRegisterSubmit(e) {
             e.preventDefault();
-            const pwdInput = document.getElementById('reg-password');
-            const pwd = pwdInput ? pwdInput.value : '';
-            // Validation: 8-10 characters, must contain at least one letter, one number, and one symbol
-            const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^+\-_=])[A-Za-z\d@$!%*#?&^+\-_=]{8,10}$/;
-            if (!regex.test(pwd)) {
-                showToast('Password must be 8-10 characters, including alphabets, numbers, and symbols.');
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const pwd = document.getElementById('reg-password').value.trim();
+            const statusMsg = document.getElementById('reg-status-msg');
+
+            if (!name || !email || !pwd) {
+                showToast('All fields are mandatory!');
                 return;
             }
-            closeAuthModal();
-            showToast('Registration successful! Welcome to TargetTier.');
-            e.target.reset();
+
+            statusMsg.innerHTML = `<span class="text-teal-400">Processing Firebase Auth & sending OTP to Gmail...</span>`;
+
+            firebase.auth().createUserWithEmailAndPassword(email, pwd)
+                .then((userCredential) => {
+                    userCredential.user.sendEmailVerification();
+                    
+                    currentUser = { name, email };
+                    localStorage.setItem('targettier_user', JSON.stringify(currentUser));
+
+                    statusMsg.innerHTML = `<span class="text-cyan-400 font-semibold">Success! Verification/OTP email sent to your Gmail (${email}). Check your inbox!</span>`;
+                    
+                    setTimeout(() => {
+                        closeAuthModal();
+                        updateHeaderAuthUI();
+                        showToast(`Registered successfully! Verification link dispatched to Gmail.`);
+                        statusMsg.innerHTML = ``;
+                        e.target.reset();
+                    }, 3500);
+                })
+                .catch((error) => {
+                    statusMsg.innerHTML = `<span class="text-rose-500">Error: ${error.message}</span>`;
+                });
         }
-        function handleGoogleRegister() {
-            closeAuthModal();
-            showToast('Google Account linked successfully! Welcome to TargetTier.');
+
+        function handleLogout() {
+            firebase.auth().signOut().then(() => {
+                currentUser = null;
+                localStorage.removeItem('targettier_user');
+                updateHeaderAuthUI();
+                showToast('Signed out successfully.');
+            });
         }
 
         function showToast(msg) {
@@ -2531,16 +2544,25 @@
             toast.classList.remove('translate-y-24', 'opacity-0');
             setTimeout(() => {
                 toast.classList.add('translate-y-24', 'opacity-0');
-            }, 3000);
+            }, 3500);
         }
 
         window.onload = function() {
+            const savedUser = localStorage.getItem('targettier_user');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                } catch(err) {
+                    currentUser = null;
+                }
+            }
+            updateHeaderAuthUI();
+
             renderPracticeExamHub();
-            renderVaultExamHub();
+            renderVaultHub();
             renderPYQHub();
             renderMyExamsTab();
         };
     </script>
 </body>
 </html>
-```
