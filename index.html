@@ -1,0 +1,2546 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TargetTier - Elite Exam Intelligence & Adaptive Testing Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        tier: {
+                            dark: '#0b0f19',
+                            card: '#131b2e',
+                            border: '#1e293b',
+                            accent: '#6366f1',
+                            teal: '#14b8a6',
+                            muted: '#94a3b8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        input, textarea, select {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+    </style>
+    <script>
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+                (e.ctrlKey && ['U', 'S'].includes(e.key.toUpperCase()))) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-[#0b0f19] text-slate-800 dark:text-slate-300 min-h-screen flex flex-col transition-colors duration-300">
+
+    <header class="bg-white/95 dark:bg-[#0b0f19]/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800/80 sticky top-0 z-50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3 cursor-pointer group" onclick="switchTab('dashboard')">
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-teal-600 text-white rounded-xl flex items-center justify-center shadow-md shadow-indigo-900/20 group-hover:scale-105 transition duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.4"/>
+                                <circle cx="12" cy="12" r="5" stroke="currentColor"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m0 12v3M3 12h3m12 0h3"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white transition-colors">Target<span class="text-indigo-600 dark:text-indigo-400">Tier</span></span>
+                            <span class="block text-[10px] tracking-wider uppercase text-slate-500 dark:text-slate-400 font-medium" data-i18n="headerSub">Precision Intelligence</span>
+                        </div>
+                    </div>
+
+                    <!-- Header Exams Dropdown with Cascading Nested Accordions -->
+                    <div class="relative">
+                        <button onclick="toggleExamDropdown(event)" class="flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition shadow-sm">
+                            <i class="fa-solid fa-graduation-cap text-indigo-600 dark:text-indigo-400"></i>
+                            <span data-i18n="examsLabel">Exams</span>
+                            <i id="exam-dropdown-icon" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
+                        </button>
+                        <div id="exam-dropdown-menu" class="absolute left-0 mt-2 w-80 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl py-2 hidden z-50 max-h-[80vh] overflow-y-auto">
+                            <div class="px-4 py-2 border-b border-slate-100 dark:border-slate-800 text-[10px] uppercase font-bold text-slate-400 tracking-wider">Select Examination Category</div>
+                            
+                            <!-- 1. SSC Exams Group -->
+                            <div>
+                                <div onclick="toggleHeaderGroup('ssc-group')" class="flex items-center justify-between px-4 py-2.5 hover:bg-indigo-500/10 cursor-pointer text-xs font-bold text-slate-800 dark:text-slate-200 transition">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-building-columns text-indigo-500 w-4"></i> SSC Exams</span>
+                                    <i id="icon-ssc-group" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
+                                </div>
+                                <div id="header-group-ssc-group" class="hidden bg-slate-50 dark:bg-[#0b0f19]/50 py-1 border-y border-slate-100 dark:border-slate-800">
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC CGL')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC CGL (Combined Graduate Level)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC CHSL')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC CHSL (Higher Secondary)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC GD Constable')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC GD Constable</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC Selection Post')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC Selection Post</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC MTS')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC MTS (Multi-Tasking Staff)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC CPO')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC CPO (Central Police Org)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC Stenographer')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC Stenographer</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SSC JE')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC JE (Junior Engineer)</a>
+                                </div>
+                            </div>
+
+                            <!-- 2. Banking Exams Group -->
+                            <div>
+                                <div onclick="toggleHeaderGroup('banking-group')" class="flex items-center justify-between px-4 py-2.5 hover:bg-teal-500/10 cursor-pointer text-xs font-bold text-slate-800 dark:text-slate-200 transition border-t border-slate-100 dark:border-slate-800">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-landmark text-teal-500 w-4"></i> Banking Exams</span>
+                                    <i id="icon-banking-group" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
+                                </div>
+                                <div id="header-group-banking-group" class="hidden bg-slate-50 dark:bg-[#0b0f19]/50 py-1 border-y border-slate-100 dark:border-slate-800">
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('IBPS RRB Clerk')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS RRB Clerk</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('IBPS RRB PO')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS RRB PO</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('IBPS Clerk')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS Clerk</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('IBPS PO')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS PO</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SBI Clerk')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• SBI Clerk</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('SBI PO')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• SBI PO</a>
+                                </div>
+                            </div>
+
+                            <!-- 3. Railway Exams Group -->
+                            <div>
+                                <div onclick="toggleHeaderGroup('railway-group')" class="flex items-center justify-between px-4 py-2.5 hover:bg-amber-500/10 cursor-pointer text-xs font-bold text-slate-800 dark:text-slate-200 transition border-t border-slate-100 dark:border-slate-800">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-train text-amber-500 w-4"></i> Railway Exams (RRB)</span>
+                                    <i id="icon-railway-group" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
+                                </div>
+                                <div id="header-group-railway-group" class="hidden bg-slate-50 dark:bg-[#0b0f19]/50 py-1 border-y border-slate-100 dark:border-slate-800">
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB NTPC')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB NTPC (Graduate)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB NTPC UG')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB NTPC UG (Under Graduate)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB Group D')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Group D</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB ALP')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB ALP (Assistant Loco Pilot)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB Technician Grade 1')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Technician Grade 1</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB Technician Grade 3')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Technician Grade 3</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB JE')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB JE (Junior Engineer)</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB Section Controller')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Section Controller</a>
+                                    <a href="javascript:void(0)" onclick="selectExamCategory('RRB Constable')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Constable (RPF)</a>
+                                </div>
+                            </div>
+
+                            <!-- 4. Other Categories Group -->
+                            <div class="border-t border-slate-100 dark:border-slate-800">
+                                <a href="javascript:void(0)" onclick="selectExamCategory('Civil Service')" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 transition"><i class="fa-solid fa-scale-balanced text-indigo-500 w-4"></i> Civil Service Exam (UPSC)</a>
+                                <a href="javascript:void(0)" onclick="selectExamCategory('Defense')" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 transition"><i class="fa-solid fa-shield-halved text-rose-500 w-4"></i> Defense Exam (NDA, CDS)</a>
+                                <a href="javascript:void(0)" onclick="selectExamCategory('State Government')" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 transition"><i class="fa-solid fa-map-location-dot text-emerald-500 w-4"></i> State Government Exam</a>
+                                <a href="javascript:void(0)" onclick="selectExamCategory('Police')" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 transition"><i class="fa-solid fa-user-shield text-blue-500 w-4"></i> Police Exam (SI, Constable)</a>
+                                <a href="javascript:void(0)" onclick="selectExamCategory('Other Government')" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 transition"><i class="fa-solid fa-file-lines text-purple-500 w-4"></i> Other Government Exam</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="hidden md:flex items-center space-x-1 bg-slate-100 dark:bg-slate-900/80 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors duration-300">
+                    <button onclick="switchTab('dashboard')" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-slate-200 dark:bg-slate-800/90 transition" data-tab="dashboard" data-i18n="navDashboard">Dashboard</button>
+                    <button onclick="switchTab('practice')" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition" data-tab="practice" data-i18n="navPractice">Practice Hub</button>
+                    <button onclick="switchTab('vault')" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition" data-tab="vault" data-i18n="navVault">Mock Vault</button>
+                    <button onclick="switchTab('chapters')" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition" data-tab="chapters" data-i18n="navChapters">Custom Chapters</button>
+                    <button onclick="switchTab('pyq')" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition" data-tab="pyq" data-i18n="navPYQ">PYQ Hub</button>
+                    <button onclick="switchTab('my_exams')" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition" data-tab="my_exams" data-i18n="navMyExams">My Exams</button>
+                    <button onclick="switchTab('analytics')" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition" data-tab="analytics" data-i18n="navTelemetry">Telemetry</button>
+                </nav>
+
+                <div class="flex items-center space-x-2.5">
+                    <button onclick="openGeminiModal()" class="bg-gradient-to-r from-teal-500 to-indigo-600 hover:opacity-90 text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5" title="Gemini AI Tutor">
+                        <i class="fa-solid fa-robot"></i> <span data-i18n="aiTutorBtn">AI Tutor</span>
+                    </button>
+
+                    <select id="lang-selector" onchange="switchLanguage(this.value)" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-300 px-2.5 py-2 rounded-xl focus:outline-none focus:border-indigo-500 transition">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी (Hindi)</option>
+                    </select>
+
+                    <button onclick="toggleTheme()" id="theme-toggle-btn" class="w-9 h-9 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition shadow-sm" title="Toggle Theme">
+                        <i id="theme-icon" class="fa-solid fa-moon text-xs"></i>
+                    </button>
+
+                    <button onclick="openAuthModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-user-shield"></i> <span data-i18n="portalLogin">Portal Login</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <div id="tab-dashboard" class="tab-content">
+            <section class="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-transparent via-slate-100/50 dark:via-slate-900/40 to-transparent transition-colors duration-300">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+                    <div class="lg:col-span-7">
+                        <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-300 text-xs font-medium px-3.5 py-1.5 rounded-full mb-6">
+                            <i class="fa-solid fa-shield-halved text-teal-600 dark:text-teal-400"></i> <span data-i18n="heroBadge">Secure Adaptive Exam Engine 2026</span>
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-6 text-slate-900 dark:text-white transition-colors">
+                            <span data-i18n="heroTitlePre">Master Competitive Tiers with</span> <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-teal-600 dark:from-indigo-400 dark:to-teal-400" data-i18n="heroTitleHighlight">Calm Precision</span>
+                        </h1>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mb-8 leading-relaxed max-w-2xl transition-colors" data-i18n="heroDesc">
+                            TargetTier evaluates your speed, accuracy, and chapter-wise mastery in real-time with randomized question & option shuffles across Mathematics, Reasoning, Science, Social Science, Computer, and English.
+                        </p>
+                        
+                        <!-- Add Your Exam Banner Card -->
+                        <div class="bg-white dark:bg-[#131b2e] border border-indigo-500/30 p-6 rounded-2xl shadow-xl mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1"><i class="fa-solid fa-circle-plus text-indigo-500 mr-2"></i> Add Your Exam & Start Your Journey</h3>
+                                <p class="text-xs text-slate-600 dark:text-slate-400">Select target examinations to pin them to your "My Exams" vault for instant access.</p>
+                            </div>
+                            <button onclick="openAddExamModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-xl shadow transition whitespace-nowrap">
+                                <i class="fa-solid fa-plus mr-1"></i> Add Exam
+                            </button>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="switchTab('vault')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider px-7 py-3 rounded-xl shadow transition" data-i18n="exploreVault">
+                                Explore Mock Vault
+                            </button>
+                            <button onclick="switchTab('practice')" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-semibold text-xs uppercase tracking-wider px-7 py-3 rounded-xl transition" data-i18n="browsePracticeBtn">
+                                Practice Hub
+                            </button>
+                            <button onclick="openGeminiModal()" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs uppercase tracking-wider px-7 py-3 rounded-xl shadow transition flex items-center gap-2">
+                                <i class="fa-solid fa-robot"></i> Ask Gemini AI Tutor
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5">
+                        <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 sm:p-7 shadow-xl relative transition-colors duration-300">
+                            <div class="absolute -top-3 right-6 bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/30 font-bold text-[10px] tracking-wider uppercase px-3 py-1 rounded-full" data-i18n="liveStreamActive">
+                                Live Stream Active
+                            </div>
+                            <h3 class="text-sm font-bold mb-6 flex items-center gap-2 text-slate-900 dark:text-white transition-colors">
+                                <i class="fa-solid fa-chart-line text-indigo-600 dark:text-indigo-400"></i> <span data-i18n="platformStats">Platform Statistics</span>
+                            </h3>
+                            <div class="space-y-4 mb-6">
+                                <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800/80 flex items-center justify-between transition-colors duration-300">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-sm">
+                                            <i class="fa-solid fa-users"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[11px] text-slate-500 dark:text-slate-400 transition-colors" data-i18n="enrolledAspirants">Enrolled Aspirants</p>
+                                            <p class="text-sm font-bold text-slate-900 dark:text-white transition-colors">2,84,120+</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-[11px] text-teal-700 dark:text-teal-400 font-medium bg-teal-500/10 px-2 py-0.5 rounded" data-i18n="optimal">Optimal</span>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800/80 flex items-center justify-between transition-colors duration-300">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-lg bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center font-bold text-sm">
+                                            <i class="fa-solid fa-bullseye"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[11px] text-slate-500 dark:text-slate-400 transition-colors" data-i18n="diffCalibration">Difficulty Calibration</p>
+                                            <p class="text-sm font-bold text-slate-900 dark:text-white transition-colors" data-i18n="adaptiveStandard">Adaptive Standard</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-[11px] text-indigo-600 dark:text-indigo-400 font-medium bg-indigo-500/10 px-2 py-0.5 rounded" data-i18n="tcsPattern">TCS Pattern</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Exam Intelligence Portal Tab -->
+        <div id="tab-exam-detail" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex items-center space-x-4">
+                    <button onclick="switchTab('dashboard')" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-300 hover:text-indigo-600 transition">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <div>
+                        <span id="exam-detail-badge" class="text-[10px] bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 font-bold px-2.5 py-1 rounded border border-indigo-500/20 uppercase">Exam Portal</span>
+                        <h2 id="exam-detail-title" class="text-2xl font-bold mt-1 text-slate-900 dark:text-white">Exam Title</h2>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="switchTab('vault')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow transition">
+                        Launch Mock Test
+                    </button>
+                </div>
+            </div>
+
+            <!-- Exam Sub-tabs -->
+            <div class="flex border-b border-slate-200 dark:border-slate-800 mb-8 space-x-6 overflow-x-auto">
+                <button onclick="switchExamSubTab('overview')" id="esub-btn-overview" class="exam-sub-tab-btn pb-3 text-xs font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 whitespace-nowrap">Overview</button>
+                <button onclick="switchExamSubTab('info')" id="esub-btn-info" class="exam-sub-tab-btn pb-3 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white whitespace-nowrap">Exam Information</button>
+                <button onclick="switchExamSubTab('testseries')" id="esub-btn-testseries" class="exam-sub-tab-btn pb-3 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white whitespace-nowrap">Test Series</button>
+                <button onclick="switchExamSubTab('quizzes')" id="esub-btn-quizzes" class="exam-sub-tab-btn pb-3 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white whitespace-nowrap">Quizzes</button>
+                <button onclick="switchExamSubTab('pyq')" id="esub-btn-pyq" class="exam-sub-tab-btn pb-3 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white whitespace-nowrap">Previous Year Questions (PYQs)</button>
+            </div>
+
+            <div id="esub-content-overview" class="exam-sub-content space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-7 rounded-2xl shadow-sm">
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white mb-3">About <span id="exam-name-span">Exam</span></h3>
+                        <p id="exam-desc-text" class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                            This examination is one of the most prestigious competitive recruitment tests conducted annually for aspirants seeking elite government positions.
+                        </p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                <p class="text-[10px] text-slate-500 uppercase font-semibold">Mode of Exam</p>
+                                <p class="text-xs font-bold text-slate-900 dark:text-white mt-1">Online (CBT)</p>
+                            </div>
+                            <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                <p class="text-[10px] text-slate-500 uppercase font-semibold">Frequency</p>
+                                <p class="text-xs font-bold text-slate-900 dark:text-white mt-1">Annual</p>
+                            </div>
+                            <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                <p class="text-[10px] text-slate-500 uppercase font-semibold">Language</p>
+                                <p class="text-xs font-bold text-slate-900 dark:text-white mt-1">Bilingual (EN/HI)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl shadow-sm flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">Quick Preparation Actions</h4>
+                            <div class="space-y-3">
+                                <button onclick="switchTab('vault')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs py-3 rounded-xl transition shadow">Start Full Mock Test</button>
+                                <button onclick="switchTab('practice')" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold text-xs py-3 rounded-xl transition">Practice Chapter Quizzes</button>
+                                <button onclick="openGeminiModal()" class="w-full bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 font-semibold text-xs py-3 rounded-xl transition">Ask Gemini AI Doubt</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="esub-content-info" class="exam-sub-content hidden space-y-6">
+                <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-7 rounded-2xl shadow-sm">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white mb-4">Exam Pattern & Eligibility Criteria</h3>
+                    <div class="space-y-4 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        <p><strong>Tier Structure:</strong> Conducted in multiple tiers (Objective Computer Based CBT & Descriptive paper).</p>
+                        <p><strong>Marking Scheme:</strong> Positive marks for correct answers, negative marking for incorrect attempts in objective sections.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="esub-content-testseries" class="exam-sub-content hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl shadow-sm flex flex-col justify-between">
+                        <div>
+                            <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold uppercase px-2.5 py-1 rounded">Full Length Mock #1</span>
+                            <h4 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white">TCS Pattern Full Mock</h4>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mb-4">100 Qs • 60 Minutes • Bilingual</p>
+                        </div>
+                        <button onclick="switchTab('vault')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 rounded-xl transition">Start Test</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="esub-content-quizzes" class="exam-sub-content hidden space-y-6">
+                <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-7 rounded-2xl shadow-sm">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white mb-4">Subject-wise Chapter Quizzes</h3>
+                    <button onclick="switchTab('practice')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-6 py-3 rounded-xl transition shadow">Go to Practice Hub</button>
+                </div>
+            </div>
+
+            <div id="esub-content-pyq" class="exam-sub-content hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl shadow-sm flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] bg-indigo-500/10 text-indigo-700 font-bold px-2 py-0.5 rounded">Official Shift Paper Set</span>
+                            <h4 class="text-sm font-bold mt-2 text-slate-900 dark:text-white">Official Shift 1 Question Paper</h4>
+                        </div>
+                        <button onclick="switchTab('pyq')" class="bg-indigo-600 text-white text-xs font-semibold px-4 py-2 rounded-xl">Solve Paper</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practice Hub Tab -->
+        <div id="tab-practice" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="practice-main-view">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                    <div>
+                        <span class="text-[10px] bg-teal-500/10 text-teal-700 dark:text-teal-300 font-bold px-2.5 py-1 rounded border border-teal-500/20 uppercase" data-i18n="comprehensiveCurr">Competitive Curriculum Hub</span>
+                        <h2 class="text-2xl font-bold mt-2 text-slate-900 dark:text-white transition-colors" data-i18n="practiceHubTitle">Practice Hub (Exams & Subjects)</h2>
+                        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 transition-colors" data-i18n="practiceHubSub">Select between Exam Hub Categories or Subject Streams below.</p>
+                    </div>
+                    <!-- Dual Mode Switcher -->
+                    <div class="flex gap-2 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <button onclick="switchPracticeMode('exams')" id="pmode-exams-btn" class="px-4 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition"><i class="fa-solid fa-graduation-cap mr-1"></i> Exam Hub</button>
+                        <button onclick="switchPracticeMode('subjects')" id="pmode-subjects-btn" class="px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition"><i class="fa-solid fa-book-open mr-1"></i> Subject Streams</button>
+                    </div>
+                </div>
+
+                <!-- Mode 1: Exam Hub Hierarchical Container -->
+                <div id="practice-exams-container" class="space-y-6">
+                    <div id="practice-exam-breadcrumb" class="hidden items-center gap-2 mb-6 text-xs font-semibold text-slate-600 dark:text-slate-400 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 px-4 py-3 rounded-xl flex-wrap">
+                        <button onclick="resetPracticeExamNav()" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fa-solid fa-house mr-1"></i> Exam Hub</button>
+                        <span id="pexam-sep-1" class="hidden text-slate-400">/</span>
+                        <span id="pexam-breadcrumb-group" class="hidden text-indigo-600 dark:text-indigo-400"></span>
+                        <span id="pexam-sep-2" class="hidden text-slate-400">/</span>
+                        <span id="pexam-breadcrumb-sub" class="hidden text-amber-500"></span>
+                    </div>
+                    <div id="practice-exam-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+                </div>
+
+                <!-- Mode 2: Subject Streams Repository -->
+                <div id="practice-subjects-container" class="hidden space-y-6">
+                    <!-- Main Streams Pill Bar -->
+                    <div id="practice-subject-pills" class="flex flex-wrap gap-2 mb-6">
+                        <button onclick="selectSubjectStream('mathematics')" id="subj-btn-mathematics" class="practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-indigo-600 text-white transition">Mathematics (गणित)</button>
+                        <button onclick="selectSubjectStream('reasoning')" id="subj-btn-reasoning" class="practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">Reasoning (तर्कशक्ति)</button>
+                        <button onclick="selectSubjectStream('science')" id="subj-btn-science" class="practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">Science (विज्ञान)</button>
+                        <button onclick="selectSubjectStream('social_science')" id="subj-btn-social_science" class="practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">Social Science (सामाजिक विज्ञान)</button>
+                        <button onclick="selectSubjectStream('computer')" id="subj-btn-computer" class="practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">Computer (कंप्यूटर)</button>
+                        <button onclick="selectSubjectStream('english')" id="subj-btn-english" class="practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">English (अंग्रेजी)</button>
+                    </div>
+
+                    <!-- Breadcrumb for Subject Hierarchy -->
+                    <div id="practice-breadcrumb" class="hidden items-center gap-2 mb-6 text-xs font-semibold text-slate-600 dark:text-slate-400 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 px-4 py-3 rounded-xl flex-wrap">
+                        <button onclick="resetPracticeBreadcrumb()" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fa-solid fa-house mr-1"></i> Practice Hub</button>
+                        <span id="breadcrumb-sep-1" class="hidden text-slate-400">/</span>
+                        <span id="breadcrumb-subject" class="hidden text-indigo-600 dark:text-indigo-400 cursor-pointer"></span>
+                        <span id="breadcrumb-sep-sub" class="hidden text-slate-400">/</span>
+                        <span id="breadcrumb-substream" class="hidden text-amber-500 cursor-pointer"></span>
+                        <span id="breadcrumb-sep-2" class="hidden text-slate-400">/</span>
+                        <span id="breadcrumb-section" class="hidden text-teal-600 dark:text-teal-400"></span>
+                    </div>
+
+                    <div id="practice-container-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+            </div>
+
+            <!-- Practice Runner View -->
+            <div id="practice-runner-view" class="hidden max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <div class="lg:col-span-1 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-5 rounded-2xl shadow-xl transition-colors duration-300 h-fit">
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-4">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white" data-i18n="questionPalette">Question Palette</h4>
+                            <button onclick="exitPracticeRunner()" class="text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs px-2 py-1 rounded border border-slate-200 dark:border-slate-800"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3" data-i18n="paletteSub">Click any number to jump directly to that question.</p>
+                        <div id="question-palette-grid" class="grid grid-cols-5 gap-2 max-h-80 overflow-y-auto pr-1"></div>
+                        <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 space-y-1.5 text-[10px] text-slate-500 dark:text-slate-400">
+                            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-indigo-600 inline-block"></span> Current Question</div>
+                            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-teal-500 inline-block"></span> Answered</div>
+                            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-slate-200 dark:bg-slate-800 inline-block"></span> Unattempted</div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-3 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 sm:p-8 rounded-2xl shadow-xl transition-colors duration-300">
+                        <div class="flex items-center justify-between pb-6 border-b border-slate-200 dark:border-slate-800 mb-6">
+                            <div>
+                                <span id="runner-chapter-badge" class="text-[10px] bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 font-bold px-2.5 py-1 rounded border border-indigo-500/20 uppercase">Chapter Practice</span>
+                                <h3 id="runner-chapter-title" class="text-base sm:text-lg font-bold mt-2 text-slate-900 dark:text-white">Chapter Title</h3>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-right">
+                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 block" data-i18n="timerLabel">Time Left</span>
+                                    <span id="runner-timer" class="text-sm font-extrabold text-amber-500">30s</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="runner-question-box">
+                            <div class="flex justify-between items-center mb-3">
+                                <span id="runner-q-progress" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">Question 1 of 50</span>
+                                <span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded">Bilingual (EN / HI) • Shuffled</span>
+                            </div>
+
+                            <div class="mb-3">
+                                <p id="runner-q-text" class="text-sm sm:text-base font-semibold text-slate-900 dark:text-white mt-1">Loading question...</p>
+                            </div>
+
+                            <div id="runner-options-grid" class="space-y-3 mb-6"></div>
+
+                            <div id="runner-explanation-box" class="hidden mb-6 p-5 rounded-xl border leading-relaxed transition-all">
+                                <div id="runner-status-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3"></div>
+                                <h4 class="text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-2 text-slate-900 dark:text-white">
+                                    <i class="fa-solid fa-circle-info text-sm text-indigo-500"></i> Detailed Explanation / विस्तृत स्पष्टीकरण
+                                </h4>
+                                <p id="runner-exp-text" class="text-xs text-slate-700 dark:text-slate-300 mb-3 leading-relaxed"></p>
+                            </div>
+
+                            <div class="flex justify-between items-center pt-4 border-t border-slate-200 dark:border-slate-800">
+                                <button onclick="prevPracticeQuestion()" id="runner-prev-btn" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider transition">
+                                    <i class="fa-solid fa-arrow-left mr-1"></i> Previous
+                                </button>
+                                <span id="runner-score-display" class="text-xs font-medium text-slate-600 dark:text-slate-400">Score: 0 / 0</span>
+                                <button onclick="nextPracticeQuestion()" id="runner-next-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                                    Next <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="runner-finished-box" class="hidden text-center py-6">
+                            <div class="w-14 h-14 bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 rounded-2xl flex items-center justify-center text-xl mx-auto mb-4">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white" data-i18n="practiceFinished">Practice Session Completed!</h3>
+                            <p id="runner-final-summary" class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mb-6">You successfully reviewed the chapter questions.</p>
+                            
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                                <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                    <p class="text-[11px] text-slate-500 mb-1">Total Attempted</p>
+                                    <p id="summary-attempted" class="text-lg font-bold text-slate-900 dark:text-white">0</p>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                    <p class="text-[11px] text-teal-600 mb-1">Correct Answers</p>
+                                    <p id="summary-correct" class="text-lg font-bold text-teal-600">0</p>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                    <p class="text-[11px] text-rose-500 mb-1">Incorrect Answers</p>
+                                    <p id="summary-incorrect" class="text-lg font-bold text-rose-500">0</p>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                    <p class="text-[11px] text-slate-400 mb-1">Unattempted</p>
+                                    <p id="summary-unattempted" class="text-lg font-bold text-slate-400">0</p>
+                                </div>
+                            </div>
+
+                            <button onclick="exitPracticeRunner()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition">
+                                Return to Practice Hub
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mock Vault Tab -->
+        <div id="tab-vault" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="vault-main-view">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                    <div>
+                        <span class="text-[10px] bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 font-bold px-2.5 py-1 rounded border border-indigo-500/20 uppercase">Proctored Examination Mode</span>
+                        <h2 class="text-2xl font-bold mt-2 text-slate-900 dark:text-white transition-colors" data-i18n="mockVaultTitle">Mock Vault (Exams & Subjects)</h2>
+                        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 transition-colors">Select between Exam Hub Categories or Subject Streams to launch proctored simulation exams.</p>
+                    </div>
+                    <!-- Dual Mode Switcher for Vault -->
+                    <div class="flex gap-2 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <button onclick="switchVaultMode('exams')" id="vmode-exams-btn" class="px-4 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition"><i class="fa-solid fa-graduation-cap mr-1"></i> Exam Hub</button>
+                        <button onclick="switchVaultMode('subjects')" id="vmode-subjects-btn" class="px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition"><i class="fa-solid fa-book-open mr-1"></i> Subject Streams</button>
+                    </div>
+                </div>
+
+                <!-- Vault Mode 1: Exam Hub Hierarchical Container -->
+                <div id="vault-exams-container" class="space-y-6">
+                    <div id="vault-exam-breadcrumb" class="hidden items-center gap-2 mb-6 text-xs font-semibold text-slate-600 dark:text-slate-400 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 px-4 py-3 rounded-xl flex-wrap">
+                        <button onclick="resetVaultExamNav()" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fa-solid fa-house mr-1"></i> Exam Hub</button>
+                        <span id="vexam-sep-1" class="hidden text-slate-400">/</span>
+                        <span id="vexam-breadcrumb-group" class="hidden text-indigo-600 dark:text-indigo-400"></span>
+                        <span id="vexam-sep-2" class="hidden text-slate-400">/</span>
+                        <span id="vexam-breadcrumb-sub" class="hidden text-amber-500"></span>
+                    </div>
+                    <div id="vault-exam-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+                </div>
+
+                <!-- Vault Mode 2: Subject Streams Repository -->
+                <div id="vault-subjects-container" class="hidden space-y-6">
+                    <div id="vault-subject-pills" class="flex flex-wrap gap-2 mb-6">
+                        <button onclick="selectVaultSubjectStream('mathematics')" id="vault-subj-mathematics" class="vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-indigo-600 text-white transition">Mathematics</button>
+                        <button onclick="selectVaultSubjectStream('reasoning')" id="vault-subj-reasoning" class="vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">Reasoning</button>
+                        <button onclick="selectVaultSubjectStream('science')" id="vault-subj-science" class="vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">Science</button>
+                        <button onclick="selectVaultSubjectStream('social_science')" id="vault-subj-social_science" class="vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">Social Science</button>
+                        <button onclick="selectVaultSubjectStream('computer')" id="vault-subj-computer" class="vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">Computer</button>
+                        <button onclick="selectVaultSubjectStream('english')" id="vault-subj-english" class="vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">English</button>
+                    </div>
+
+                    <div id="vault-container-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+            </div>
+
+            <!-- Vault Exam Runner View -->
+            <div id="vault-runner-view" class="hidden max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <div class="lg:col-span-1 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-5 rounded-2xl shadow-xl transition-colors duration-300 h-fit">
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-4">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">Exam Palette</h4>
+                            <button onclick="confirmExitExam()" class="text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs px-2 py-1 rounded border border-slate-200 dark:border-slate-800"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3">Click number to jump. Options save instantly.</p>
+                        <div id="exam-palette-grid" class="grid grid-cols-5 gap-2 max-h-80 overflow-y-auto pr-1"></div>
+                        <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 space-y-1.5 text-[10px] text-slate-500 dark:text-slate-400">
+                            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-indigo-600 inline-block"></span> Current</div>
+                            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-teal-500 inline-block"></span> Answered</div>
+                            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-slate-200 dark:border-slate-800 inline-block"></span> Unattempted</div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-3 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 sm:p-8 rounded-2xl shadow-xl transition-colors duration-300">
+                        <div class="flex items-center justify-between pb-6 border-b border-slate-200 dark:border-slate-800 mb-6">
+                            <div>
+                                <span id="exam-title-badge" class="text-[10px] bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 font-bold px-2.5 py-1 rounded border border-indigo-500/20 uppercase">Proctored Simulation Exam</span>
+                                <h3 id="exam-set-title" class="text-base sm:text-lg font-bold mt-2 text-slate-900 dark:text-white">Simulation Exam</h3>
+                            </div>
+                            <div class="text-right bg-slate-50 dark:bg-[#0b0f19] px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800">
+                                <span class="text-[10px] text-slate-500 dark:text-slate-400 block uppercase font-semibold">Total Exam Time Left</span>
+                                <span id="exam-main-timer" class="text-base font-extrabold text-amber-500">50:00</span>
+                            </div>
+                        </div>
+
+                        <div id="exam-question-box">
+                            <div class="flex justify-between items-center mb-3">
+                                <span id="exam-q-progress" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">Question 1 of 50</span>
+                                <span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded">Proctored Mode (Randomized Shuffled Order)</span>
+                            </div>
+
+                            <div class="mb-6">
+                                <p id="exam-q-text" class="text-sm sm:text-base font-semibold text-slate-900 dark:text-white mt-1">Loading...</p>
+                            </div>
+
+                            <div id="exam-options-grid" class="space-y-3 mb-8"></div>
+
+                            <div class="flex justify-between items-center pt-4 border-t border-slate-200 dark:border-slate-800">
+                                <button onclick="prevExamQuestion()" id="exam-prev-btn" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider transition">
+                                    <i class="fa-solid fa-arrow-left mr-1"></i> Previous
+                                </button>
+                                <button onclick="submitExamEarly()" class="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-bold px-4 py-2.5 rounded-xl uppercase tracking-wider transition">
+                                    Submit Exam
+                                </button>
+                                <button onclick="nextExamQuestion()" id="exam-next-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                                    Next <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="exam-submitted-box" class="hidden text-center py-6">
+                            <div class="w-14 h-14 bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 rounded-2xl flex items-center justify-center text-xl mx-auto mb-4">
+                                <i class="fa-solid fa-square-poll-vertical"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Exam Simulation Submitted!</h3>
+                            <p id="exam-final-summary" class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mb-6">Here is your official performance evaluation.</p>
+                            
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                                <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                    <p class="text-[11px] text-slate-500 mb-1">Attempted Qs</p>
+                                    <p id="exam-summary-attempted" class="text-lg font-bold text-slate-900 dark:text-white">0</p>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                    <p class="text-[11px] text-teal-600 mb-1">Correct Answers</p>
+                                    <p id="exam-summary-correct" class="text-lg font-bold text-teal-600">0</p>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                    <p class="text-[11px] text-rose-500 mb-1">Incorrect Answers</p>
+                                    <p id="exam-summary-incorrect" class="text-lg font-bold text-rose-500">0</p>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-[#0b0f19] p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                    <p class="text-[11px] text-slate-400 mb-1">Unattempted</p>
+                                    <p id="exam-summary-unattempted" class="text-lg font-bold text-slate-400">0</p>
+                                </div>
+                            </div>
+
+                            <button onclick="exitExamVault()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition">
+                                Return to Mock Vault
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Chapters Tab -->
+        <div id="tab-chapters" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white transition-colors" data-i18n="chaptersRepoTitle">Custom Chapter Manager</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 transition-colors" data-i18n="chaptersRepoSub">Add or review custom chapters into your personal revision repository.</p>
+                </div>
+                <button onclick="openAddChapterModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow transition">
+                    <i class="fa-solid fa-plus mr-1"></i> <span data-i18n="addChapterBtn">Add Chapter</span>
+                </button>
+            </div>
+            <div id="custom-chapters-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- PYQ Hub Tab -->
+        <div id="tab-pyq" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                <div>
+                    <span class="text-[10px] bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 font-bold px-2.5 py-1 rounded border border-indigo-500/20 uppercase">Previous Year Questions (PYQ) Hub</span>
+                    <h2 class="text-2xl font-bold mt-2 text-slate-900 dark:text-white transition-colors">Official Section-wise PYQ Repository</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 transition-colors">Select an Exam Category & Sub-Exam below to solve official shift papers in real-time.</p>
+                </div>
+            </div>
+
+            <div id="pyq-exam-breadcrumb" class="hidden items-center gap-2 mb-6 text-xs font-semibold text-slate-600 dark:text-slate-400 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 px-4 py-3 rounded-xl flex-wrap">
+                <button onclick="resetPYQHub()" class="hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fa-solid fa-house mr-1"></i> PYQ Hub</button>
+                <span id="pyq-sep-1" class="hidden text-slate-400">/</span>
+                <span id="pyq-breadcrumb-group" class="hidden text-indigo-600 dark:text-indigo-400"></span>
+                <span id="pyq-sep-2" class="hidden text-slate-400">/</span>
+                <span id="pyq-breadcrumb-sub" class="hidden text-amber-500"></span>
+            </div>
+
+            <div id="pyq-container-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+        </div>
+
+        <!-- My Exams Tab -->
+        <div id="tab-my_exams" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                <div>
+                    <span class="text-[10px] bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 font-bold px-2.5 py-1 rounded border border-indigo-500/20 uppercase">My Exams Vault</span>
+                    <h2 class="text-2xl font-bold mt-2 text-slate-900 dark:text-white transition-colors">Your Pinned Target Examinations</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 transition-colors">Direct access to mock simulations and PYQ solvers for the exams you added.</p>
+                </div>
+                <button onclick="openAddExamModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow transition">
+                    <i class="fa-solid fa-plus mr-1"></i> Add More Exams
+                </button>
+            </div>
+            <div id="my-exams-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- Telemetry Tab -->
+        <div id="tab-analytics" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-2xl mx-auto text-center mb-10">
+                <span class="text-[10px] bg-teal-500/10 text-teal-700 dark:text-teal-300 font-bold px-2.5 py-1 rounded border border-teal-500/20 uppercase" data-i18n="telemetryData">Telemetry Data</span>
+                <h2 class="text-2xl font-bold mt-2 mb-2 text-slate-900 dark:text-white transition-colors" data-i18n="metricsTitle">Aspirant Performance Metrics</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm transition-colors" data-i18n="metricsSub">Detailed breakdown of response speed, accuracy index, and percentile projection.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+                <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl shadow-sm">
+                    <p class="text-xs text-slate-600 dark:text-slate-400 mb-1" data-i18n="avgSpeed">Average Response Speed</p>
+                    <p class="text-xl font-bold text-slate-900 dark:text-white">28.4 <span class="text-xs text-indigo-600 dark:text-indigo-400 font-normal" data-i18n="secPerQ">sec / question</span></p>
+                    <div class="mt-4 w-full bg-slate-100 dark:bg-[#0b0f19] h-2 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800">
+                        <div class="bg-indigo-500 h-full w-4/5 rounded-full"></div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl shadow-sm">
+                    <p class="text-xs text-slate-600 dark:text-slate-400 mb-1" data-i18n="accuracyIndex">Overall Accuracy Index</p>
+                    <p class="text-xl font-bold text-slate-900 dark:text-white">92.1%</p>
+                    <div class="mt-4 w-full bg-slate-100 dark:bg-[#0b0f19] h-2 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800">
+                        <div class="bg-teal-500 h-full w-[92%] rounded-full"></div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl shadow-sm">
+                    <p class="text-xs text-slate-600 dark:text-slate-400 mb-1" data-i18n="projectedRank">Projected All-India Rank</p>
+                    <p class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Top 1.2%</p>
+                    <div class="mt-4 w-full bg-slate-100 dark:bg-[#0b0f19] h-2 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800">
+                        <div class="bg-indigo-500 h-full w-[96%] rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Gemini AI Modal -->
+    <div id="gemini-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#131b2e] w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-7 flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-800 mb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 bg-gradient-to-br from-teal-500 to-indigo-600 text-white rounded-xl flex items-center justify-center text-sm font-bold shadow">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Gemini AI Exam Tutor</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400">Ask any competitive exam doubt, concept, or question.</p>
+                    </div>
+                </div>
+                <button onclick="closeGeminiModal()" class="text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            
+            <div id="gemini-chat-history" class="flex-grow overflow-y-auto space-y-4 pr-2 mb-4 text-xs sm:text-sm">
+                <div class="p-3.5 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-slate-800 dark:text-slate-200">
+                    <p class="font-bold mb-1 text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-robot mr-1"></i> Gemini Tutor:</p>
+                    Hello aspirant! I am your AI Exam Intelligence tutor. Ask me any question regarding Mathematics, Reasoning, Science, Social Science, Computer, English, or Exam Strategy!
+                </div>
+            </div>
+
+            <form onsubmit="handleGeminiQuery(event)" class="flex gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
+                <input type="text" id="gemini-prompt-input" required placeholder="Type your study doubt or question here..." class="flex-grow px-4 py-3 text-xs sm:text-sm bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                <button type="submit" id="gemini-send-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-wider shadow transition flex items-center gap-2">
+                    <span>Ask AI</span> <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Exam Modal -->
+    <div id="add-exam-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#131b2e] w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-7 flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200 dark:border-slate-800">
+                <h3 class="text-base font-bold flex items-center gap-2 text-slate-900 dark:text-white"><i class="fa-solid fa-graduation-cap text-indigo-600 dark:text-indigo-400"></i> Select Target Examinations to Add</h3>
+                <button onclick="closeAddExamModal()" class="text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Choose exams below to pin them instantly to your My Exams tab.</p>
+            <div id="add-exam-list-container" class="flex-grow overflow-y-auto space-y-4 pr-2"></div>
+            <div class="pt-4 mt-4 border-t border-slate-200 dark:border-slate-800 flex justify-end">
+                <button onclick="closeAddExamModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow transition">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Chapter Modal -->
+    <div id="add-chapter-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#131b2e] w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-7">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-base font-bold flex items-center gap-2 text-slate-900 dark:text-white"><i class="fa-solid fa-book-open text-indigo-600 dark:text-indigo-400"></i> <span data-i18n="addChapterModalTitle">Add Custom Chapter</span></h3>
+                <button onclick="closeAddChapterModal()" class="text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="handleChapterSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Select Subject Stream</label>
+                    <select id="new-chapter-subject" onchange="updateChapterSelectDropdown()" class="w-full px-3.5 py-3 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                        <option value="mathematics">Mathematics</option>
+                        <option value="reasoning">Reasoning</option>
+                        <option value="science">Science</option>
+                        <option value="social_science">Social Science</option>
+                        <option value="computer">Computer</option>
+                        <option value="english">English</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Search & Select Chapter</label>
+                    <input type="text" id="chapter-search-input" oninput="filterChapterDropdown(this.value)" placeholder="Type to search curriculum chapters..." class="w-full mb-2 px-3 py-2 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                    <select id="new-chapter-select" required class="w-full px-3.5 py-3 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white max-h-40 overflow-y-auto">
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider shadow transition" data-i18n="saveChapterBtn">Save to Repository</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth & Registration Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#131b2e] w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-7">
+            <div class="flex justify-between items-center mb-5">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">TargetTier Portal</h3>
+                </div>
+                <button onclick="closeAuthModal()" class="text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Auth Tabs (Sign In / Register) -->
+            <div class="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl mb-5">
+                <button onclick="switchAuthMode('login')" id="auth-tab-login" class="flex-1 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition">Sign In</button>
+                <button onclick="switchAuthMode('register')" id="auth-tab-register" class="flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Register / Sign Up</button>
+            </div>
+
+            <!-- Login View -->
+            <form id="auth-form-login" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5" data-i18n="emailLabel">Gmail or Mobile Number *</label>
+                    <input type="text" required placeholder="aspirant@gmail.com or 1234567890" class="w-full px-3.5 py-3 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5" data-i18n="passcodeLabel">Secure Passcode *</label>
+                    <input type="password" required placeholder="••••••••" class="w-full px-3.5 py-3 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider shadow transition" data-i18n="authSessionBtn">Authenticate Session</button>
+            </form>
+
+            <!-- Register View -->
+            <form id="auth-form-register" onsubmit="handleRegisterSubmit(event)" class="space-y-3.5 hidden">
+                <button type="button" onclick="handleGoogleRegister()" class="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm">
+                    <i class="fa-brands fa-google text-rose-500"></i> Continue with Google
+                </button>
+
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+                    <span class="flex-shrink mx-4 text-[10px] uppercase text-slate-400 font-bold">Or register with details</span>
+                    <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Full Name *</label>
+                    <input type="text" required placeholder="Aspirant Name" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Gmail / Email Address *</label>
+                    <input type="email" required placeholder="aspirant@gmail.com" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Phone Number *</label>
+                    <input type="tel" required placeholder="1234567890" pattern="[0-9]{10}" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Secure Passcode *</label>
+                    <input type="password" id="reg-password" minlength="8" maxlength="10" required placeholder="8-10 chars (e.g. Abc@123)" class="w-full px-3 py-2.5 text-xs bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
+                    <p class="text-[9px] text-slate-400 mt-1">Must be 8 to 10 characters with alphabets, numbers & symbols.</p>
+                </div>
+                <button type="submit" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider shadow transition mt-2">Register & Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="custom-confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#131b2e] w-full max-w-sm rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-6 text-center">
+            <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-full flex items-center justify-center text-lg mx-auto mb-3">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 id="confirm-title" class="text-base font-bold text-slate-900 dark:text-white mb-2">Confirm Action</h3>
+            <p id="confirm-desc" class="text-xs text-slate-600 dark:text-slate-400 mb-6">Are you sure you want to proceed?</p>
+            <div class="flex gap-3">
+                <button id="confirm-yes-btn" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider shadow transition">Yes</button>
+                <button onclick="closeCustomConfirm()" class="flex-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-300 px-4 py-3 rounded-xl shadow-xl transform translate-y-24 opacity-0 transition-all duration-300 z-50 flex items-center gap-3">
+        <i class="fa-solid fa-circle-check text-teal-500 text-sm"></i>
+        <span id="toast-message" class="text-xs font-medium">Telemetry updated successfully.</span>
+    </div>
+
+    <script>
+        let currentLang = 'en';
+        let myExamsList = ["SSC CGL", "IBPS PO", "RRB NTPC"]; // Default pinned exams
+
+        // Header Exam Dropdown Toggle Logic
+        function toggleExamDropdown(e) {
+            e.stopPropagation();
+            const menu = document.getElementById('exam-dropdown-menu');
+            const icon = document.getElementById('exam-dropdown-icon');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                menu.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        function toggleHeaderGroup(groupId) {
+            const el = document.getElementById('header-group-' + groupId);
+            const icon = document.getElementById('icon-' + groupId);
+            if (!el) return;
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                if(icon) icon.classList.add('rotate-180');
+            } else {
+                el.classList.add('hidden');
+                if(icon) icon.classList.remove('rotate-180');
+            }
+        }
+
+        window.addEventListener('click', () => {
+            const menu = document.getElementById('exam-dropdown-menu');
+            const icon = document.getElementById('exam-dropdown-icon');
+            if (menu && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+                if(icon) icon.classList.remove('rotate-180');
+            }
+        });
+
+        function selectExamCategory(category) {
+            const menu = document.getElementById('exam-dropdown-menu');
+            if(menu) menu.classList.add('hidden');
+            
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const detailTab = document.getElementById('tab-exam-detail');
+            if(detailTab) detailTab.classList.remove('hidden');
+
+            document.getElementById('exam-detail-title').innerText = category + " Examination Intelligence";
+            document.getElementById('exam-detail-badge').innerText = category + " Portal";
+            document.getElementById('exam-name-span').innerText = category;
+            document.getElementById('exam-desc-text').innerText = `${category} is a premier national-level competitive recruitment test conducted annually for aspirants seeking elite government positions. TargetTier provides real-time adaptive testing, PYQ solution sets, and chapter quizzes tailored specifically for ${category}.`;
+
+            switchExamSubTab('overview');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast(`Loaded ${category} Intelligence Portal.`);
+        }
+
+        function switchExamSubTab(subTabId) {
+            document.querySelectorAll('.exam-sub-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('esub-content-' + subTabId);
+            if(target) target.classList.remove('hidden');
+
+            const isDark = document.documentElement.classList.contains('dark');
+            document.querySelectorAll('.exam-sub-tab-btn').forEach(btn => {
+                if (btn.id === 'esub-btn-' + subTabId) {
+                    btn.className = isDark 
+                        ? 'exam-sub-tab-btn pb-3 text-xs font-bold text-indigo-400 border-b-2 border-indigo-400 whitespace-nowrap'
+                        : 'exam-sub-tab-btn pb-3 text-xs font-bold text-indigo-600 border-b-2 border-indigo-600 whitespace-nowrap';
+                } else {
+                    btn.className = 'exam-sub-tab-btn pb-3 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white whitespace-nowrap';
+                }
+            });
+        }
+
+        const translations = {
+            en: {
+                headerSub: "Precision Intelligence",
+                examsLabel: "Exams",
+                navDashboard: "Dashboard",
+                navPractice: "Practice Hub",
+                navVault: "Mock Vault",
+                navChapters: "Custom Chapters",
+                navPYQ: "PYQ Hub",
+                navMyExams: "My Exams",
+                navTelemetry: "Telemetry",
+                portalLogin: "Portal Login",
+                aiTutorBtn: "AI Tutor",
+                heroBadge: "Secure Adaptive Exam Engine 2026",
+                heroTitlePre: "Master Competitive Tiers with",
+                heroTitleHighlight: "Calm Precision",
+                heroDesc: "TargetTier evaluates your speed, accuracy, and chapter-wise mastery in real-time with randomized question & option shuffles across Mathematics, Reasoning, Science, Social Science, Computer, and English.",
+                exploreVault: "Explore Mock Vault",
+                browsePracticeBtn: "Practice Hub",
+                liveStreamActive: "Live Stream Active",
+                platformStats: "Platform Statistics",
+                enrolledAspirants: "Enrolled Aspirants",
+                optimal: "Optimal",
+                diffCalibration: "Difficulty Calibration",
+                adaptiveStandard: "Adaptive Standard",
+                tcsPattern: "TCS Pattern",
+                comprehensiveCurr: "Competitive Curriculum Hub",
+                practiceHubTitle: "Practice Hub (Exams & Subjects)",
+                practiceHubSub: "Select between Exam Hub Categories or Subject Streams below.",
+                subAll: "All Subjects",
+                chaptersRepoTitle: "Custom Chapter Manager",
+                chaptersRepoSub: "Add or review custom chapters into your personal revision repository.",
+                addChapterBtn: "Add Chapter",
+                telemetryData: "Telemetry Data",
+                metricsTitle: "Aspirant Performance Metrics",
+                metricsSub: "Detailed breakdown of response speed, accuracy index, and percentile projection.",
+                avgSpeed: "Average Response Speed",
+                secPerQ: "sec / question",
+                accuracyIndex: "Overall Accuracy Index",
+                projectedRank: "Projected All-India Rank",
+                addChapterModalTitle: "Add Custom Chapter",
+                chapterTitleLabel: "Chapter Title",
+                subjectStreamLabel: "Subject Stream",
+                saveChapterBtn: "Save to Repository",
+                emailLabel: "Email or Aspirant ID",
+                passcodeLabel: "Secure Passcode",
+                authSessionBtn: "Authenticate Session",
+                timerLabel: "Time Left",
+                practiceFinished: "Practice Session Completed!",
+                questionPalette: "Question Palette",
+                paletteSub: "Click any number to jump directly to that question."
+            },
+            hi: {
+                headerSub: "परिशुद्धता बुद्धिमत्ता",
+                examsLabel: "परीक्षाएं",
+                navDashboard: "डैशबोर्ड",
+                navPractice: "प्रैक्टिस हब",
+                navVault: "मॉक वॉल्ट",
+                navChapters: "कस्टम चैप्टर्स",
+                navPYQ: "PYQ हब",
+                navMyExams: "मेरे परीक्षा",
+                navTelemetry: "टेलीमेट्री",
+                portalLogin: "पोर्टल लॉगिन",
+                aiTutorBtn: "AI ट्यूटर",
+                heroBadge: "सुरक्षित एडाप्टिव परीक्षा इंजन 2026",
+                heroTitlePre: "शांत सटीकता के साथ",
+                heroTitleHighlight: "प्रतिस्पर्धी टियर जीतें",
+                heroDesc: "TargetTier गणित, तर्कशक्ति, विज्ञान, सामाजिक विज्ञान, कंप्यूटर और अंग्रेजी के साथ वास्तविक समय में आपकी गति, सटीकता और चैप्टर-वार महारत का मूल्यांकन करता है.",
+                exploreVault: "मॉक वॉल्ट देखें",
+                browsePracticeBtn: "प्रैक्टिस हब",
+                liveStreamActive: "लाइव स्ट्रीम सक्रिय",
+                platformStats: "प्लेटफॉर्म सांख्यिकी",
+                enrolledAspirants: "पंजीकृत उम्मीदवार",
+                optimal: "इष्टतम",
+                diffCalibration: "कठिनाई अंशांकन",
+                adaptiveStandard: "एडाप्टिव मानक",
+                tcsPattern: "टीसीएस पैटर्न",
+                comprehensiveCurr: "प्रतियोगी पाठ्यक्रम हब",
+                practiceHubTitle: "प्रैक्टिस हब (परीक्षाएं और विषय)",
+                practiceHubSub: "नीचे परीक्षा श्रेणियाँ या विषय धाराएँ चुनें।",
+                subAll: "सभी विषय",
+                chaptersRepoTitle: "कस्टम चैप्टर मैनेजर",
+                chaptersRepoSub: "अपनी व्यक्तिगत संशोधन रिपॉजिटरी में कस्टम चैप्टर जोड़ें या समीक्षा करें.",
+                addChapterBtn: "चैप्टर जोड़ें",
+                telemetryData: "टेलीमेट्री डेटा",
+                metricsTitle: "उम्मीदवार प्रदर्शन मेट्रिक्स",
+                metricsSub: "प्रतिक्रिया गति, सटीकता सूचकांक और प्रतिशतता अनुमान का विस्तृत विवरण.",
+                avgSpeed: "औसत प्रतिक्रिया गति",
+                secPerQ: "सेकंड / प्रश्न",
+                accuracyIndex: "कुल सटीकता सूचकांक",
+                projectedRank: "अनुमानित अखिल भारतीय रैंक",
+                addChapterModalTitle: "कस्टम चैप्टर जोड़ें",
+                chapterTitleLabel: "चैप्टर का शीर्षक",
+                subjectStreamLabel: "विषय धारा",
+                saveChapterBtn: "रिपॉजिटरी में सहेजें",
+                emailLabel: "ईमेल या उम्मीदवार आईडी",
+                passcodeLabel: "सुरक्षित पासकोड",
+                authSessionBtn: "सत्र प्रमाणित करें",
+                timerLabel: "शेष समय",
+                practiceFinished: "अभ्यास सत्र पूर्ण हुआ!",
+                questionPalette: "प्रश्न पैलेट",
+                paletteSub: "किसी भी प्रश्न पर सीधे जाने के लिए नंबर पर क्लिक करें."
+            }
+        };
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+        }
+
+        function toggleTheme() {
+            const htmlEl = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+
+            if (htmlEl.classList.contains('dark')) {
+                htmlEl.classList.remove('dark');
+                themeIcon.className = "fa-solid fa-sun text-xs text-amber-500";
+            } else {
+                htmlEl.classList.add('dark');
+                themeIcon.className = "fa-solid fa-moon text-xs text-slate-300";
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('tab-' + tabId);
+            if (target) {
+                target.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            const isDark = document.documentElement.classList.contains('dark');
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.className = isDark
+                        ? 'nav-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-indigo-400 bg-slate-800/90 transition'
+                        : 'nav-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-indigo-600 bg-slate-200 transition';
+                } else {
+                    btn.className = isDark
+                        ? 'nav-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition'
+                        : 'nav-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition';
+                }
+            });
+
+            if (tabId === 'practice') {
+                exitPracticeRunner();
+                switchPracticeMode('exams');
+            }
+            if (tabId === 'vault') {
+                exitExamVault();
+                switchVaultMode('exams');
+            }
+            if (tabId === 'chapters') {
+                renderCustomChapters();
+            }
+            if (tabId === 'pyq') {
+                resetPYQHub();
+            }
+            if (tabId === 'my_exams') {
+                renderMyExamsTab();
+            }
+        }
+
+        // Master Exam Groups Data
+        const examGroupsData = {
+            "SSC": {
+                name: "SSC Exams (कर्मचारी चयन आयोग)",
+                icon: "fa-building-columns",
+                color: "indigo",
+                subExams: [
+                    { name: "SSC CGL", desc: "Combined Graduate Level Tier-I & Tier-II", totalChapters: 50 },
+                    { name: "SSC CHSL", desc: "Higher Secondary (10+2) LDC, DEO", totalChapters: 45 },
+                    { name: "SSC GD Constable", desc: "General Intelligence & Elementary Mathematics", totalChapters: 40 },
+                    { name: "SSC Selection Post", desc: "Matriculation, Higher Secondary & Graduation level", totalChapters: 40 },
+                    { name: "SSC MTS", desc: "Multi-Tasking Staff recruitment examination", totalChapters: 40 },
+                    { name: "SSC CPO", desc: "Sub-Inspector in Delhi Police & CAPFs", totalChapters: 45 },
+                    { name: "SSC Stenographer", desc: "Grade C & D English & Intelligence", totalChapters: 35 },
+                    { name: "SSC JE", desc: "Junior Engineer (Civil, Mech, Elec)", totalChapters: 50 }
+                ]
+            },
+            "Banking": {
+                name: "Banking Exams (बैंकिंग परीक्षाएं)",
+                icon: "fa-landmark",
+                color: "teal",
+                subExams: [
+                    { name: "IBPS RRB Clerk", desc: "Office Assistant prelims & mains", totalChapters: 40 },
+                    { name: "IBPS RRB PO", desc: "Officer Scale-I aptitude testing", totalChapters: 45 },
+                    { name: "IBPS Clerk", desc: "English Language, Numerical Ability & Reasoning", totalChapters: 45 },
+                    { name: "IBPS PO", desc: "Probationary Officer advanced DI & English", totalChapters: 50 },
+                    { name: "SBI Clerk", desc: "Junior Associate speed mathematics", totalChapters: 45 },
+                    { name: "SBI PO", desc: "Probationary Officer high difficulty tests", totalChapters: 50 }
+                ]
+            },
+            "Railway": {
+                name: "Railway Exams (RRB / आरपीएफ)",
+                icon: "fa-train",
+                color: "amber",
+                subExams: [
+                    { name: "RRB NTPC", desc: "Non-Technical Popular Categories (Graduate)", totalChapters: 50 },
+                    { name: "RRB NTPC UG", desc: "Under Graduate Accounts & Junior Clerk", totalChapters: 45 },
+                    { name: "RRB Group D", desc: "Level-1 Mathematics & General Science", totalChapters: 45 },
+                    { name: "RRB ALP", desc: "Assistant Loco Pilot technical aptitude", totalChapters: 50 },
+                    { name: "RRB Technician Grade 1", desc: "Signal & Telecommunication technical syllabus", totalChapters: 45 },
+                    { name: "RRB Technician Grade 3", desc: "Workshop trade curriculum", totalChapters: 40 },
+                    { name: "RRB JE", desc: "Junior Engineer technical ability", totalChapters: 50 },
+                    { name: "RRB Section Controller", desc: "Operational management & railway rules", totalChapters: 35 },
+                    { name: "RRB Constable", desc: "RPF Protection Force online CBT", totalChapters: 40 }
+                ]
+            },
+            "CivilService": {
+                name: "UPSC, Defense & State Exams",
+                icon: "fa-scale-balanced",
+                color: "purple",
+                subExams: [
+                    { name: "Civil Service Exam (UPSC CSE)", desc: "General Studies Paper-1 & CSAT Prelims", totalChapters: 60 },
+                    { name: "Defense Exam (NDA & CDS)", desc: "Mathematics, English & General Knowledge", totalChapters: 50 },
+                    { name: "State Government & PCS Exams", desc: "BPSC, UPPSC, MPPSC and State recruitment", totalChapters: 50 },
+                    { name: "Police Exam (SI & Constable)", desc: "State police recruitment board test papers", totalChapters: 40 },
+                    { name: "Other Government Exams", desc: "LIC, FCI, EPFO and autonomous bodies", totalChapters: 40 }
+                ]
+            }
+        };
+
+        // Add Exam Modal Logic
+        function openAddExamModal() {
+            const container = document.getElementById('add-exam-list-container');
+            if(!container) return;
+            container.innerHTML = '';
+
+            Object.keys(examGroupsData).forEach(groupKey => {
+                const g = examGroupsData[groupKey];
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 p-4 rounded-xl';
+                
+                let subHtml = `<h4 class="text-xs font-bold text-indigo-600 dark:text-indigo-400 mb-3 flex items-center gap-2"><i class="fa-solid ${g.icon}"></i> ${g.name}</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-2">`;
+                
+                g.subExams.forEach(sub => {
+                    const isChecked = myExamsList.includes(sub.name) ? 'checked' : '';
+                    subHtml += `
+                        <label class="flex items-center gap-2.5 p-2 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 rounded-lg cursor-pointer hover:border-indigo-500 transition">
+                            <input type="checkbox" value="${sub.name}" ${isChecked} onchange="toggleMyExam('${sub.name}')" class="text-indigo-600 focus:ring-indigo-500 rounded">
+                            <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">${sub.name}</span>
+                        </label>
+                    `;
+                });
+                subHtml += `</div>`;
+                groupDiv.innerHTML = subHtml;
+                container.appendChild(groupDiv);
+            });
+
+            document.getElementById('add-exam-modal').classList.remove('hidden');
+        }
+
+        function closeAddExamModal() {
+            document.getElementById('add-exam-modal').classList.add('hidden');
+            showToast('My Exams list updated successfully!');
+            if (!document.getElementById('tab-my_exams').classList.contains('hidden')) {
+                renderMyExamsTab();
+            }
+        }
+
+        function toggleMyExam(examName) {
+            const idx = myExamsList.indexOf(examName);
+            if (idx > -1) {
+                myExamsList.splice(idx, 1);
+            } else {
+                myExamsList.push(examName);
+            }
+        }
+
+        function renderMyExamsTab() {
+            const grid = document.getElementById('my-exams-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+
+            if (myExamsList.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 rounded-2xl">
+                        <div class="w-12 h-12 bg-indigo-500/10 text-indigo-600 rounded-xl flex items-center justify-center text-lg mx-auto mb-3">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">No Exams Pinned Yet</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Click "Add More Exams" above to pin your target exams.</p>
+                        <button onclick="openAddExamModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow transition">
+                            Select Target Exams
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            myExamsList.forEach(examName => {
+                const safeName = examName.replace(/'/g, "\\'");
+                const card = document.createElement('div');
+                card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">Pinned Target Exam</span>
+                            <span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Active</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-slate-900 dark:text-white">${examName}</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-xs mb-6">Launch full mock simulations, chapter quizzes, or official PYQ papers for ${examName}.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <button onclick="selectExamCategory('${safeName}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                            Launch Exam Intelligence Portal
+                        </button>
+                        <button onclick="switchTab('pyq'); selectPYQSubExam('${safeName}')" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                            Solve Official PYQs
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // PYQ Hub Hierarchical Navigation
+        let pyqNavState = { groupKey: null, subExamName: null };
+
+        function resetPYQHub() {
+            pyqNavState = { groupKey: null, subExamName: null };
+            renderPYQHub();
+        }
+
+        function selectPYQGroup(groupKey) {
+            pyqNavState = { groupKey, subExamName: null };
+            renderPYQHub();
+        }
+
+        function selectPYQSubExam(subExamName) {
+            for (let gKey in examGroupsData) {
+                const found = examGroupsData[gKey].subExams.find(s => s.name === subExamName);
+                if (found) {
+                    pyqNavState.groupKey = gKey;
+                    break;
+                }
+            }
+            pyqNavState.subExamName = subExamName;
+            renderPYQHub();
+        }
+
+        function renderPYQHub() {
+            const grid = document.getElementById('pyq-container-grid');
+            const breadcrumb = document.getElementById('pyq-exam-breadcrumb');
+            const sep1 = document.getElementById('pyq-sep-1');
+            const groupSpan = document.getElementById('pyq-breadcrumb-group');
+            const sep2 = document.getElementById('pyq-sep-2');
+            const subSpan = document.getElementById('pyq-breadcrumb-sub');
+
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            if (!pyqNavState.groupKey) {
+                if(breadcrumb) breadcrumb.classList.add('hidden');
+                Object.keys(examGroupsData).forEach(key => {
+                    const g = examGroupsData[key];
+                    const card = document.createElement('div');
+                    card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-indigo-500 transition cursor-pointer group';
+                    card.onclick = () => selectPYQGroup(key);
+                    card.innerHTML = `
+                        <div>
+                            <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${g.subExams.length} Exam Categories</span>
+                            <h3 class="text-lg font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 transition"><i class="fa-solid ${g.icon} text-indigo-500 mr-2"></i> ${g.name} PYQs</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Access shift-wise official previous year question papers for ${g.name}.</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                            <span>View Sub-Exams</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } else if (!pyqNavState.subExamName) {
+                const g = examGroupsData[pyqNavState.groupKey];
+                if(breadcrumb) breadcrumb.classList.remove('hidden');
+                if(sep1) sep1.classList.remove('hidden');
+                if(groupSpan) {
+                    groupSpan.classList.remove('hidden');
+                    groupSpan.innerText = g.name;
+                    groupSpan.className = "hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer";
+                    groupSpan.onclick = () => resetPYQHub();
+                }
+                if(sep2) sep2.classList.add('hidden');
+                if(subSpan) subSpan.classList.add('hidden');
+
+                g.subExams.forEach(sub => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-teal-500 transition cursor-pointer group';
+                    card.onclick = () => selectPYQSubExam(sub.name);
+                    card.innerHTML = `
+                        <div>
+                            <span class="bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">Official Shift Papers</span>
+                            <h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-teal-600 transition">${sub.name}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">${sub.desc}</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-semibold text-teal-600 dark:text-teal-400">
+                            <span>Solve Official PYQs</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } else {
+                const g = examGroupsData[pyqNavState.groupKey];
+                const subName = pyqNavState.subExamName;
+                if(breadcrumb) breadcrumb.classList.remove('hidden');
+                if(sep1) sep1.classList.remove('hidden');
+                if(groupSpan) {
+                    groupSpan.classList.remove('hidden');
+                    groupSpan.innerText = g.name;
+                    groupSpan.className = "hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer";
+                    groupSpan.onclick = () => resetPYQHub();
+                }
+                if(sep2) sep2.classList.remove('hidden');
+                if(subSpan) {
+                    subSpan.classList.remove('hidden');
+                    subSpan.innerText = subName;
+                }
+
+                const pyqSets = [
+                    { title: `${subName} - Official PYQ Shift 1 (2025)`, questions: 100, mins: 60 },
+                    { title: `${subName} - Official PYQ Shift 2 (2025)`, questions: 100, mins: 60 },
+                    { title: `${subName} - Official Previous Year Paper Set (2024)`, questions: 100, mins: 60 },
+                    { title: `${subName} - Memory Based Official Paper 2023`, questions: 100, mins: 60 }
+                ];
+
+                pyqSets.forEach(p => {
+                    const safeTitle = p.title.replace(/'/g, "\\'");
+                    const card = document.createElement('div');
+                    card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${p.questions} Qs / ${p.mins} Mins</span>
+                                <span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-file-lines mr-1"></i> Official PYQ</span>
+                            </div>
+                            <h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${p.title}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Solve shift paper with instant scoring and explanation for <span class="text-indigo-600 font-medium">${subName}</span>.</p>
+                        </div>
+                        <button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${p.questions}, ${p.mins})" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                            Solve PYQ Paper Now
+                        </button>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        // Practice Hub Dual Mode Switcher (Exams vs Subjects)
+        let practiceNavState = { groupKey: null, subExamName: null };
+        function switchPracticeMode(mode) {
+            const examsContainer = document.getElementById('practice-exams-container');
+            const subjectsContainer = document.getElementById('practice-subjects-container');
+            const examsBtn = document.getElementById('pmode-exams-btn');
+            const subjectsBtn = document.getElementById('pmode-subjects-btn');
+
+            if (mode === 'exams') {
+                examsContainer.classList.remove('hidden');
+                subjectsContainer.classList.add('hidden');
+                examsBtn.className = 'px-4 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition';
+                subjectsBtn.className = 'px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+                resetPracticeExamNav();
+            } else {
+                examsContainer.classList.add('hidden');
+                subjectsContainer.classList.remove('hidden');
+                subjectsBtn.className = 'px-4 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition';
+                examsBtn.className = 'px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+                selectSubjectStream('mathematics');
+            }
+        }
+
+        function resetPracticeExamNav() {
+            practiceNavState = { groupKey: null, subExamName: null };
+            renderPracticeExamHub();
+        }
+
+        function selectPracticeGroup(groupKey) {
+            practiceNavState = { groupKey, subExamName: null };
+            renderPracticeExamHub();
+        }
+
+        function selectPracticeSubExam(subExamName) {
+            practiceNavState.subExamName = subExamName;
+            renderPracticeExamHub();
+        }
+
+        function renderPracticeExamHub() {
+            const grid = document.getElementById('practice-exam-grid');
+            const breadcrumb = document.getElementById('practice-exam-breadcrumb');
+            const sep1 = document.getElementById('pexam-sep-1');
+            const groupSpan = document.getElementById('pexam-breadcrumb-group');
+            const sep2 = document.getElementById('pexam-sep-2');
+            const subSpan = document.getElementById('pexam-breadcrumb-sub');
+
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            if (!practiceNavState.groupKey) {
+                if(breadcrumb) breadcrumb.classList.add('hidden');
+                Object.keys(examGroupsData).forEach(key => {
+                    const g = examGroupsData[key];
+                    const card = document.createElement('div');
+                    card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-indigo-500 transition cursor-pointer group';
+                    card.onclick = () => selectPracticeGroup(key);
+                    card.innerHTML = `
+                        <div>
+                            <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${g.subExams.length} Sub-Exams</span>
+                            <h3 class="text-lg font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 transition"><i class="fa-solid ${g.icon} text-indigo-500 mr-2"></i> ${g.name}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Explore all sub-examinations and proctored test sets under ${g.name}.</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                            <span>View Sub-Exams</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } else if (!practiceNavState.subExamName) {
+                const g = examGroupsData[practiceNavState.groupKey];
+                if(breadcrumb) breadcrumb.classList.remove('hidden');
+                if(sep1) sep1.classList.remove('hidden');
+                if(groupSpan) {
+                    groupSpan.classList.remove('hidden');
+                    groupSpan.innerText = g.name;
+                    groupSpan.className = "hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer";
+                    groupSpan.onclick = () => resetPracticeExamNav();
+                }
+                if(sep2) sep2.classList.add('hidden');
+                if(subSpan) subSpan.classList.add('hidden');
+
+                g.subExams.forEach(sub => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-teal-500 transition cursor-pointer group';
+                    card.onclick = () => selectPracticeSubExam(sub.name);
+                    card.innerHTML = `
+                        <div>
+                            <span class="bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${sub.totalChapters} Chapters</span>
+                            <h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-teal-600 transition">${sub.name}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">${sub.desc}</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-semibold text-teal-600 dark:text-teal-400">
+                            <span>Launch Practice Hub</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } else {
+                const g = examGroupsData[practiceNavState.groupKey];
+                const subName = practiceNavState.subExamName;
+                if(breadcrumb) breadcrumb.classList.remove('hidden');
+                if(sep1) sep1.classList.remove('hidden');
+                if(groupSpan) {
+                    groupSpan.classList.remove('hidden');
+                    groupSpan.innerText = g.name;
+                    groupSpan.className = "hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer";
+                    groupSpan.onclick = () => resetPracticeExamNav();
+                }
+                if(sep2) sep2.classList.remove('hidden');
+                if(subSpan) {
+                    subSpan.classList.remove('hidden');
+                    subSpan.innerText = subName;
+                }
+
+                const sampleChapters = [
+                    { title: `${subName} - Quantitative Aptitude & Mathematics Set`, questions: 50 },
+                    { title: `${subName} - Logical Reasoning & Mental Ability`, questions: 50 },
+                    { title: `${subName} - General Awareness & Current Affairs`, questions: 50 },
+                    { title: `${subName} - English Language & Comprehension`, questions: 50 },
+                    { title: `${subName} - Computer Science & Basic IT`, questions: 50 }
+                ];
+
+                sampleChapters.forEach(ch => {
+                    const safeTitle = ch.title.replace(/'/g, "\\'");
+                    const card = document.createElement('div');
+                    card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.questions} Qs / 30s Timer</span>
+                                <span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span>
+                            </div>
+                            <h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Target Exam: <span class="text-indigo-600 font-medium">${subName}</span></p>
+                        </div>
+                        <div class="space-y-2">
+                            <button onclick="startChapterPractice('${safeTitle}', '${subName}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                                Launch Practice (${ch.questions} Qs)
+                            </button>
+                            <button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 50)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                                Launch Mock Exam
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        // Mock Vault Dual Mode Switcher
+        let vaultNavState = { groupKey: null, subExamName: null };
+        function switchVaultMode(mode) {
+            const examsContainer = document.getElementById('vault-exams-container');
+            const subjectsContainer = document.getElementById('vault-subjects-container');
+            const examsBtn = document.getElementById('vmode-exams-btn');
+            const subjectsBtn = document.getElementById('vmode-subjects-btn');
+
+            if (mode === 'exams') {
+                examsContainer.classList.remove('hidden');
+                subjectsContainer.classList.add('hidden');
+                examsBtn.className = 'px-4 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition';
+                subjectsBtn.className = 'px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+                resetVaultExamNav();
+            } else {
+                examsContainer.classList.add('hidden');
+                subjectsContainer.classList.remove('hidden');
+                subjectsBtn.className = 'px-4 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition';
+                examsBtn.className = 'px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+                selectVaultSubjectStream('mathematics');
+            }
+        }
+
+        function resetVaultExamNav() {
+            vaultNavState = { groupKey: null, subExamName: null };
+            renderVaultExamHub();
+        }
+
+        function selectVaultGroup(groupKey) {
+            vaultNavState = { groupKey, subExamName: null };
+            renderVaultExamHub();
+        }
+
+        function selectVaultSubExam(subExamName) {
+            vaultNavState.subExamName = subExamName;
+            renderVaultExamHub();
+        }
+
+        function renderVaultExamHub() {
+            const grid = document.getElementById('vault-exam-grid');
+            const breadcrumb = document.getElementById('vault-exam-breadcrumb');
+            const sep1 = document.getElementById('vexam-sep-1');
+            const groupSpan = document.getElementById('vexam-breadcrumb-group');
+            const sep2 = document.getElementById('vexam-sep-2');
+            const subSpan = document.getElementById('vexam-breadcrumb-sub');
+
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            if (!vaultNavState.groupKey) {
+                if(breadcrumb) breadcrumb.classList.add('hidden');
+                Object.keys(examGroupsData).forEach(key => {
+                    const g = examGroupsData[key];
+                    const card = document.createElement('div');
+                    card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-indigo-500 transition cursor-pointer group';
+                    card.onclick = () => selectVaultGroup(key);
+                    card.innerHTML = `
+                        <div>
+                            <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${g.subExams.length} Sub-Exams</span>
+                            <h3 class="text-lg font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 transition"><i class="fa-solid ${g.icon} text-indigo-500 mr-2"></i> ${g.name} Vault</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Launch proctored simulation exams for ${g.name}.</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                            <span>View Sub-Exams</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } else if (!vaultNavState.subExamName) {
+                const g = examGroupsData[vaultNavState.groupKey];
+                if(breadcrumb) breadcrumb.classList.remove('hidden');
+                if(sep1) sep1.classList.remove('hidden');
+                if(groupSpan) {
+                    groupSpan.classList.remove('hidden');
+                    groupSpan.innerText = g.name;
+                    groupSpan.className = "hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer";
+                    groupSpan.onclick = () => resetVaultExamNav();
+                }
+                if(sep2) sep2.classList.add('hidden');
+                if(subSpan) subSpan.classList.add('hidden');
+
+                g.subExams.forEach(sub => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-teal-500 transition cursor-pointer group';
+                    card.onclick = () => selectVaultSubExam(sub.name);
+                    card.innerHTML = `
+                        <div>
+                            <span class="bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">Proctored Mocks</span>
+                            <h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-teal-600 transition">${sub.name}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">${sub.desc}</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-semibold text-teal-600 dark:text-teal-400">
+                            <span>Launch Mock Vault</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } else {
+                const g = examGroupsData[vaultNavState.groupKey];
+                const subName = vaultNavState.subExamName;
+                if(breadcrumb) breadcrumb.classList.remove('hidden');
+                if(sep1) sep1.classList.remove('hidden');
+                if(groupSpan) {
+                    groupSpan.classList.remove('hidden');
+                    groupSpan.innerText = g.name;
+                    groupSpan.className = "hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer";
+                    groupSpan.onclick = () => resetVaultExamNav();
+                }
+                if(sep2) sep2.classList.remove('hidden');
+                if(subSpan) {
+                    subSpan.classList.remove('hidden');
+                    subSpan.innerText = subName;
+                }
+
+                const mockSets = [
+                    { title: `${subName} - Full Length TCS Pattern Mock #1`, questions: 100, mins: 60 },
+                    { title: `${subName} - Official Previous Year Paper Set`, questions: 100, mins: 60 },
+                    { title: `${subName} - Hard Difficulty Calibration Mock`, questions: 100, mins: 60 },
+                    { title: `${subName} - Speed Test & Sectional Drill`, questions: 50, mins: 30 }
+                ];
+
+                mockSets.forEach(m => {
+                    const safeTitle = m.title.replace(/'/g, "\\'");
+                    const card = document.createElement('div');
+                    card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${m.questions} Qs / ${m.mins} Min</span>
+                                <span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span>
+                            </div>
+                            <h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${m.title}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subName}</span></p>
+                        </div>
+                        <button onclick="launchChapterSimulation('${safeTitle}', ${m.questions}, ${m.mins})" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                            Launch Simulation Exam
+                        </button>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        // Subject Streams Curriculum Data for Practice & Vault
+        const curriculumData = {
+            mathematics: {
+                name: "Mathematics (गणित)",
+                chapters: [
+                    { title: "Number System (संख्या पद्धति)", totalQuestions: 50 },
+                    { title: "Simplification (सरलीकरण)", totalQuestions: 50 },
+                    { title: "Percentage (प्रतिशत)", totalQuestions: 50 },
+                    { title: "Profit & Loss (लाभ और हानि)", totalQuestions: 50 },
+                    { title: "Ratio & Proportion (अनुपात और समानुपात)", totalQuestions: 50 },
+                    { title: "Average (औसत)", totalQuestions: 50 },
+                    { title: "Simple Interest (साधारण ब्याज)", totalQuestions: 50 },
+                    { title: "Compound Interest (चक्रवृद्धि ब्याज)", totalQuestions: 50 },
+                    { title: "Time & Work (समय और कार्य)", totalQuestions: 50 },
+                    { title: "Speed Time & Distance (चाल, समय और दूरी)", totalQuestions: 50 }
+                ]
+            },
+            reasoning: {
+                name: "Reasoning (तर्कशक्ति)",
+                chapters: [
+                    { title: "Coding-Decoding (कोडिंग-डिकोडिंग)", totalQuestions: 50 },
+                    { title: "Blood Relation (रक्त संबंध)", totalQuestions: 50 },
+                    { title: "Direction Sense (दिशा परीक्षण)", totalQuestions: 45 },
+                    { title: "Clock & Calendar (घड़ी और कैलेंडर)", totalQuestions: 45 },
+                    { title: "Syllogism (न्याय वाक्य)", totalQuestions: 50 }
+                ]
+            },
+            science: {
+                name: "Science (विज्ञान)",
+                chapters: [
+                    { title: "Matter and its States (पदार्थ और उसकी अवस्थाएं)", totalQuestions: 50 },
+                    { title: "Atomic Structure (परमाणु संरचना)", totalQuestions: 50 },
+                    { title: "Periodic Table (आवर्त सारणी)", totalQuestions: 50 },
+                    { title: "Cell: The Unit of Life (कोशिका: जीवन की इकाई)", totalQuestions: 50 },
+                    { title: "Human Digestive System (मानव पाचन तंत्र)", totalQuestions: 50 },
+                    { title: "Internal Structure of Earth (पृथ्वी की आंतरिक संरचना)", totalQuestions: 50 }
+                ]
+            },
+            social_science: {
+                name: "Social Science (सामाजिक विज्ञान)",
+                chapters: [
+                    { title: "Indus Valley Civilization (सिंधु घाटी सभ्यता)", totalQuestions: 45 },
+                    { title: "Vedic Age (वैदिक काल)", totalQuestions: 31 },
+                    { title: "Buddhism & Jainism (बौद्ध धर्म और जैन धर्म)", totalQuestions: 50 },
+                    { title: "Physical Divisions of India (भौतिक विभाजन)", totalQuestions: 58 },
+                    { title: "Constitutional History & Constituent Assembly", totalQuestions: 35 },
+                    { title: "National Income & GDP", totalQuestions: 40 }
+                ]
+            },
+            computer: {
+                name: "Computer (कंप्यूटर)",
+                chapters: [
+                    { title: "Computer Introduction (कंप्यूटर का परिचय)", totalQuestions: 50 },
+                    { title: "Operating Systems and Software (ऑपरेटिंग सिस्टम और सॉफ्टवेयर)", totalQuestions: 50 },
+                    { title: "Computer Networks and Internet (कंप्यूटर नेटवर्किंग और इंटरनेट)", totalQuestions: 50 },
+                    { title: "Database Management Systems and SQL", totalQuestions: 50 }
+                ]
+            },
+            english: {
+                name: "English (अंग्रेजी पाठ्यक्रम)",
+                chapters: [
+                    { title: "Synonyms & Antonyms (समानार्थी और विलोम शब्द)", totalQuestions: 50 },
+                    { title: "Active & Passive Voice (सक्रिय और निष्क्रिय आवाज)", totalQuestions: 50 },
+                    { title: "Spotting Errors & Sentence Improvement", totalQuestions: 50 },
+                    { title: "Para Jumbles & Reading Comprehension", totalQuestions: 50 }
+                ]
+            }
+        };
+
+        let activeSubjectKey = 'mathematics';
+        function selectSubjectStream(subjKey) {
+            activeSubjectKey = subjKey;
+            document.querySelectorAll('#practice-subject-pills .practice-subject-btn').forEach(btn => {
+                btn.className = 'practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition';
+            });
+            const activeBtn = document.getElementById('subj-btn-' + subjKey);
+            if (activeBtn) {
+                activeBtn.className = 'practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-indigo-600 text-white transition';
+            }
+            renderPracticeStreamHub();
+        }
+
+        function renderPracticeStreamHub() {
+            const grid = document.getElementById('practice-container-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            const subj = curriculumData[activeSubjectKey];
+
+            subj.chapters.forEach(ch => {
+                const safeTitle = ch.title.replace(/'/g, "\\'");
+                const card = document.createElement('div');
+                card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Qs / 30s Timer</span>
+                            <span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span>
+                        </div>
+                        <h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Stream: <span class="text-indigo-600 font-medium">${subj.name}</span></p>
+                    </div>
+                    <div class="space-y-2">
+                        <button onclick="startChapterPractice('${safeTitle}', '${subj.name}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                            Launch Practice (${ch.totalQuestions} Qs)
+                        </button>
+                        <button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 50)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                            Launch Mock Exam
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        let activeVaultSubjectKey = 'mathematics';
+        function selectVaultSubjectStream(subjKey) {
+            activeVaultSubjectKey = subjKey;
+            document.querySelectorAll('#vault-subject-pills .vault-subject-btn').forEach(btn => {
+                btn.className = 'vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition';
+            });
+            const activeBtn = document.getElementById('vault-subj-' + subjKey);
+            if (activeBtn) {
+                activeBtn.className = 'vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-indigo-600 text-white transition';
+            }
+            renderVaultHub();
+        }
+
+        function renderVaultHub() {
+            const grid = document.getElementById('vault-container-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            const subj = curriculumData[activeVaultSubjectKey];
+
+            subj.chapters.forEach(ch => {
+                const safeTitle = ch.title.replace(/'/g, "\\'");
+                const card = document.createElement('div');
+                card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Qs / 50 Mins</span>
+                            <span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span>
+                        </div>
+                        <h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title} - Mock Exam</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subj.name}</span></p>
+                    </div>
+                    <button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 50)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow">
+                        Launch Simulation Exam
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Practice Runner Engine
+        let currentChapter = null;
+        let practiceQuestions = [];
+        let pIndex = 0;
+        let userAnswers = {};
+        let timerInterval = null;
+        let timeLeft = 30;
+
+        function shuffleArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function generateBilingualQuestions(chapterTitle, count) {
+            let list = [];
+            for (let i = 1; i <= count; i++) {
+                list.push({
+                    q: `Question #${i} for ${chapterTitle}: What is the core analytical or theoretical principle applied in solving this problem?\n${chapterTitle} के लिए प्रश्न #${i}: इस विषय से संबंधित मुख्य वैचारिक एवं तथ्यात्मक सिद्धांत क्या है?`,
+                    options: [
+                        `Option A: Standard analytical derivation / मानक विश्लेषणात्मक विधि`,
+                        `Option B: Direct conceptual application / प्रत्यक्ष वैचारिक अनुप्रयोग`,
+                        `Option C: Inverse proportional property / व्युत्क्रमानुपाती गुण`,
+                        `Option D: None of the above / उपर्युक्त में से कोई नहीं`
+                    ],
+                    answer: 1,
+                    exp: `Detailed Explanation: To solve questions under ${chapterTitle}, one must apply the primary analytical and formulaic properties ensuring accuracy within examination constraints. / विस्तृत स्पष्टीकरण: इस चैप्टर के अंतर्गत सटीकता बनाए रखने के लिए मुख्य नियमों का पालन करना आवश्यक है।`
+                });
+            }
+            return list;
+        }
+
+        function startChapterPractice(chapterTitle, subjectName) {
+            currentChapter = { title: chapterTitle, subjectName };
+
+            document.getElementById('practice-main-view').classList.add('hidden');
+            document.getElementById('practice-runner-view').classList.remove('hidden');
+            document.getElementById('runner-chapter-title').innerText = currentChapter.title;
+            document.getElementById('runner-chapter-badge').innerText = currentChapter.subjectName;
+
+            let baseList = generateBilingualQuestions(chapterTitle, 50);
+
+            practiceQuestions = shuffleArray(baseList).map(q => {
+                let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
+                let indexedOpts = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+                let shuffledIndexedOpts = shuffleArray(indexedOpts);
+                let newOptions = shuffledIndexedOpts.map(item => item.opt);
+                let newCorrectIndex = shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect);
+                return {
+                    ...q,
+                    options: newOptions,
+                    answer: newCorrectIndex
+                };
+            });
+
+            pIndex = 0;
+            userAnswers = {};
+            loadPracticeQuestion();
+            renderQuestionPalette();
+        }
+
+        function renderQuestionPalette() {
+            const paletteGrid = document.getElementById('question-palette-grid');
+            if(!paletteGrid) return;
+            paletteGrid.innerHTML = '';
+
+            practiceQuestions.forEach((_, idx) => {
+                const btn = document.createElement('button');
+                let btnClass = 'w-9 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition border ';
+                
+                if (idx === pIndex) {
+                    btnClass += 'bg-indigo-600 text-white border-indigo-500 shadow-md';
+                } else if (userAnswers[idx] !== undefined) {
+                    btnClass += 'bg-teal-500/20 text-teal-700 dark:text-teal-300 border-teal-500/40';
+                } else {
+                    btnClass += 'bg-slate-100 dark:bg-[#0b0f19] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-indigo-500';
+                }
+
+                btn.className = btnClass;
+                btn.innerText = idx + 1;
+                btn.onclick = () => jumpToQuestion(idx);
+                paletteGrid.appendChild(btn);
+            });
+        }
+
+        function jumpToQuestion(idx) {
+            clearInterval(timerInterval);
+            pIndex = idx;
+            loadPracticeQuestion();
+            renderQuestionPalette();
+        }
+
+        function loadPracticeQuestion() {
+            if (pIndex >= practiceQuestions.length) {
+                finishPracticeRunner();
+                return;
+            }
+
+            const q = practiceQuestions[pIndex];
+            document.getElementById('runner-q-progress').innerText = `Question ${pIndex + 1} of ${practiceQuestions.length}`;
+            document.getElementById('runner-q-text').innerText = q.q;
+
+            const grid = document.getElementById('runner-options-grid');
+            grid.innerHTML = '';
+            
+            const savedOpt = userAnswers[pIndex];
+
+            q.options.forEach((opt, idx) => {
+                const isChecked = (savedOpt === idx) ? 'checked' : '';
+                const label = document.createElement('label');
+                label.className = 'flex items-center gap-3 p-3.5 bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 cursor-pointer transition';
+                label.innerHTML = `
+                    <input type="radio" name="practice-opt" value="${idx}" ${isChecked} onchange="selectPracticeOption(${idx})" class="text-indigo-600 focus:ring-indigo-500">
+                    <div class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold">${opt}</div>
+                `;
+                grid.appendChild(label);
+            });
+
+            const expBox = document.getElementById('runner-explanation-box');
+            if (savedOpt !== undefined) {
+                showExplanationState(savedOpt, q);
+            } else {
+                expBox.classList.add('hidden');
+            }
+
+            let answeredCount = Object.keys(userAnswers).length;
+            document.getElementById('runner-score-display').innerText = `Attempted: ${answeredCount} / ${practiceQuestions.length}`;
+            document.getElementById('runner-prev-btn').disabled = (pIndex === 0);
+            document.getElementById('runner-next-btn').innerText = (pIndex === practiceQuestions.length - 1) ? "Finish Session" : "Next";
+
+            startTimer();
+            renderQuestionPalette();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 30;
+            const timerEl = document.getElementById('runner-timer');
+            if(!timerEl) return;
+            timerEl.innerText = timeLeft + 's';
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerEl.innerText = timeLeft + 's';
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if (userAnswers[pIndex] === undefined) {
+                        userAnswers[pIndex] = -1;
+                    }
+                    loadPracticeQuestion();
+                }
+            }, 1000);
+        }
+
+        function selectPracticeOption(idx) {
+            userAnswers[pIndex] = idx;
+            const q = practiceQuestions[pIndex];
+            showExplanationState(idx, q);
+            renderQuestionPalette();
+        }
+
+        function showExplanationState(selectedIdx, q) {
+            const isCorrect = (selectedIdx === q.answer);
+            const badgeEl = document.getElementById('runner-status-badge');
+            const expBox = document.getElementById('runner-explanation-box');
+
+            if (isCorrect) {
+                badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/30';
+                badgeEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct Answer / सही उत्तर`;
+                expBox.className = 'mb-6 p-5 rounded-xl border border-teal-500/30 bg-teal-500/10 leading-relaxed';
+            } else {
+                badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/30';
+                badgeEl.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorrect Answer / गलत उत्तर`;
+                expBox.className = 'mb-6 p-5 rounded-xl border border-rose-500/30 bg-rose-500/10 leading-relaxed';
+            }
+
+            document.getElementById('runner-exp-text').innerText = q.exp;
+            expBox.classList.remove('hidden');
+        }
+
+        function nextPracticeQuestion() {
+            clearInterval(timerInterval);
+            pIndex++;
+            loadPracticeQuestion();
+        }
+
+        function prevPracticeQuestion() {
+            if (pIndex > 0) {
+                clearInterval(timerInterval);
+                pIndex--;
+                loadPracticeQuestion();
+            }
+        }
+
+        function finishPracticeRunner() {
+            clearInterval(timerInterval);
+            document.getElementById('runner-question-box').classList.add('hidden');
+            document.getElementById('runner-finished-box').classList.remove('hidden');
+
+            let attempted = 0, correct = 0, incorrect = 0, unattempted = 0;
+
+            practiceQuestions.forEach((q, idx) => {
+                const ans = userAnswers[idx];
+                if (ans !== undefined && ans !== -1) {
+                    attempted++;
+                    if (ans === q.answer) correct++;
+                    else incorrect++;
+                } else {
+                    unattempted++;
+                }
+            });
+
+            document.getElementById('summary-attempted').innerText = attempted;
+            document.getElementById('summary-correct').innerText = correct;
+            document.getElementById('summary-incorrect').innerText = incorrect;
+            document.getElementById('summary-unattempted').innerText = unattempted;
+            document.getElementById('runner-final-summary').innerText = `You completed ${currentChapter.title} with ${correct} correct answers out of ${practiceQuestions.length} total questions.`;
+        }
+
+        function exitPracticeRunner() {
+            clearInterval(timerInterval);
+            document.getElementById('practice-runner-view').classList.add('hidden');
+            document.getElementById('practice-main-view').classList.remove('hidden');
+            document.getElementById('runner-question-box').classList.remove('hidden');
+            document.getElementById('runner-finished-box').classList.add('hidden');
+        }
+
+        // Mock Vault Simulation Engine
+        let examTitle = "";
+        let examQuestions = [];
+        let eIndex = 0;
+        let examAnswers = {};
+        let examTimerInterval = null;
+        let examSecondsLeft = 0;
+
+        function launchChapterSimulation(chapterTitle, totalQuestions, totalMinutes) {
+            examTitle = chapterTitle + " - Mock Exam";
+            examSecondsLeft = totalMinutes * 60;
+            examAnswers = {};
+            eIndex = 0;
+
+            let baseList = generateBilingualQuestions(chapterTitle, totalQuestions);
+
+            examQuestions = shuffleArray(baseList).map(q => {
+                let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
+                let indexedOpts = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+                let shuffledIndexedOpts = shuffleArray(indexedOpts);
+                let newOptions = shuffledIndexedOpts.map(item => item.opt);
+                let newCorrectIndex = shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect);
+                return {
+                    ...q,
+                    options: newOptions,
+                    answer: newCorrectIndex
+                };
+            });
+
+            document.getElementById('vault-main-view').classList.add('hidden');
+            document.getElementById('vault-runner-view').classList.remove('hidden');
+            document.getElementById('exam-set-title').innerText = examTitle;
+
+            loadExamQuestion();
+            renderExamPalette();
+            startExamMainTimer();
+        }
+
+        function startExamMainTimer() {
+            clearInterval(examTimerInterval);
+            const timerEl = document.getElementById('exam-main-timer');
+            if(!timerEl) return;
+            
+            examTimerInterval = setInterval(() => {
+                if (examSecondsLeft <= 0) {
+                    clearInterval(examTimerInterval);
+                    submitExamSimulation();
+                    return;
+                }
+                examSecondsLeft--;
+                let mins = Math.floor(examSecondsLeft / 60);
+                let secs = examSecondsLeft % 60;
+                timerEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function renderExamPalette() {
+            const paletteGrid = document.getElementById('exam-palette-grid');
+            if(!paletteGrid) return;
+            paletteGrid.innerHTML = '';
+
+            examQuestions.forEach((_, idx) => {
+                const btn = document.createElement('button');
+                let btnClass = 'w-9 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition border ';
+                
+                if (idx === eIndex) {
+                    btnClass += 'bg-indigo-600 text-white border-indigo-500 shadow-md';
+                } else if (examAnswers[idx] !== undefined) {
+                    btnClass += 'bg-teal-500/20 text-teal-700 dark:text-teal-300 border-teal-500/40';
+                } else {
+                    btnClass += 'bg-slate-100 dark:bg-[#0b0f19] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-indigo-500';
+                }
+
+                btn.className = btnClass;
+                btn.innerText = idx + 1;
+                btn.onclick = () => jumpToExamQuestion(idx);
+                paletteGrid.appendChild(btn);
+            });
+        }
+
+        function jumpToExamQuestion(idx) {
+            eIndex = idx;
+            loadExamQuestion();
+            renderExamPalette();
+        }
+
+        function loadExamQuestion() {
+            if (eIndex >= examQuestions.length) return;
+
+            const q = examQuestions[eIndex];
+            document.getElementById('exam-q-progress').innerText = `Question ${eIndex + 1} of ${examQuestions.length}`;
+            document.getElementById('exam-q-text').innerText = q.q;
+
+            const grid = document.getElementById('exam-options-grid');
+            grid.innerHTML = '';
+            
+            const savedOpt = examAnswers[eIndex];
+
+            q.options.forEach((opt, idx) => {
+                const isChecked = (savedOpt === idx) ? 'checked' : '';
+                const label = document.createElement('label');
+                label.className = 'flex items-center gap-3 p-3.5 bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 cursor-pointer transition';
+                label.innerHTML = `
+                    <input type="radio" name="exam-opt" value="${idx}" ${isChecked} onchange="selectExamOption(${idx})" class="text-indigo-600 focus:ring-indigo-500">
+                    <div class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold">${opt}</div>
+                `;
+                grid.appendChild(label);
+            });
+
+            document.getElementById('exam-prev-btn').disabled = (eIndex === 0);
+            document.getElementById('exam-next-btn').innerText = (eIndex === examQuestions.length - 1) ? "Final Submit" : "Next";
+            renderExamPalette();
+        }
+
+        function selectExamOption(idx) {
+            examAnswers[eIndex] = idx;
+            renderExamPalette();
+        }
+
+        function nextExamQuestion() {
+            if (eIndex < examQuestions.length - 1) {
+                eIndex++;
+                loadExamQuestion();
+            } else {
+                submitExamSimulation();
+            }
+        }
+
+        function prevExamQuestion() {
+            if (eIndex > 0) {
+                eIndex--;
+                loadExamQuestion();
+            }
+        }
+
+        function submitExamEarly() {
+            submitExamSimulation();
+        }
+
+        function confirmExitExam() {
+            openCustomConfirm("Exit Simulation", "Are you sure you want to exit the simulation exam?", () => {
+                exitExamVault();
+            });
+        }
+
+        let customConfirmCallback = null;
+        function openCustomConfirm(title, desc, onYes) {
+            document.getElementById('confirm-title').innerText = title;
+            document.getElementById('confirm-desc').innerText = desc;
+            customConfirmCallback = onYes;
+            document.getElementById('custom-confirm-modal').classList.remove('hidden');
+            document.getElementById('confirm-yes-btn').onclick = () => {
+                closeCustomConfirm();
+                if(customConfirmCallback) customConfirmCallback();
+            };
+        }
+        function closeCustomConfirm() {
+            document.getElementById('custom-confirm-modal').classList.add('hidden');
+            customConfirmCallback = null;
+        }
+
+        function submitExamSimulation() {
+            clearInterval(examTimerInterval);
+            document.getElementById('exam-question-box').classList.add('hidden');
+            document.getElementById('exam-submitted-box').classList.remove('hidden');
+
+            let attempted = 0, correct = 0, incorrect = 0, unattempted = 0;
+
+            examQuestions.forEach((q, idx) => {
+                const ans = examAnswers[idx];
+                if (ans !== undefined) {
+                    attempted++;
+                    if (ans === q.answer) correct++;
+                    else incorrect++;
+                } else {
+                    unattempted++;
+                }
+            });
+
+            document.getElementById('exam-summary-attempted').innerText = attempted;
+            document.getElementById('exam-summary-correct').innerText = correct;
+            document.getElementById('exam-summary-incorrect').innerText = incorrect;
+            document.getElementById('exam-summary-unattempted').innerText = unattempted;
+            document.getElementById('exam-final-summary').innerText = `You completed ${examTitle} with ${correct} correct answers out of ${examQuestions.length} total questions under proctored exam conditions.`;
+        }
+
+        function exitExamVault() {
+            clearInterval(examTimerInterval);
+            document.getElementById('vault-runner-view').classList.add('hidden');
+            document.getElementById('vault-main-view').classList.remove('hidden');
+            document.getElementById('exam-question-box').classList.remove('hidden');
+            document.getElementById('exam-submitted-box').classList.add('hidden');
+        }
+
+        // Custom Chapters Manager
+        let customChaptersList = [];
+
+        function renderCustomChapters() {
+            const grid = document.getElementById('custom-chapters-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+
+            if (customChaptersList.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 rounded-2xl">
+                        <div class="w-12 h-12 bg-indigo-500/10 text-indigo-600 rounded-xl flex items-center justify-center text-lg mx-auto mb-3">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">No Custom Chapters Added Yet</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Click "Add Chapter" above to search and add chapters from any subject curriculum.</p>
+                        <button onclick="openAddChapterModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow transition">
+                            Add Your First Chapter
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            customChaptersList.forEach(ch => {
+                const card = document.createElement('div');
+                card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
+                const safeTitle = ch.title.replace(/'/g, "\\'");
+                
+                card.innerHTML = `
+                    <div>
+                        <span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold uppercase px-2 py-1 rounded">Custom Chapter</span>
+                        <h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white">${ch.title}</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-xs mb-4">Stream: <span class="uppercase text-indigo-600 font-medium">${ch.subject}</span> (${ch.questions} Qs)</p>
+                    </div>
+                    <div class="space-y-2">
+                        <button onclick="switchTab('practice'); startChapterPractice('${safeTitle}', '${ch.subject}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow">
+                            Launch Practice
+                        </button>
+                        <button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 50)" class="w-full bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow">
+                            Launch Mock Exam
+                        </button>
+                        <button onclick="deleteCustomChapter(${ch.id})" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-red-500 hover:text-white text-slate-600 dark:text-slate-300 text-xs font-semibold py-2.5 rounded-xl transition">Remove Chapter</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function updateChapterSelectDropdown() {
+            const subjKey = document.getElementById('new-chapter-subject').value;
+            const searchVal = document.getElementById('chapter-search-input').value.toLowerCase();
+            const selectEl = document.getElementById('new-chapter-select');
+            if(!selectEl) return;
+            selectEl.innerHTML = '';
+            
+            const subj = curriculumData[subjKey];
+            if (!subj) return;
+
+            let titles = subj.chapters.map(c => c.title);
+            const filtered = titles.filter(t => t.toLowerCase().includes(searchVal));
+            
+            filtered.forEach(title => {
+                const opt = document.createElement('option');
+                opt.value = title;
+                opt.innerText = title;
+                selectEl.appendChild(opt);
+            });
+        }
+
+        function filterChapterDropdown(query) {
+            updateChapterSelectDropdown();
+        }
+
+        function openAddChapterModal() {
+            document.getElementById('add-chapter-modal').classList.remove('hidden');
+            document.getElementById('new-chapter-subject').value = 'mathematics';
+            document.getElementById('chapter-search-input').value = '';
+            updateChapterSelectDropdown();
+        }
+
+        function closeAddChapterModal() {
+            document.getElementById('add-chapter-modal').classList.add('hidden');
+        }
+
+        function handleChapterSubmit(e) {
+            e.preventDefault();
+            const subject = document.getElementById('new-chapter-subject').value;
+            const title = document.getElementById('new-chapter-select').value;
+            if(!title) return;
+            
+            customChaptersList.push({ id: Date.now(), title, subject, questions: 50 });
+            closeAddChapterModal();
+            renderCustomChapters();
+            switchTab('chapters');
+            showToast('Custom chapter added successfully!');
+            e.target.reset();
+        }
+
+        function deleteCustomChapter(id) {
+            customChaptersList = customChaptersList.filter(c => c.id !== id);
+            renderCustomChapters();
+            showToast('Chapter removed successfully.');
+        }
+
+        // Gemini AI Tutor Integration
+        function openGeminiModal() {
+            document.getElementById('gemini-modal').classList.remove('hidden');
+        }
+
+        function closeGeminiModal() {
+            document.getElementById('gemini-modal').classList.add('hidden');
+        }
+
+        async function handleGeminiQuery(e) {
+            e.preventDefault();
+            const inputEl = document.getElementById('gemini-prompt-input');
+            const query = inputEl.value.trim();
+            if(!query) return;
+
+            const chatHistory = document.getElementById('gemini-chat-history');
+            
+            const userMsg = document.createElement('div');
+            userMsg.className = 'p-3.5 bg-slate-100 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl text-slate-800 dark:text-slate-200 ml-6';
+            userMsg.innerHTML = `<p class="font-bold mb-1 text-slate-900 dark:text-white"><i class="fa-solid fa-user mr-1"></i> You:</p>${query}`;
+            chatHistory.appendChild(userMsg);
+
+            inputEl.value = '';
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            const loadingMsg = document.createElement('div');
+            loadingMsg.className = 'p-3.5 bg-teal-500/10 border border-teal-500/20 rounded-xl text-slate-800 dark:text-slate-200 mr-6';
+            loadingMsg.innerHTML = `<p class="font-bold mb-1 text-teal-600 dark:text-teal-400"><i class="fa-solid fa-robot mr-1"></i> Gemini Tutor:</p><i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing your question and formulating expert explanation...`;
+            chatHistory.appendChild(loadingMsg);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            try {
+                const systemPrompt = "Act as TargetTier AI, an elite expert competitive exam tutor. Provide concise, clear, bilingual (English/Hindi as appropriate), and structured explanations.";
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: query }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const aiText = candidate.content.parts[0].text;
+                    loadingMsg.innerHTML = `<p class="font-bold mb-1 text-teal-600 dark:text-teal-400"><i class="fa-solid fa-robot mr-1"></i> Gemini Tutor:</p>${aiText.replace(/\n/g, '<br>')}`;
+                } else {
+                    loadingMsg.innerHTML = `<p class="font-bold mb-1 text-rose-500"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Gemini Tutor:</p>Unable to process response. Please try again.`;
+                }
+            } catch (err) {
+                loadingMsg.innerHTML = `<p class="font-bold mb-1 text-rose-500"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Gemini Tutor:</p>Network error connecting to AI service. Please check your connection.`;
+            }
+
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        // Auth & Registration Handlers
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            switchAuthMode('login');
+        }
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+        function switchAuthMode(mode) {
+            const loginBtn = document.getElementById('auth-tab-login');
+            const regBtn = document.getElementById('auth-tab-register');
+            const loginForm = document.getElementById('auth-form-login');
+            const regForm = document.getElementById('auth-form-register');
+
+            if (mode === 'login') {
+                loginBtn.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition';
+                regBtn.className = 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+                loginForm.classList.remove('hidden');
+                regForm.classList.add('hidden');
+            } else {
+                regBtn.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-teal-600 text-white transition';
+                loginBtn.className = 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+                regForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            }
+        }
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            closeAuthModal();
+            showToast('Session authenticated successfully!');
+        }
+        function handleRegisterSubmit(e) {
+            e.preventDefault();
+            const pwdInput = document.getElementById('reg-password');
+            const pwd = pwdInput ? pwdInput.value : '';
+            // Validation: 8-10 characters, must contain at least one letter, one number, and one symbol
+            const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^+\-_=])[A-Za-z\d@$!%*#?&^+\-_=]{8,10}$/;
+            if (!regex.test(pwd)) {
+                showToast('Password must be 8-10 characters, including alphabets, numbers, and symbols.');
+                return;
+            }
+            closeAuthModal();
+            showToast('Registration successful! Welcome to TargetTier.');
+            e.target.reset();
+        }
+        function handleGoogleRegister() {
+            closeAuthModal();
+            showToast('Google Account linked successfully! Welcome to TargetTier.');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            if(!toast) return;
+            document.getElementById('toast-message').innerText = msg;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        window.onload = function() {
+            renderPracticeExamHub();
+            renderVaultExamHub();
+            renderPYQHub();
+            renderMyExamsTab();
+        };
+    </script>
+</body>
+</html>
+```
