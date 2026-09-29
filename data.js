@@ -358,16 +358,16 @@ chapters: [
 ​window.chapterQuestionsDB = {
 "Number System": [
 {
-q: "Q1. Find the unit digit in the product (7^95 - 3^58).\n(7^95 - 3^58) के गुणनफल में इकाई अंक क्या होगा?",
-options: ["A) 0", "B) 4", "C) 6", "D) 7"],
-answer: 1,
-exp: "Explanation / स्पष्टीकरण:\n• Cyclicity of 7 is 4. Power 95 ÷ 4 gives remainder 3. So 7^3 ends in 3.\n• Cyclicity of 3 is 4. Power 58 ÷ 4 gives remainder 2. So 3^2 ends in 9.\n• Unit digit = (13 - 9) = 4. Hence, Option B is correct."
-},
-{
-q: "Q2. Which of the following is the smallest prime number?\nनिम्नलिखित में से सबसे छोटी अभाज्य संख्या कौन सी है?",
-options: ["A) 0", "B) 1", "C) 2", "D) 3"],
-answer: 2,
-exp: "Explanation / स्पष्टीकरण:\n• 2 is the smallest prime number and the only even prime number."
-}
+q: "Q1. What is the remainder when 17^200 is divided by 18?\nजब 17^200 को 18 से विभाजित किया जाए, तो शेषफल क्या होगा?",
+        options: ["A) 1", "B) 17", "C) 0", "D) 2"],
+        answer: 0,
+        exp: "Explanation / स्पष्टीकरण:\n• (17^200) mod 18 = (-1)^200 mod 18 = 1.\n(-1) की सम घात 1 होती है, अतः शेषफल 1 होगा।"
+    },
+    {
+        q: "Q2. If the LCM of two numbers is 60 and their sum is 34, find the numbers.\nयदि दो संख्याओं का LCM 60 है और उनका योग 34 है, तो संख्याएँ ज्ञात कीजिए।",
+        options: ["A) (10, 24)", "B) (15, 19)", "C) (10, 20)", "D) (14, 20)"],
+        answer: 0,
+        exp: "Explanation / स्पष्टीकरण:\n• Options check: 10 + 24 = 34, and LCM of 10 and 24 is 60.\nविकल्पों से जांच करने पर 10 और 24 का योग 34 और LCM 60 है।"
+    }
 ]
 };
