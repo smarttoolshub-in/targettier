@@ -77,40 +77,7 @@ user-select: text;
 </button>
 <div id="exam-dropdown-menu" onclick="event.stopPropagation()" class="absolute left-0 mt-2 w-80 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl py-2 hidden z-50 max-h-[80vh] overflow-y-auto">
 <div class="px-4 py-2 border-b border-slate-100 dark:border-slate-800 text-[10px] uppercase font-bold text-slate-400 tracking-wider">Select Examination Category</div>
-<div>
-<div onclick="toggleHeaderGroup(event, 'ssc-group')" class="flex items-center justify-between px-4 py-2.5 hover:bg-indigo-500/10 cursor-pointer text-xs font-bold text-slate-800 dark:text-slate-200 transition">
-<span class="flex items-center gap-2"><i class="fa-solid fa-building-columns text-indigo-500 w-4"></i> SSC Exams</span>
-<i id="icon-ssc-group" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
-</div>
-<div id="header-group-ssc-group" class="hidden bg-slate-50 dark:bg-[#0b0f19]/50 py-1 border-y border-slate-100 dark:border-slate-800">
-<a href="javascript:void(0)" onclick="selectExamCategory('SSC CGL')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC CGL</a>
-<a href="javascript:void(0)" onclick="selectExamCategory('SSC CHSL')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC CHSL</a>
-<a href="javascript:void(0)" onclick="selectExamCategory('SSC GD Constable')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC GD Constable</a>
-<a href="javascript:void(0)" onclick="selectExamCategory('SSC MTS')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• SSC MTS</a>
-</div>
-</div>
-<div>
-<div onclick="toggleHeaderGroup(event, 'banking-group')" class="flex items-center justify-between px-4 py-2.5 hover:bg-teal-500/10 cursor-pointer text-xs font-bold text-slate-800 dark:text-slate-200 transition border-t border-slate-100 dark:border-slate-800">
-<span class="flex items-center gap-2"><i class="fa-solid fa-landmark text-teal-500 w-4"></i> Banking Exams</span>
-<i id="icon-banking-group" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
-</div>
-<div id="header-group-banking-group" class="hidden bg-slate-50 dark:bg-[#0b0f19]/50 py-1 border-y border-slate-100 dark:border-slate-800">
-<a href="javascript:void(0)" onclick="selectExamCategory('IBPS PO')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS PO</a>
-<a href="javascript:void(0)" onclick="selectExamCategory('IBPS Clerk')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• IBPS Clerk</a>
-<a href="javascript:void(0)" onclick="selectExamCategory('SBI PO')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-teal-600 transition">• SBI PO</a>
-</div>
-</div>
-<div>
-<div onclick="toggleHeaderGroup(event, 'railway-group')" class="flex items-center justify-between px-4 py-2.5 hover:bg-amber-500/10 cursor-pointer text-xs font-bold text-slate-800 dark:text-slate-200 transition border-t border-slate-100 dark:border-slate-800">
-<span class="flex items-center gap-2"><i class="fa-solid fa-train text-amber-500 w-4"></i> Railway Exams</span>
-<i id="icon-railway-group" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
-</div>
-<div id="header-group-railway-group" class="hidden bg-slate-50 dark:bg-[#0b0f19]/50 py-1 border-y border-slate-100 dark:border-slate-800">
-<a href="javascript:void(0)" onclick="selectExamCategory('RRB NTPC')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB NTPC</a>
-<a href="javascript:void(0)" onclick="selectExamCategory('RRB Group D')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB Group D</a>
-<a href="javascript:void(0)" onclick="selectExamCategory('RRB ALP')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-amber-600 transition">• RRB ALP</a>
-</div>
-</div>
+<div id="header-exams-dynamic-container"></div>
 </div>
 </div>
 </div>
@@ -124,9 +91,6 @@ user-select: text;
 <button onclick="switchTab('analytics')" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition cursor-pointer" data-tab="analytics" data-i18n="navTelemetry">Telemetry</button>
 </nav>
 <div class="flex items-center space-x-2.5">
-<button onclick="openGeminiModal()" class="bg-gradient-to-r from-teal-500 to-indigo-600 hover:opacity-90 text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5 cursor-pointer" title="Gemini AI Tutor">
-<i class="fa-solid fa-robot"></i> <span data-i18n="aiTutorBtn">AI Tutor</span>
-</button>
 <select id="lang-selector" onchange="switchLanguage(this.value)" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-300 px-2.5 py-2 rounded-xl focus:outline-none focus:border-indigo-500 transition cursor-pointer">
 <option value="en">English</option>
 <option value="hi">हिंदी (Hindi)</option>
@@ -209,9 +173,6 @@ Explore Mock Vault
 </button>
 <button onclick="switchTab('practice')" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-semibold text-xs uppercase tracking-wider px-7 py-3 rounded-xl transition cursor-pointer" data-i18n="browsePracticeBtn">
 Practice Hub
-</button>
-<button onclick="openGeminiModal()" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs uppercase tracking-wider px-7 py-3 rounded-xl shadow transition flex items-center gap-2 cursor-pointer">
-<i class="fa-solid fa-robot"></i> Ask Gemini AI Tutor
 </button>
 </div>
 </div>
@@ -307,7 +268,6 @@ This examination is one of the most prestigious competitive recruitment tests co
 <div class="space-y-3">
 <button onclick="switchTab('vault')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs py-3 rounded-xl transition shadow cursor-pointer">Start Full Mock Test</button>
 <button onclick="switchTab('practice')" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold text-xs py-3 rounded-xl transition cursor-pointer">Practice Chapter Quizzes</button>
-<button onclick="openGeminiModal()" class="w-full bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 font-semibold text-xs py-3 rounded-xl transition cursor-pointer">Ask Gemini AI Doubt</button>
 </div>
 </div>
 </div>
@@ -470,7 +430,6 @@ Next <i class="fa-solid fa-arrow-right ml-1"></i>
 <p id="summary-unattempted" class="text-lg font-bold text-slate-400">0</p>
 </div>
 </div>
-<!-- Button to directly launch Mock Test in Mock Vault -->
 <div class="flex flex-col sm:flex-row gap-3 justify-center">
 <button id="runner-launch-mock-btn" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">
 <i class="fa-solid fa-shield-halved mr-1"></i> Give Mock Test Now (2 Qs)
@@ -656,7 +615,6 @@ Return to Mock Vault
 <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm transition-colors" data-i18n="metricsSub">Detailed breakdown of total completed tests, scores, speed, and accuracy index.</p>
 </div>
 
-<!-- Dynamic User Test History Summary -->
 <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 sm:p-7 rounded-2xl shadow-sm mb-8">
 <h3 class="text-base font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
 <i class="fa-solid fa-rectangle-list text-indigo-500"></i> Completed Tests History / आपके द्वारा दिए गए टेस्ट
@@ -691,35 +649,6 @@ Return to Mock Vault
 </div>
 </div>
 </main>
-
-<div id="gemini-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-<div class="bg-white dark:bg-[#131b2e] w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-7 flex flex-col max-h-[85vh]">
-<div class="flex justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-800 mb-4">
-<div class="flex items-center space-x-3">
-<div class="w-9 h-9 bg-gradient-to-br from-teal-500 to-indigo-600 text-white rounded-xl flex items-center justify-center text-sm font-bold shadow">
-<i class="fa-solid fa-robot"></i>
-</div>
-<div>
-<h3 class="text-base font-bold text-slate-900 dark:text-white">TargetTire AI Exam Tutor</h3>
-<p class="text-[11px] text-slate-500 dark:text-slate-400">Ask any competitive exam doubt, concept, or question.</p>
-</div>
-</div>
-<button onclick="closeGeminiModal()" class="text-slate-500 hover:text-slate-900 dark:hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
-</div>
-<div id="gemini-chat-history" class="flex-grow overflow-y-auto space-y-4 pr-2 mb-4 text-xs sm:text-sm">
-<div class="p-3.5 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-slate-800 dark:text-slate-200">
-<p class="font-bold mb-1 text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-robot mr-1"></i> TargetTire AI:</p>
-Hello aspirant! I am your TargetTire AI Exam Intelligence tutor. Ask me any question regarding Mathematics, Reasoning, Science, Social Science, Computer, English, or Exam Strategy!
-</div>
-</div>
-<form onsubmit="handleGeminiQuery(event)" class="flex gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
-<input type="text" id="gemini-prompt-input" required placeholder="Type your study doubt or question here..." class="flex-grow px-4 py-3 text-xs sm:text-sm bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-white">
-<button type="submit" id="gemini-send-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-wider shadow transition flex items-center gap-2 cursor-pointer">
-<span>Ask AI</span> <i class="fa-solid fa-paper-plane"></i>
-</button>
-</form>
-</div>
-</div>
 
 <div id="add-exam-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
 <div class="bg-white dark:bg-[#131b2e] w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-7 flex flex-col max-h-[85vh]">
@@ -886,6 +815,88 @@ let myExamsList = ["SSC CGL", "IBPS PO", "RRB NTPC"];
 let currentUser = null;
 let userTestHistory = [];
 
+const examGroupsData = {
+"SSC": {
+name: "SSC Exams (कर्मचारी चयन आयोग)",
+icon: "fa-building-columns",
+subExams: [
+{ name: "SSC CGL", desc: "Combined Graduate Level Tier-I & Tier-II", totalChapters: 50 },
+{ name: "SSC CHSL", desc: "Higher Secondary (10+2) LDC, DEO", totalChapters: 45 },
+{ name: "SSC GD Constable", desc: "General Intelligence & Elementary Mathematics", totalChapters: 40 },
+{ name: "SSC Selection Post", desc: "Matriculation, Higher Secondary & Graduation level", totalChapters: 40 },
+{ name: "SSC MTS", desc: "Multi-Tasking Staff recruitment examination", totalChapters: 40 },
+{ name: "SSC CPO", desc: "Sub-Inspector in Delhi Police & CAPFs", totalChapters: 45 },
+{ name: "SSC Stenographer", desc: "Grade C & D English & Intelligence", totalChapters: 35 },
+{ name: "SSC JE", desc: "Junior Engineer (Civil, Mech, Elec)", totalChapters: 50 }
+]
+},
+"Banking": {
+name: "Banking Exams (बैंकिंग परीक्षाएं)",
+icon: "fa-landmark",
+subExams: [
+{ name: "IBPS RRB Clerk", desc: "Office Assistant prelims & mains", totalChapters: 40 },
+{ name: "IBPS RRB PO", desc: "Officer Scale-I aptitude testing", totalChapters: 45 },
+{ name: "IBPS Clerk", desc: "English Language, Numerical Ability & Reasoning", totalChapters: 45 },
+{ name: "IBPS PO", desc: "Probationary Officer advanced DI & English", totalChapters: 50 },
+{ name: "SBI Clerk", desc: "Junior Associate speed mathematics", totalChapters: 45 },
+{ name: "SBI PO", desc: "Probationary Officer high difficulty tests", totalChapters: 50 }
+]
+},
+"Railway": {
+name: "Railway Exams (RRB / आरपीएफ)",
+icon: "fa-train",
+subExams: [
+{ name: "RRB NTPC", desc: "Non-Technical Popular Categories (Graduate)", totalChapters: 50 },
+{ name: "RRB NTPC UG", desc: "Under Graduate Accounts & Junior Clerk", totalChapters: 45 },
+{ name: "RRB Group D", desc: "Level-1 Mathematics & General Science", totalChapters: 45 },
+{ name: "RRB ALP", desc: "Assistant Loco Pilot technical aptitude", totalChapters: 50 },
+{ name: "RRB Technician Grade 1", desc: "Signal & Telecommunication technical syllabus", totalChapters: 45 },
+{ name: "RRB Technician Grade 3", desc: "Workshop trade curriculum", totalChapters: 40 },
+{ name: "RRB JE", desc: "Junior Engineer technical ability", totalChapters: 50 },
+{ name: "RRB Section Controller", desc: "Operational management & railway rules", totalChapters: 35 },
+{ name: "RRB Constable", desc: "RPF Protection Force online CBT", totalChapters: 40 }
+]
+},
+"CivilService": {
+name: "UPSC, Defense & State Exams",
+icon: "fa-scale-balanced",
+subExams: [
+{ name: "Civil Service Exam (UPSC CSE)", desc: "General Studies Paper-1 & CSAT Prelims", totalChapters: 60 },
+{ name: "Defense Exam (NDA & CDS)", desc: "Mathematics, English & General Knowledge", totalChapters: 50 },
+{ name: "State Government & PCS Exams", desc: "BPSC, UPPSC, MPPSC and State recruitment", totalChapters: 50 },
+{ name: "Police Exam (SI & Constable)", desc: "State police recruitment board test papers", totalChapters: 40 },
+{ name: "Other Government Exams", desc: "LIC, FCI, EPFO and autonomous bodies", totalChapters: 40 }
+]
+}
+};
+
+function renderHeaderExamDropdown() {
+const container = document.getElementById('header-exams-dynamic-container');
+if(!container) return;
+container.innerHTML = '';
+
+Object.keys(examGroupsData).forEach((gKey, index) => {
+const g = examGroupsData[gKey];
+const groupId = 'header-group-' + gKey;
+let subLinks = '';
+g.subExams.forEach(sub => {
+subLinks += `<a href="javascript:void(0)" onclick="selectExamCategory('${sub.name}')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• ${sub.name}</a>`;
+});
+
+const div = document.createElement('div');
+div.innerHTML = `
+<div onclick="toggleHeaderGroup(event, '${gKey}')" class="flex items-center justify-between px-4 py-2.5 hover:bg-indigo-500/10 cursor-pointer text-xs font-bold text-slate-800 dark:text-slate-200 transition ${index > 0 ? 'border-t border-slate-100 dark:border-slate-800' : ''}">
+<span class="flex items-center gap-2"><i class="fa-solid ${g.icon} text-indigo-500 w-4"></i> ${g.name}</span>
+<i id="icon-${gKey}" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
+</div>
+<div id="header-group-${gKey}" class="hidden bg-slate-50 dark:bg-[#0b0f19]/50 py-1 border-y border-slate-100 dark:border-slate-800">
+${subLinks}
+</div>
+`;
+container.appendChild(div);
+});
+}
+
 function toggleMobileMenu() {
 const drawer = document.getElementById('mobile-menu-drawer');
 if(drawer) {
@@ -982,7 +993,6 @@ navPYQ: "PYQ Hub",
 navMyExams: "My Exams",
 navTelemetry: "Telemetry",
 portalLogin: "Portal Login",
-aiTutorBtn: "AI Tutor",
 heroBadge: "Secure Adaptive Exam Engine 2026",
 heroTitlePre: "Master Competitive Tiers with",
 heroTitleHighlight: "Calm Precision",
@@ -1027,7 +1037,6 @@ navPYQ: "PYQ हब",
 navMyExams: "मेरे परीक्षा",
 navTelemetry: "टेलीमेट्री",
 portalLogin: "पोर्टल लॉगिन",
-aiTutorBtn: "AI ट्यूटर",
 heroBadge: "सुरक्षित एडाप्टिव परीक्षा इंजन 2026",
 heroTitlePre: "शांत सटीकता के साथ",
 heroTitleHighlight: "प्रतिस्पर्धी टियर जीतें",
@@ -1128,61 +1137,6 @@ if (tabId === 'analytics') {
 renderUserTestHistory();
 }
 }
-
-const examGroupsData = {
-"SSC": {
-name: "SSC Exams (कर्मचारी चयन आयोग)",
-icon: "fa-building-columns",
-subExams: [
-{ name: "SSC CGL", desc: "Combined Graduate Level Tier-I & Tier-II", totalChapters: 50 },
-{ name: "SSC CHSL", desc: "Higher Secondary (10+2) LDC, DEO", totalChapters: 45 },
-{ name: "SSC GD Constable", desc: "General Intelligence & Elementary Mathematics", totalChapters: 40 },
-{ name: "SSC Selection Post", desc: "Matriculation, Higher Secondary & Graduation level", totalChapters: 40 },
-{ name: "SSC MTS", desc: "Multi-Tasking Staff recruitment examination", totalChapters: 40 },
-{ name: "SSC CPO", desc: "Sub-Inspector in Delhi Police & CAPFs", totalChapters: 45 },
-{ name: "SSC Stenographer", desc: "Grade C & D English & Intelligence", totalChapters: 35 },
-{ name: "SSC JE", desc: "Junior Engineer (Civil, Mech, Elec)", totalChapters: 50 }
-]
-},
-"Banking": {
-name: "Banking Exams (बैंकिंग परीक्षाएं)",
-icon: "fa-landmark",
-subExams: [
-{ name: "IBPS RRB Clerk", desc: "Office Assistant prelims & mains", totalChapters: 40 },
-{ name: "IBPS RRB PO", desc: "Officer Scale-I aptitude testing", totalChapters: 45 },
-{ name: "IBPS Clerk", desc: "English Language, Numerical Ability & Reasoning", totalChapters: 45 },
-{ name: "IBPS PO", desc: "Probationary Officer advanced DI & English", totalChapters: 50 },
-{ name: "SBI Clerk", desc: "Junior Associate speed mathematics", totalChapters: 45 },
-{ name: "SBI PO", desc: "Probationary Officer high difficulty tests", totalChapters: 50 }
-]
-},
-"Railway": {
-name: "Railway Exams (RRB / आरपीएफ)",
-icon: "fa-train",
-subExams: [
-{ name: "RRB NTPC", desc: "Non-Technical Popular Categories (Graduate)", totalChapters: 50 },
-{ name: "RRB NTPC UG", desc: "Under Graduate Accounts & Junior Clerk", totalChapters: 45 },
-{ name: "RRB Group D", desc: "Level-1 Mathematics & General Science", totalChapters: 45 },
-{ name: "RRB ALP", desc: "Assistant Loco Pilot technical aptitude", totalChapters: 50 },
-{ name: "RRB Technician Grade 1", desc: "Signal & Telecommunication technical syllabus", totalChapters: 45 },
-{ name: "RRB Technician Grade 3", desc: "Workshop trade curriculum", totalChapters: 40 },
-{ name: "RRB JE", desc: "Junior Engineer technical ability", totalChapters: 50 },
-{ name: "RRB Section Controller", desc: "Operational management & railway rules", totalChapters: 35 },
-{ name: "RRB Constable", desc: "RPF Protection Force online CBT", totalChapters: 40 }
-]
-},
-"CivilService": {
-name: "UPSC, Defense & State Exams",
-icon: "fa-scale-balanced",
-subExams: [
-{ name: "Civil Service Exam (UPSC CSE)", desc: "General Studies Paper-1 & CSAT Prelims", totalChapters: 60 },
-{ name: "Defense Exam (NDA & CDS)", desc: "Mathematics, English & General Knowledge", totalChapters: 50 },
-{ name: "State Government & PCS Exams", desc: "BPSC, UPPSC, MPPSC and State recruitment", totalChapters: 50 },
-{ name: "Police Exam (SI & Constable)", desc: "State police recruitment board test papers", totalChapters: 40 },
-{ name: "Other Government Exams", desc: "LIC, FCI, EPFO and autonomous bodies", totalChapters: 40 }
-]
-}
-};
 
 function openAddExamModal() {
 const container = document.getElementById('add-exam-list-container');
@@ -2573,55 +2527,6 @@ renderCustomChapters();
 showToast('Chapter removed successfully.');
 }
 
-function openGeminiModal() {
-document.getElementById('gemini-modal').classList.remove('hidden');
-}
-
-function closeGeminiModal() {
-document.getElementById('gemini-modal').classList.add('hidden');
-}
-
-async function handleGeminiQuery(e) {
-e.preventDefault();
-const inputEl = document.getElementById('gemini-prompt-input');
-const query = inputEl.value.trim();
-if(!query) return;
-
-const chatHistory = document.getElementById('gemini-chat-history');
-
-const userMsg = document.createElement('div');
-userMsg.className = 'p-3.5 bg-slate-100 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl text-slate-800 dark:text-slate-200 ml-6';
-userMsg.innerHTML = `<p class="font-bold mb-1 text-slate-900 dark:text-white"><i class="fa-solid fa-user mr-1"></i> You:</p>${query}`;
-chatHistory.appendChild(userMsg);
-
-inputEl.value = '';
-chatHistory.scrollTop = chatHistory.scrollHeight;
-
-const loadingMsg = document.createElement('div');
-loadingMsg.className = 'p-3.5 bg-teal-500/10 border border-teal-500/20 rounded-xl text-slate-800 dark:text-slate-200 mr-6';
-loadingMsg.innerHTML = '<p class="font-bold mb-1 text-teal-600 dark:text-teal-400"><i class="fa-solid fa-robot mr-1"></i> TargetTire AI:</p><i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing curriculum & exam data...';
-chatHistory.appendChild(loadingMsg);
-chatHistory.scrollTop = chatHistory.scrollHeight;
-
-setTimeout(() => {
-let reply = `Regarding your query ("${query}"): At TargetTire, we recommend mastering fundamental concepts, regular mock practice, and time management.`;
-const qLower = query.toLowerCase();
-
-if (qLower.includes('2+2') || qLower.includes('2 + 2') || qLower.includes('2 plus 2')) {
-reply = "2 + 2 = 4 (Two plus two equals four).";
-} else if (qLower.includes('science') || qLower.includes('साइंस') || qLower.includes('chapter')) {
-reply = "In TargetTire Science Curriculum, we cover Physics (11 chapters), Chemistry (10 chapters), Biology (11 chapters), Earth Science (8 chapters), and Environmental Science (6 chapters). Total 46 comprehensive chapters with bilingual practice sets!";
-} else if (qLower.includes('math') || qLower.includes('गणित')) {
-reply = "Mathematics features 20 core chapters including Number System, Percentage, Profit & Loss, Time & Work, Algebra, Geometry, and Trigonometry.";
-} else if (qLower.includes('ssc') || qLower.includes('cgl')) {
-reply = "SSC CGL is a Tier-I and Tier-II examination testing Quantitative Aptitude, Reasoning, English, and General Awareness under TCS adaptive patterns.";
-}
-
-loadingMsg.innerHTML = `<p class="font-bold mb-1 text-teal-600 dark:text-teal-400"><i class="fa-solid fa-robot mr-1"></i> TargetTire AI:</p>${reply}`;
-chatHistory.scrollTop = chatHistory.scrollHeight;
-}, 600);
-}
-
 function openAuthModal() {
 const modal = document.getElementById('auth-modal');
 if(modal) modal.classList.remove('hidden');
@@ -2836,7 +2741,7 @@ currentUser = null;
 }
 }
 updateHeaderAuthUI();
-
+renderHeaderExamDropdown();
 renderPracticeExamHub();
 renderVaultHub();
 renderPYQHub();
