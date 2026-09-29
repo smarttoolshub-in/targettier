@@ -855,6 +855,17 @@ Resend Verification Email
 </div>
 
 <script>
+  self.addEventListener('fetch', event => {
+  if (event.request.url.includes('data.js')) {
+    // Always fetch data.js from network to ensure instant updates
+    event.respondWith(fetch(event.request));
+  } else {
+    event.respondWith(
+      caches.match(event.request)
+        .then(response => response || fetch(event.request))
+    );
+  }
+});
 const TARGETTIRE_CA_DATABASE = {
 date: "29 September 2026",
 bulletinTitle: "राष्ट्रीय एवं अंतर्राष्ट्रीय करेंट अफेयर्स बुलेटिन",
@@ -875,11 +886,6 @@ answer: 0,
 explanation: "डिजिटल मुद्रा (e-Rupee) की सुरक्षा और गोपनीयता बढ़ाने के लिए RBI ने कड़े साइबर सुरक्षा मानक तय किए हैं。"
 }
 };
-
-if ('serviceWorker' in navigator) {
-navigator.serviceWorker.register('sw.js').catch(err => console.log('SW reg failed:', err));
-}
-
 const firebaseConfig = {
 apiKey: "AIzaSyC3ar3PmMmglXlBZA3zP05uXorPNt37GKE",
 authDomain: "targettire.firebaseapp.com",
