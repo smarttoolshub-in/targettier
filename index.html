@@ -12,17 +12,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<!-- EXTERNAL GIST REPOSITORIES (ALL 10 MODULES FULLY INTEGRATED) -->
-<script src="https://gist.githubusercontent.com/smarttoolshub-in/fc922d4d97a5fa843128c702dae8bbbd/raw/19b2e745268145a40ceb531af35daa9d68353424/targettire-header.js"></script>
-<script src="https://gist.githubusercontent.com/smarttoolshub-in/04ccf197c926ad3663537356409d6d8c/raw/2130915d95426d37b9e212bfea567720f37946f2/exams-data.js"></script>
-<script src="https://gist.githubusercontent.com/smarttoolshub-in/b1f09b5b28c96b0aca5bde9fa9816f53/raw/4ec0f1c52a94ae512c7f4d3a7f303adeca1d6484/targettire-math.js"></script>
-<script src="https://gist.githubusercontent.com/smarttoolshub-in/459412432e873d101e44104d24317784/raw/e61a221dcf961f73d38702ccff99ab0d0125e466/targettire-reasoning.js"></script>
-<script src="https://gist.githubusercontent.com/smarttoolshub-in/c6f5b07ae44e91f031c51b3bcc69a2c8/raw/f6bd508dcfc0f7593b2c18a9fb794efe6527fa8c/targettire-science.js"></script>
-<script src="https://gist.githubusercontent.com/smarttoolshub-in/3dd9326527388e76fada074446a329b0/raw/abe69c5022393f96191e32c82ab0c981cc562b1b/targettire-socialscience.js"></script>
-<script src="https://gist.githubusercontent.com/smarttoolshub-in/c6c54e6e094b22efb43f8db955c6a846/raw/99f49c422720dce42d5ee26c1dd20e577739182d/targettire-computer.js"></script>
-<script src="https://gist.githubusercontent.com/smarttoolshub-in/21efa8cf265d127cc893a2f72f6e3def/raw/e5730f6d5205f5e4bbb28857227f37b702be751d/targettire-english.js"></script>
-<script src="https://gist.githubusercontent.com/smarttoolshub-in/6f5ccd353a706f6dfbcd85cbf2fe1b2d/raw/9535a538be9beeeccb5236d31667569d29cbe9c4/targettire-pyq.js"></script>
-<script src="https://gist.githubusercontent.com/smarttoolshub-in/f29876be492f0a33cc7ba100b84a379a/raw/eaa2b0f973fcc0c12a013f55a22e2ca7b42c6355/targettire-currentaffairs.js"></script>
 <script>
 tailwind.config = {
 darkMode: 'class',
@@ -79,7 +68,7 @@ user-select: text;
 </div>
 <div>
 <span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white transition-colors">Target<span class="text-indigo-600 dark:text-indigo-400">Tire</span></span>
-<span class="block text-[10px] tracking-wider uppercase text-slate-500 dark:text-slate-400 font-medium" data-i18n="headerSub">Precision Intelligence</span>
+<span class="block text-[10px] tracking-wider uppercase text-slate-500 dark:text-slate-400 font-medium" data-i18n="headerSub">Precision Intelligence (Secured)</span>
 </div>
 </div>
 <div class="relative hidden sm:block">
@@ -165,7 +154,7 @@ user-select: text;
 <div class="flex items-center gap-3">
 <span class="bg-teal-500 text-slate-900 font-bold text-[10px] uppercase px-2.5 py-1 rounded-full animate-pulse">🔥 Live CA</span>
 <p class="text-xs font-medium text-slate-200">
-<strong>Daily Current Affairs (2026):</strong> Government exams special bulletin is now live fetched from Gist.
+<strong>Daily Current Affairs (2026):</strong> Government exams special bulletin loaded locally (Lightning Fast).
 </p>
 </div>
 <button onclick="openCurrentAffairsModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-[11px] px-4 py-1.5 rounded-lg shadow transition cursor-pointer whitespace-nowrap">
@@ -177,8 +166,15 @@ user-select: text;
 <section class="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-transparent via-slate-100/50 dark:via-slate-900/40 to-transparent transition-colors duration-300">
 <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
 <div class="lg:col-span-7">
+<div id="dashboard-login-gate-banner" class="hidden mb-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex items-center justify-between gap-4">
+<div>
+<h4 class="text-xs font-bold text-amber-600 dark:text-amber-400"><i class="fa-solid fa-lock mr-1"></i> Demo Mode Active / डेमो मोड सक्रिय</h4>
+<p class="text-[11px] text-slate-600 dark:text-slate-300 mt-0.5">Please login to unlock full curriculum chapters, mock tests & PYQs across all exam categories.</p>
+</div>
+<button onclick="openAuthModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] px-4 py-2 rounded-xl whitespace-nowrap shadow cursor-pointer">Login Now</button>
+</div>
 <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-300 text-xs font-medium px-3.5 py-1.5 rounded-full mb-6">
-<i class="fa-solid fa-shield-halved text-teal-600 dark:text-teal-400"></i> <span data-i18n="heroBadge">Secure Adaptive Exam Engine 2026</span>
+<i class="fa-solid fa-bolt text-teal-600 dark:text-teal-400"></i> <span data-i18n="heroBadge">Super-Fast Secured Architecture 2026</span>
 </div>
 <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-6 text-slate-900 dark:text-white transition-colors">
 <span data-i18n="heroTitlePre">Master Competitive Tiers with</span> <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-teal-600 dark:from-indigo-400 dark:to-teal-400" data-i18n="heroTitleHighlight">Calm Precision</span>
@@ -210,10 +206,10 @@ Practice Hub
 <h3 class="text-sm font-bold flex items-center gap-2 text-slate-900 dark:text-white">
 <i class="fa-solid fa-bolt text-amber-500"></i> Daily Current Affairs Widget
 </h3>
-<span class="text-[10px] bg-teal-500/10 text-teal-600 dark:text-teal-400 font-bold px-2 py-0.5 rounded">Gist Connected</span>
+<span class="text-[10px] bg-teal-500/10 text-teal-600 dark:text-teal-400 font-bold px-2 py-0.5 rounded">Local File Engine</span>
 </div>
 <div id="dashboard-ca-points-preview" class="space-y-3 text-xs text-slate-600 dark:text-slate-300 mb-4">
-<p class="font-semibold text-slate-900 dark:text-white">• Loading bulletin from Gist...</p>
+<p class="font-semibold text-slate-900 dark:text-white">• Loading bulletin locally...</p>
 </div>
 <button onclick="openCurrentAffairsModal()" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-indigo-500 hover:text-white text-slate-700 dark:text-slate-200 font-bold text-xs py-2.5 rounded-xl transition cursor-pointer">
 View Full Bulletin & Quiz
@@ -244,6 +240,7 @@ View Full Bulletin & Quiz
 </section>
 </div>
 
+<!-- Remaining tabs preserved -->
 <div id="tab-exam-detail" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
 <div class="flex items-center space-x-4">
@@ -382,7 +379,7 @@ This examination is one of the most prestigious competitive recruitment tests co
 <div class="lg:col-span-1 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-5 rounded-2xl shadow-xl transition-colors duration-300 h-fit">
 <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-4">
 <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white" data-i18n="questionPalette">Question Palette</h4>
-<button onclick="exitPracticeRunner()" class="text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs px-2 py-1 rounded border border-slate-200 dark:border-slate-800 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+<button onclick="confirmExitPractice()" class="text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs px-2 py-1 rounded border border-slate-200 dark:border-slate-800 cursor-pointer" title="Exit Practice"><i class="fa-solid fa-xmark"></i> Exit</button>
 </div>
 <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3" data-i18n="paletteSub">Click any number to jump directly to that question.</p>
 <div id="question-palette-grid" class="grid grid-cols-5 gap-2 max-h-80 overflow-y-auto pr-1"></div>
@@ -513,7 +510,7 @@ Return to Practice Hub
 <div class="lg:col-span-1 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-5 rounded-2xl shadow-xl transition-colors duration-300 h-fit">
 <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-4">
 <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">Exam Palette</h4>
-<button onclick="confirmExitExam()" class="text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs px-2 py-1 rounded border border-slate-200 dark:border-slate-800 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+<button onclick="confirmExitExam()" class="text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs px-2 py-1 rounded border border-slate-200 dark:border-slate-800 cursor-pointer" title="Exit Exam"><i class="fa-solid fa-xmark"></i> Exit</button>
 </div>
 <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3">Click number to jump. Options save instantly.</p>
 <div id="exam-palette-grid" class="grid grid-cols-5 gap-2 max-h-80 overflow-y-auto pr-1"></div>
@@ -692,13 +689,11 @@ Return to Mock Vault
 <span id="modal-ca-date" class="text-[10px] font-bold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded">29 September 2026</span>
 <h4 id="modal-ca-title" class="font-bold text-slate-900 dark:text-white mt-2 mb-1">राष्ट्रीय एवं अंतर्राष्ट्रीय करेंट अफेयर्स</h4>
 <div id="modal-ca-points-list" class="space-y-2 pl-4 list-disc">
-<!-- Fetched from Gist -->
 </div>
 </div>
 <div class="p-4 bg-slate-50 dark:bg-[#0b0f19] rounded-xl border border-slate-200 dark:border-slate-800">
 <span class="text-[10px] font-bold bg-teal-500/10 text-teal-600 dark:text-teal-400 px-2.5 py-1 rounded">Daily CA Practice Quiz</span>
 <div id="modal-ca-quiz-container" class="mt-3 space-y-2">
-<!-- Quiz fetched from Gist -->
 </div>
 </div>
 </div>
@@ -853,6 +848,27 @@ Resend Verification Email
 </div>
 
 <script>
+const TARGETTIRE_CA_DATABASE = {
+date: "29 September 2026",
+bulletinTitle: "राष्ट्रीय एवं अंतर्राष्ट्रीय करेंट अफेयर्स बुलेटिन",
+points: [
+"भारत सरकार ने वर्ष 2026 के लिए रक्षा विनिर्माण लक्ष्यों और स्वदेशीकरण को बढ़ावा देने हेतु नई नीति की घोषणा की है।",
+"भारतीय रिजर्व बैंक (RBI) ने डिजिटल मुद्रा (e-Rupee) के विस्तार के लिए नए सुरक्षा मानक जारी किए हैं।",
+"अंतरिक्ष अनुसंधान संगठन (ISRO) ने आगामी चंद्र मिशन के लिए नए प्रोपल्शन टेस्ट सफलतापूर्वक पूरे किए हैं।"
+],
+quiz: {
+question: "हाल ही में RBI द्वारा डिजिटल मुद्रा के विस्तार हेतु जारी नए मानक किससे संबंधित हैं?",
+options: [
+"साइबर सुरक्षा और एन्क्रिप्शन",
+"न्यूनतम ब्याज दरें",
+"विदेशी मुद्रा विनिमय",
+"कृषि ऋण माफ़ी"
+],
+answer: 0,
+explanation: "डिजिटल मुद्रा (e-Rupee) की सुरक्षा और गोपनीयता बढ़ाने के लिए RBI ने कड़े साइबर सुरक्षा मानक तय किए हैं。"
+}
+};
+
 if ('serviceWorker' in navigator) {
 navigator.serviceWorker.register('sw.js').catch(err => console.log('SW reg failed:', err));
 }
@@ -879,10 +895,24 @@ let myExamsList = ["SSC CGL", "IBPS PO", "RRB NTPC"];
 let currentUser = null;
 let userTestHistory = [];
 
+if (typeof firebase !== 'undefined') {
+firebase.auth().onAuthStateChanged((user) => {
+if (user) {
+if (user.emailVerified) {
+currentUser = { name: user.displayName || user.email.split('@')[0], email: user.email };
+localStorage.setItem('targettire_user', JSON.stringify(currentUser));
+updateHeaderAuthUI();
+}
+} else {
+currentUser = null;
+localStorage.removeItem('targettire_user');
+updateHeaderAuthUI();
+}
+});
+}
+
 function loadCurrentAffairsFromGist() {
-if (typeof window.TARGETTIRE_CA_DATABASE !== 'undefined') {
-const ca = window.TARGETTIRE_CA_DATABASE;
-// Dashboard preview
+const ca = TARGETTIRE_CA_DATABASE;
 const previewContainer = document.getElementById('dashboard-ca-points-preview');
 if (previewContainer && ca.points) {
 let html = '';
@@ -892,7 +922,6 @@ html += `<p class="font-semibold text-slate-900 dark:text-white">• ${pt}</p>`;
 previewContainer.innerHTML = html;
 }
 
-// Modal info
 const dateEl = document.getElementById('modal-ca-date');
 const titleEl = document.getElementById('modal-ca-title');
 const pointsList = document.getElementById('modal-ca-points-list');
@@ -916,12 +945,11 @@ qHtml += `</div><div id="ca-quiz-result" class="text-xs font-semibold mt-2"></di
 quizContainer.innerHTML = qHtml;
 }
 }
-}
 
 function checkCAQuizAnswer(selected, correct) {
 const res = document.getElementById('ca-quiz-result');
 if (!res) return;
-const ca = window.TARGETTIRE_CA_DATABASE;
+const ca = TARGETTIRE_CA_DATABASE;
 if (selected === correct) {
 res.innerHTML = `<span class="text-teal-500 font-bold">✓ Correct! ${ca.quiz.explanation}</span>`;
 } else {
@@ -1000,10 +1028,17 @@ container.innerHTML = '';
 
 Object.keys(examGroupsData).forEach((gKey, index) => {
 const g = examGroupsData[gKey];
+let subList = g.subExams;
+if (!currentUser) {
+subList = [g.subExams[0]]; // Only show first exam category if not logged in
+}
 let subLinks = '';
-g.subExams.forEach(sub => {
+subList.forEach(sub => {
 subLinks += `<a href="javascript:void(0)" onclick="selectExamCategory('${sub.name}')" class="block px-8 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">• ${sub.name}</a>`;
 });
+if (!currentUser && g.subExams.length > 1) {
+subLinks += `<div class="px-8 py-1 text-[10px] text-amber-500 italic">+ ${g.subExams.length - 1} more exams locked (Login to unlock)</div>`;
+}
 
 const div = document.createElement('div');
 div.innerHTML = `
@@ -1359,7 +1394,7 @@ const g = examGroupsData[key];
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-indigo-500 transition cursor-pointer group';
 card.onclick = () => selectPYQGroup(key);
-card.innerHTML = `<div><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${g.subExams.length} Exam Categories</span><h3 class="text-lg font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 transition"><i class="fa-solid ${g.icon} text-indigo-500 mr-2"></i> ${g.name} PYQs</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Access shift-wise official previous year question papers for ${g.name}.</p></div><div class="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400"><span>View Sub-Exams</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i></div>`;
+card.innerHTML = `<div><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">1 Demo Set Available</span><h3 class="text-lg font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 transition"><i class="fa-solid ${g.icon} text-indigo-500 mr-2"></i> ${g.name} PYQs</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Access shift-wise official previous year question papers for ${g.name}.</p></div><div class="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400"><span>View Sub-Exams</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i></div>`;
 grid.appendChild(card);
 });
 } else if (!pyqNavState.subExamName) {
@@ -1375,13 +1410,24 @@ groupSpan.onclick = () => resetPYQHub();
 if(sep2) sep2.classList.add('hidden');
 if(subSpan) subSpan.classList.add('hidden');
 
-g.subExams.forEach(sub => {
+let subList = g.subExams;
+if (!currentUser) {
+subList = [g.subExams[0]]; // Lock all except 1st for unauthenticated users
+}
+
+subList.forEach(sub => {
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-teal-500 transition cursor-pointer group';
 card.onclick = () => selectPYQSubExam(sub.name);
 card.innerHTML = `<div><span class="bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">Official Shift Papers</span><h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-teal-600 transition">${sub.name}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">${sub.desc}</p></div><div class="flex items-center justify-between text-xs font-semibold text-teal-600 dark:text-teal-400"><span>Solve Official PYQs</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i></div>`;
 grid.appendChild(card);
 });
+if (!currentUser && g.subExams.length > 1) {
+const lockCard = document.createElement('div');
+lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
+lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> ${g.subExams.length - 1} more sub-exam PYQ sets are locked. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all PYQs.`;
+grid.appendChild(lockCard);
+}
 } else {
 const g = examGroupsData[pyqNavState.groupKey];
 const subName = pyqNavState.subExamName;
@@ -1399,12 +1445,15 @@ subSpan.classList.remove('hidden');
 subSpan.innerText = subName;
 }
 
-const pyqSets = [
+let pyqSets = [
 { title: `${subName} - Official PYQ Shift 1 (2025)`, questions: 2, mins: 5 },
 { title: `${subName} - Official PYQ Shift 2 (2025)`, questions: 2, mins: 5 },
 { title: `${subName} - Official Previous Year Paper Set (2024)`, questions: 2, mins: 5 },
 { title: `${subName} - Memory Based Official Paper 2023`, questions: 2, mins: 5 }
 ];
+if (!currentUser) {
+pyqSets = [pyqSets[0]]; // Only show 1st PYQ set if not logged in
+}
 
 pyqSets.forEach(p => {
 const safeTitle = p.title.replace(/'/g, "\\'");
@@ -1413,6 +1462,12 @@ card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border
 card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${p.questions} Qs / ${p.mins} Mins</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-file-lines mr-1"></i> Official PYQ</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${p.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Solve shift paper with instant scoring and explanation for <span class="text-indigo-600 font-medium">${subName}</span>.</p></div><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${p.questions}, ${p.mins})" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Solve PYQ Paper Now</button>`;
 grid.appendChild(card);
 });
+if (!currentUser) {
+const lockCard = document.createElement('div');
+lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
+lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> Additional shift paper sets are locked for guests. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all shift papers.`;
+grid.appendChild(lockCard);
+}
 }
 }
 
@@ -1471,7 +1526,7 @@ const g = examGroupsData[key];
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-indigo-500 transition cursor-pointer group';
 card.onclick = () => selectPracticeGroup(key);
-card.innerHTML = `<div><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${g.subExams.length} Sub-Exams</span><h3 class="text-lg font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 transition"><i class="fa-solid ${g.icon} text-indigo-500 mr-2"></i> ${g.name}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Explore all sub-examinations and proctored test sets under ${g.name}.</p></div><div class="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400"><span>View Sub-Exams</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i></div>`;
+card.innerHTML = `<div><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">1 Demo Exam Available</span><h3 class="text-lg font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 transition"><i class="fa-solid ${g.icon} text-indigo-500 mr-2"></i> ${g.name}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Explore sub-examinations and proctored test sets under ${g.name}.</p></div><div class="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400"><span>View Sub-Exams</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i></div>`;
 grid.appendChild(card);
 });
 } else if (!practiceNavState.subExamName) {
@@ -1487,13 +1542,24 @@ groupSpan.onclick = () => resetPracticeExamNav();
 if(sep2) sep2.classList.add('hidden');
 if(subSpan) subSpan.classList.add('hidden');
 
-g.subExams.forEach(sub => {
+let subList = g.subExams;
+if (!currentUser) {
+subList = [g.subExams[0]]; // Only show 1st sub-exam if not logged in
+}
+
+subList.forEach(sub => {
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-teal-500 transition cursor-pointer group';
 card.onclick = () => selectPracticeSubExam(sub.name);
 card.innerHTML = `<div><span class="bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${sub.totalChapters} Chapters</span><h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-teal-600 transition">${sub.name}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">${sub.desc}</p></div><div class="flex items-center justify-between text-xs font-semibold text-teal-600 dark:text-teal-400"><span>Launch Practice Hub</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i></div>`;
 grid.appendChild(card);
 });
+if (!currentUser && g.subExams.length > 1) {
+const lockCard = document.createElement('div');
+lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
+lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> ${g.subExams.length - 1} more sub-exams are locked. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all exam categories.`;
+grid.appendChild(lockCard);
+}
 } else {
 const g = examGroupsData[practiceNavState.groupKey];
 const subName = practiceNavState.subExamName;
@@ -1511,13 +1577,16 @@ subSpan.classList.remove('hidden');
 subSpan.innerText = subName;
 }
 
-const sampleChapters = [
+let sampleChapters = [
 { title: `${subName} - Quantitative Aptitude & Mathematics Set`, questions: 2 },
 { title: `${subName} - Logical Reasoning & Mental Ability`, questions: 2 },
 { title: `${subName} - General Awareness & Current Affairs`, questions: 2 },
 { title: `${subName} - English Language & Comprehension`, questions: 2 },
 { title: `${subName} - Computer Science & Basic IT`, questions: 2 }
 ];
+if (!currentUser) {
+sampleChapters = [sampleChapters[0]]; // Only show 1st chapter if not logged in
+}
 
 sampleChapters.forEach(ch => {
 const safeTitle = ch.title.replace(/'/g, "\\'");
@@ -1526,6 +1595,12 @@ card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border
 card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.questions} Qs / 30s Timer</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Target Exam: <span class="text-indigo-600 font-medium">${subName}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subName}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (${ch.questions} Qs)</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 10)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
 grid.appendChild(card);
 });
+if (!currentUser) {
+const lockCard = document.createElement('div');
+lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
+lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> Additional chapters are locked for guest users. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all chapters.`;
+grid.appendChild(lockCard);
+}
 }
 }
 
@@ -1584,7 +1659,7 @@ const g = examGroupsData[key];
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-indigo-500 transition cursor-pointer group';
 card.onclick = () => selectVaultGroup(key);
-card.innerHTML = `<div><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${g.subExams.length} Sub-Exams</span><h3 class="text-lg font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 transition"><i class="fa-solid ${g.icon} text-indigo-500 mr-2"></i> ${g.name} Vault</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Launch proctored simulation exams for ${g.name}.</p></div><div class="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400"><span>View Sub-Exams</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i></div>`;
+card.innerHTML = `<div><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">1 Demo Mock Available</span><h3 class="text-lg font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 transition"><i class="fa-solid ${g.icon} text-indigo-500 mr-2"></i> ${g.name} Vault</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Launch proctored simulation exams for ${g.name}.</p></div><div class="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400"><span>View Sub-Exams</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i></div>`;
 grid.appendChild(card);
 });
 } else if (!vaultNavState.subExamName) {
@@ -1600,13 +1675,24 @@ groupSpan.onclick = () => resetVaultExamNav();
 if(sep2) sep2.classList.add('hidden');
 if(subSpan) subSpan.classList.add('hidden');
 
-g.subExams.forEach(sub => {
+let subList = g.subExams;
+if (!currentUser) {
+subList = [g.subExams[0]]; // Only show 1st sub-exam if not logged in
+}
+
+subList.forEach(sub => {
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:border-teal-500 transition cursor-pointer group';
 card.onclick = () => selectVaultSubExam(sub.name);
 card.innerHTML = `<div><span class="bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">Proctored Mocks</span><h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white group-hover:text-teal-600 transition">${sub.name}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">${sub.desc}</p></div><div class="flex items-center justify-between text-xs font-semibold text-teal-600 dark:text-teal-400"><span>Launch Mock Vault</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i></div>`;
 grid.appendChild(card);
 });
+if (!currentUser && g.subExams.length > 1) {
+const lockCard = document.createElement('div');
+lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
+lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> ${g.subExams.length - 1} more sub-exam mock vaults are locked. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all mocks.`;
+grid.appendChild(lockCard);
+}
 } else {
 const g = examGroupsData[vaultNavState.groupKey];
 const subName = vaultNavState.subExamName;
@@ -1624,12 +1710,15 @@ subSpan.classList.remove('hidden');
 subSpan.innerText = subName;
 }
 
-const mockSets = [
+let mockSets = [
 { title: `${subName} - Full Length TCS Pattern Mock #1`, questions: 2, mins: 10 },
 { title: `${subName} - Official Previous Year Paper Set`, questions: 2, mins: 10 },
 { title: `${subName} - Hard Difficulty Calibration Mock`, questions: 2, mins: 10 },
 { title: `${subName} - Speed Test & Sectional Drill`, questions: 2, mins: 10 }
 ];
+if (!currentUser) {
+mockSets = [mockSets[0]]; // Only show 1st mock test if not logged in
+}
 
 mockSets.forEach(m => {
 const safeTitle = m.title.replace(/'/g, "\\'");
@@ -1638,6 +1727,12 @@ card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border
 card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${m.questions} Qs / ${m.mins} Min</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${m.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subName}</span></p></div><button onclick="launchChapterSimulation('${safeTitle}', ${m.questions}, ${m.mins})" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
 grid.appendChild(card);
 });
+if (!currentUser) {
+const lockCard = document.createElement('div');
+lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
+lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> Additional mock test series are locked for guest users. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all mocks.`;
+grid.appendChild(lockCard);
+}
 }
 }
 
@@ -2002,13 +2097,25 @@ secHeader.className = 'col-span-full mt-2 mb-1';
 secHeader.innerHTML = `<h3 class="text-sm font-bold text-indigo-600 dark:text-indigo-400 border-b border-slate-200 dark:border-slate-800 pb-2">${sec.name}</h3>`;
 grid.appendChild(secHeader);
 
-sec.chapters.forEach(ch => {
+let chList = sec.chapters;
+if (!currentUser) {
+chList = [sec.chapters[0]]; // Only show 1st chapter if not logged in
+}
+
+chList.forEach(ch => {
 const safeTitle = ch.title.replace(/'/g, "\\'");
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
 card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">2 Questions • Practice Drill</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Stream: <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subj.name}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (2 Qs)</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 10)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
 grid.appendChild(card);
 });
+
+if (!currentUser && sec.chapters.length > 1) {
+const lockCard = document.createElement('div');
+lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
+lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> ${sec.chapters.length - 1} more chapters in ${sec.name} are locked for guests. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all chapters.`;
+grid.appendChild(lockCard);
+}
 });
 }
 
@@ -2037,13 +2144,25 @@ secHeader.className = 'col-span-full mt-2 mb-1';
 secHeader.innerHTML = `<h3 class="text-sm font-bold text-indigo-600 dark:text-indigo-400 border-b border-slate-200 dark:border-slate-800 pb-2">${sec.name}</h3>`;
 grid.appendChild(secHeader);
 
-sec.chapters.forEach(ch => {
+let chList = sec.chapters;
+if (!currentUser) {
+chList = [sec.chapters[0]]; // Only show 1st chapter mock if not logged in
+}
+
+chList.forEach(ch => {
 const safeTitle = ch.title.replace(/'/g, "\\'");
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
 card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Qs / 10 Mins</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title} - Mock Exam</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 10)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
 grid.appendChild(card);
 });
+
+if (!currentUser && sec.chapters.length > 1) {
+const lockCard = document.createElement('div');
+lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
+lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> ${sec.chapters.length - 1} more mock exams are locked. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all mock exams.`;
+grid.appendChild(lockCard);
+}
 });
 }
 
@@ -2256,6 +2375,12 @@ clearInterval(timerInterval);
 pIndex--;
 loadPracticeQuestion();
 }
+}
+
+function confirmExitPractice() {
+openCustomConfirm("Exit Practice", "Are you sure you want to exit this practice session?", () => {
+exitPracticeRunner();
+});
 }
 
 function finishPracticeRunner() {
@@ -2590,11 +2715,26 @@ if(loginForm) loginForm.classList.add('hidden');
 
 function updateHeaderAuthUI() {
 const container = document.getElementById('header-auth-container');
+const loginGateBanner = document.getElementById('dashboard-login-gate-banner');
+if (loginGateBanner) {
+if (currentUser) loginGateBanner.classList.add('hidden');
+else loginGateBanner.classList.remove('hidden');
+}
 if(!container) return;
 if (currentUser) {
 container.innerHTML = `<div class="relative group"><button class="flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-600 dark:text-indigo-300 font-bold text-xs px-3.5 py-2.5 rounded-xl transition cursor-pointer"><i class="fa-solid fa-user-check"></i> <span>Hi, ${currentUser.name}</span> <i class="fa-solid fa-chevron-down text-[10px]"></i></button><div class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl py-2 hidden group-hover:block z-50"><div class="px-4 py-2 border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 truncate">${currentUser.email}</div><button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 font-semibold transition flex items-center gap-2 cursor-pointer"><i class="fa-solid fa-right-from-bracket"></i> Sign Out / Logout</button></div></div>`;
 } else {
 container.innerHTML = `<button onclick="openAuthModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5 cursor-pointer"><i class="fa-solid fa-user-shield"></i> <span data-i18n="portalLogin">Portal Login</span></button>`;
+}
+renderHeaderExamDropdown();
+if (!document.getElementById('practice-subjects-container').classList.contains('hidden')) {
+renderPracticeStreamHub();
+}
+if (!document.getElementById('vault-subjects-container').classList.contains('hidden')) {
+renderVaultHub();
+}
+if (!document.getElementById('tab-pyq').classList.contains('hidden')) {
+renderPYQHub();
 }
 }
 
@@ -2616,7 +2756,7 @@ currentUser = { name: user.displayName || email.split('@')[0], email };
 localStorage.setItem('targettire_user', JSON.stringify(currentUser));
 closeAuthModal();
 updateHeaderAuthUI();
-showToast(`Welcome back, ${currentUser.name}!`);
+showToast(`Welcome back, ${currentUser.name}! All content unlocked.`);
 statusMsg.innerHTML = '';
 e.target.reset();
 }).catch((err) => { statusMsg.innerHTML = `<span class="text-rose-500">Error: ${err.message}</span>`; });
@@ -2655,7 +2795,7 @@ verifyMsg.innerHTML = `<span class="text-teal-300 font-bold">✓ Email verified 
 setTimeout(() => {
 closeAuthModal();
 updateHeaderAuthUI();
-showToast(`Welcome to TargetTire, ${currentUser.name}!`);
+showToast(`Welcome to TargetTire, ${currentUser.name}! Full access unlocked.`);
 document.getElementById('auth-form-register').reset();
 document.getElementById('reg-step-verify-email').classList.add('hidden');
 document.getElementById('reg-step-1').classList.remove('hidden');
@@ -2676,7 +2816,7 @@ firebase.auth().signOut().then(() => {
 currentUser = null;
 localStorage.removeItem('targettire_user');
 updateHeaderAuthUI();
-showToast('Signed out successfully.');
+showToast('Signed out successfully. Demo mode engaged.');
 });
 }
 
