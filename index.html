@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<!-- EXTERNAL GIST REPOSITORIES (ALL 10 MODULES FULLY INTEGRATED) -->
+<!-- EXTERNAL GIST REPOSITORIES (ALL 10 MODULES FULLY INTEGRATED DYNAMICALLY) -->
 <script src="https://gist.githubusercontent.com/smarttoolshub-in/fc922d4d97a5fa843128c702dae8bbbd/raw/19b2e745268145a40ceb531af35daa9d68353424/targettire-header.js"></script>
 <script src="https://gist.githubusercontent.com/smarttoolshub-in/04ccf197c926ad3663537356409d6d8c/raw/2130915d95426d37b9e212bfea567720f37946f2/exams-data.js"></script>
 <script src="https://gist.githubusercontent.com/smarttoolshub-in/b1f09b5b28c96b0aca5bde9fa9816f53/raw/4ec0f1c52a94ae512c7f4d3a7f303adeca1d6484/targettire-math.js"></script>
@@ -460,7 +460,7 @@ Next <i class="fa-solid fa-arrow-right ml-1"></i>
 </div>
 <div class="flex flex-col sm:flex-row gap-3 justify-center">
 <button id="runner-launch-mock-btn" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">
-<i class="fa-solid fa-shield-halved mr-1"></i> Give Mock Test Now (2 Qs)
+<i class="fa-solid fa-shield-halved mr-1"></i> Give Mock Test Now
 </button>
 <button onclick="exitPracticeRunner()" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
 Return to Practice Hub
@@ -539,7 +539,7 @@ Return to Practice Hub
 <div id="exam-question-box">
 <div class="flex justify-between items-center mb-3">
 <span id="exam-q-progress" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">Question 1 of 2</span>
-<span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded">Proctored Mode (2 Qs)</span>
+<span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded">Proctored Mode</span>
 </div>
 <div class="mb-6">
 <p id="exam-q-text" class="text-sm sm:text-base font-semibold text-slate-900 dark:text-white mt-1">Loading...</p>
@@ -691,15 +691,11 @@ Return to Mock Vault
 <div class="p-4 bg-slate-50 dark:bg-[#0b0f19] rounded-xl border border-slate-200 dark:border-slate-800">
 <span id="modal-ca-date" class="text-[10px] font-bold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded">29 September 2026</span>
 <h4 id="modal-ca-title" class="font-bold text-slate-900 dark:text-white mt-2 mb-1">राष्ट्रीय एवं अंतर्राष्ट्रीय करेंट अफेयर्स</h4>
-<div id="modal-ca-points-list" class="space-y-2 pl-4 list-disc">
-<!-- Fetched from Gist -->
-</div>
+<div id="modal-ca-points-list" class="space-y-2 pl-4 list-disc"></div>
 </div>
 <div class="p-4 bg-slate-50 dark:bg-[#0b0f19] rounded-xl border border-slate-200 dark:border-slate-800">
 <span class="text-[10px] font-bold bg-teal-500/10 text-teal-600 dark:text-teal-400 px-2.5 py-1 rounded">Daily CA Practice Quiz</span>
-<div id="modal-ca-quiz-container" class="mt-3 space-y-2">
-<!-- Quiz fetched from Gist -->
-</div>
+<div id="modal-ca-quiz-container" class="mt-3 space-y-2"></div>
 </div>
 </div>
 <div class="pt-4 mt-4 border-t border-slate-200 dark:border-slate-800 flex justify-end">
@@ -882,7 +878,6 @@ let userTestHistory = [];
 function loadCurrentAffairsFromGist() {
 if (typeof window.TARGETTIRE_CA_DATABASE !== 'undefined') {
 const ca = window.TARGETTIRE_CA_DATABASE;
-// Dashboard preview
 const previewContainer = document.getElementById('dashboard-ca-points-preview');
 if (previewContainer && ca.points) {
 let html = '';
@@ -892,7 +887,6 @@ html += `<p class="font-semibold text-slate-900 dark:text-white">• ${pt}</p>`;
 previewContainer.innerHTML = html;
 }
 
-// Modal info
 const dateEl = document.getElementById('modal-ca-date');
 const titleEl = document.getElementById('modal-ca-title');
 const pointsList = document.getElementById('modal-ca-points-list');
@@ -1512,18 +1506,18 @@ subSpan.innerText = subName;
 }
 
 const sampleChapters = [
-{ title: `${subName} - Quantitative Aptitude & Mathematics Set`, questions: 2 },
-{ title: `${subName} - Logical Reasoning & Mental Ability`, questions: 2 },
-{ title: `${subName} - General Awareness & Current Affairs`, questions: 2 },
-{ title: `${subName} - English Language & Comprehension`, questions: 2 },
-{ title: `${subName} - Computer Science & Basic IT`, questions: 2 }
+{ title: `${subName} - Quantitative Aptitude & Mathematics Set`, questions: 5 },
+{ title: `${subName} - Logical Reasoning & Mental Ability`, questions: 3 },
+{ title: `${subName} - General Awareness & Current Affairs`, questions: 3 },
+{ title: `${subName} - English Language & Comprehension`, questions: 3 },
+{ title: `${subName} - Computer Science & Basic IT`, questions: 3 }
 ];
 
 sampleChapters.forEach(ch => {
 const safeTitle = ch.title.replace(/'/g, "\\'");
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
-card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.questions} Qs / 30s Timer</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Target Exam: <span class="text-indigo-600 font-medium">${subName}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subName}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (${ch.questions} Qs)</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 10)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.questions} Qs / 30s Timer</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Target Exam: <span class="text-indigo-600 font-medium">${subName}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subName}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 10)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
 grid.appendChild(card);
 });
 }
@@ -1625,10 +1619,10 @@ subSpan.innerText = subName;
 }
 
 const mockSets = [
-{ title: `${subName} - Full Length TCS Pattern Mock #1`, questions: 2, mins: 10 },
-{ title: `${subName} - Official Previous Year Paper Set`, questions: 2, mins: 10 },
-{ title: `${subName} - Hard Difficulty Calibration Mock`, questions: 2, mins: 10 },
-{ title: `${subName} - Speed Test & Sectional Drill`, questions: 2, mins: 10 }
+{ title: `${subName} - Full Length TCS Pattern Mock #1`, questions: 5, mins: 10 },
+{ title: `${subName} - Official Previous Year Paper Set`, questions: 5, mins: 10 },
+{ title: `${subName} - Hard Difficulty Calibration Mock`, questions: 5, mins: 10 },
+{ title: `${subName} - Speed Test & Sectional Drill`, questions: 5, mins: 10 }
 ];
 
 mockSets.forEach(m => {
@@ -1649,26 +1643,26 @@ sections: [
 id: "math_chapters",
 name: "Quantitative Aptitude & Advanced Math",
 chapters: [
-{ id: 101, title: "Number System", totalQuestions: 2 },
-{ id: 102, title: "Simplification", totalQuestions: 2 },
-{ id: 103, title: "Percentage", totalQuestions: 2 },
-{ id: 104, title: "Profit & Loss", totalQuestions: 2 },
-{ id: 105, title: "Ratio & Proportion", totalQuestions: 2 },
-{ id: 106, title: "Average", totalQuestions: 2 },
-{ id: 107, title: "Simple Interest", totalQuestions: 2 },
-{ id: 108, title: "Compound Interest", totalQuestions: 2 },
-{ id: 109, title: "Time & Work", totalQuestions: 2 },
-{ id: 110, title: "Speed Time & Distance", totalQuestions: 2 },
-{ id: 111, title: "Mixture & Allegation", totalQuestions: 2 },
-{ id: 112, title: "Partnership & Age", totalQuestions: 2 },
-{ id: 113, title: "Algebra", totalQuestions: 2 },
-{ id: 114, title: "Geometry", totalQuestions: 2 },
-{ id: 115, title: "Mensuration (2D & 3D)", totalQuestions: 2 },
-{ id: 116, title: "Trigonometry", totalQuestions: 2 },
-{ id: 117, title: "Coordinate Geometry", totalQuestions: 2 },
-{ id: 118, title: "Data Interpretation (DI)", totalQuestions: 2 },
-{ id: 119, title: "Sequence & Series", totalQuestions: 2 },
-{ id: 120, title: "Permutation & Probability", totalQuestions: 2 }
+{ id: 101, title: "Number System", totalQuestions: 50 },
+{ id: 102, title: "Simplification", totalQuestions: 4 },
+{ id: 103, title: "Percentage", totalQuestions: 5 },
+{ id: 104, title: "Profit & Loss", totalQuestions: 4 },
+{ id: 105, title: "Ratio & Proportion", totalQuestions: 4 },
+{ id: 106, title: "Average", totalQuestions: 4 },
+{ id: 107, title: "Simple Interest", totalQuestions: 4 },
+{ id: 108, title: "Compound Interest", totalQuestions: 4 },
+{ id: 109, title: "Time & Work", totalQuestions: 5 },
+{ id: 110, title: "Speed Time & Distance", totalQuestions: 5 },
+{ id: 111, title: "Mixture & Allegation", totalQuestions: 3 },
+{ id: 112, title: "Partnership & Age", totalQuestions: 3 },
+{ id: 113, title: "Algebra", totalQuestions: 4 },
+{ id: 114, title: "Geometry", totalQuestions: 5 },
+{ id: 115, title: "Mensuration (2D & 3D)", totalQuestions: 5 },
+{ id: 116, title: "Trigonometry", totalQuestions: 4 },
+{ id: 117, title: "Coordinate Geometry", totalQuestions: 3 },
+{ id: 118, title: "Data Interpretation (DI)", totalQuestions: 5 },
+{ id: 119, title: "Sequence & Series", totalQuestions: 3 },
+{ id: 120, title: "Permutation & Probability", totalQuestions: 4 }
 ]
 }
 ]
@@ -1680,45 +1674,11 @@ sections: [
 id: "reasoning_verbal",
 name: "1. Verbal Reasoning",
 chapters: [
-{ id: 201, title: "Coding-Decoding", totalQuestions: 2 },
-{ id: 202, title: "Blood Relation", totalQuestions: 2 },
-{ id: 203, title: "Direction Sense", totalQuestions: 2 },
-{ id: 204, title: "Clock & Calendar", totalQuestions: 2 },
-{ id: 205, title: "Syllogism (न्याय वाक्य)", totalQuestions: 2 },
-{ id: 206, title: "Dice & Cube (पासा और घन)", totalQuestions: 2 },
-{ id: 207, title: "Ranking & Order", totalQuestions: 2 },
-{ id: 208, title: "Sitting Arrangement", totalQuestions: 2 },
-{ id: 209, title: "Number & Alphabet Series", totalQuestions: 2 },
-{ id: 210, title: "Analogy (सादृश्यता)", totalQuestions: 2 },
-{ id: 211, title: "Classification (वर्गीकरण)", totalQuestions: 2 },
-{ id: 212, title: "Mathematical Operations", totalQuestions: 2 },
-{ id: 213, title: "Word Formation", totalQuestions: 2 },
-{ id: 214, title: "Matrix (मैट्रिक्स)", totalQuestions: 2 }
-]
-},
-{
-id: "reasoning_nonverbal",
-name: "2. Non-Verbal Reasoning",
-chapters: [
-{ id: 215, title: "Mirror & Water Image", totalQuestions: 2 },
-{ id: 216, title: "Paper Folding & Cutting", totalQuestions: 2 },
-{ id: 217, title: "Figure Series", totalQuestions: 2 },
-{ id: 218, title: "Figure Analogy", totalQuestions: 2 },
-{ id: 219, title: "Figure Classification", totalQuestions: 2 },
-{ id: 220, title: "Embedded Figures", totalQuestions: 2 },
-{ id: 221, title: "Completion of Figures", totalQuestions: 2 },
-{ id: 222, title: "Counting Figures (आकृतियाँ गिनना)", totalQuestions: 2 }
-]
-},
-{
-id: "reasoning_logical",
-name: "3. Logical Reasoning",
-chapters: [
-{ id: 223, title: "Statement & Conclusion", totalQuestions: 2 },
-{ id: 224, title: "Statement & Assumptions", totalQuestions: 2 },
-{ id: 225, title: "Course of Action (कार्रवाई)", totalQuestions: 2 },
-{ id: 226, title: "Argument (तर्क)", totalQuestions: 2 },
-{ id: 227, title: "Cause & Effect", totalQuestions: 2 }
+{ id: 201, title: "Coding-Decoding", totalQuestions: 3 },
+{ id: 202, title: "Blood Relation", totalQuestions: 3 },
+{ id: 203, title: "Direction Sense", totalQuestions: 3 },
+{ id: 204, title: "Clock & Calendar", totalQuestions: 3 },
+{ id: 205, title: "Syllogism (न्याय वाक्य)", totalQuestions: 3 }
 ]
 }
 ]
@@ -1730,76 +1690,7 @@ sections: [
 id: "sci_physics",
 name: "Physics (भौतिक विज्ञान)",
 chapters: [
-{ id: 301, title: "मात्रक और मापन (Units and Measurement)", totalQuestions: 2 },
-{ id: 302, title: "गति और बल (Motion and Force)", totalQuestions: 2 },
-{ id: 303, title: "कार्य, ऊर्जा और शक्ति (Work, Energy and Power)", totalQuestions: 2 },
-{ id: 304, title: "गुरुत्वाकर्षण (Gravitation)", totalQuestions: 2 },
-{ id: 305, title: "पदार्थ के सामान्य गुण (General Properties of Matter)", totalQuestions: 2 },
-{ id: 306, title: "ऊष्मा और ताप (Heat and Temperature)", totalQuestions: 2 },
-{ id: 307, title: "प्रकाशिकी (Light)", totalQuestions: 2 },
-{ id: 308, title: "ध्वनि (Sound)", totalQuestions: 2 },
-{ id: 309, title: "विद्युत धारा (Electricity)", totalQuestions: 2 },
-{ id: 310, title: "चुंबकत्व (Magnetism)", totalQuestions: 2 },
-{ id: 311, title: "आधुनिक भौतिकी (Modern Physics)", totalQuestions: 2 }
-]
-},
-{
-id: "sci_chemistry",
-name: "Chemistry (रसायन विज्ञान)",
-chapters: [
-{ id: 312, title: "पदार्थ और उसकी अवस्थाएं (Matter and its States)", totalQuestions: 2 },
-{ id: 313, title: "परमाणु संरचना (Atomic Structure)", totalQuestions: 2 },
-{ id: 314, title: "आवर्त सारणी (Periodic Table)", totalQuestions: 2 },
-{ id: 315, title: "रासायनिक बंधन (Chemical Bonding)", totalQuestions: 2 },
-{ id: 316, title: "अम्ल, क्षार और लवण (Acids, Bases and Salts)", totalQuestions: 2 },
-{ id: 317, title: "धातु और अधातु (Metals and Non-metals)", totalQuestions: 2 },
-{ id: 318, title: "कार्बन और उसके यौगिक (Carbon and its Compounds)", totalQuestions: 2 },
-{ id: 319, title: "ईंधन (Fuels)", totalQuestions: 2 },
-{ id: 320, title: "विलयन (Solutions)", totalQuestions: 2 },
-{ id: 321, title: "रासायनिक अभिक्रियाएं (Chemical Reactions)", totalQuestions: 2 }
-]
-},
-{
-id: "sci_biology",
-name: "Biology (जीव विज्ञान)",
-chapters: [
-{ id: 322, title: "कोशिका: जीवन की इकाई (Cell: The Unit of Life)", totalQuestions: 2 },
-{ id: 323, title: "ऊतक (Tissues)", totalQuestions: 2 },
-{ id: 324, title: "आनुवंशिकी (Genetics)", totalQuestions: 2 },
-{ id: 325, title: "पादप जगत (Plant Kingdom)", totalQuestions: 2 },
-{ id: 326, title: "मानव पाचन तंत्र (Human Digestive System)", totalQuestions: 2 },
-{ id: 327, title: "रक्त परिसंचरण तंत्र (Circulatory System)", totalQuestions: 2 },
-{ id: 328, title: "तंत्रिका तंत्र (Nervous System)", totalQuestions: 2 },
-{ id: 329, title: "अंतःस्रावी ग्रंथियां (Endocrine Glands)", totalQuestions: 2 },
-{ id: 330, title: "विटामिन और रोग (Vitamins and Diseases)", totalQuestions: 2 },
-{ id: 331, title: "श्वसन तंत्र (Respiratory System)", totalQuestions: 2 },
-{ id: 332, title: "पारिस्थितिकी (Ecology)", totalQuestions: 2 }
-]
-},
-{
-id: "sci_earth",
-name: "Earth Science (पृथ्वी विज्ञान)",
-chapters: [
-{ id: 333, title: "पृथ्वी की आंतरिक संरचना (Internal Structure of Earth)", totalQuestions: 2 },
-{ id: 334, title: "चट्टानें और खनिज (Rocks and Minerals)", totalQuestions: 2 },
-{ id: 335, title: "भूकंप और ज्वालामुखी (Earthquakes and Volcanoes)", totalQuestions: 2 },
-{ id: 336, title: "वायुमंडल (Atmosphere)", totalQuestions: 2 },
-{ id: 337, title: "महासागर विज्ञान (Oceanography)", totalQuestions: 2 },
-{ id: 338, title: "वायुमंडल की संरचना और संगठन (Structure and Composition of the Atmosphere)", totalQuestions: 2 },
-{ id: 339, title: "महासागर और जलमंडल (Oceans and Hydrosphere)", totalQuestions: 2 },
-{ id: 340, title: "भूवैज्ञानिक समय सारणी और पृथ्वी का इतिहास (Geological Time Scale and Earth's History)", totalQuestions: 2 }
-]
-},
-{
-id: "sci_env",
-name: "Environmental Science (पर्यावरण विज्ञान)",
-chapters: [
-{ id: 341, title: "पारिस्थितिकी तंत्र (Ecosystem)", totalQuestions: 2 },
-{ id: 342, title: "जैव विविधता संरक्षण (Biodiversity Conservation)", totalQuestions: 2 },
-{ id: 343, title: "पर्यावरण प्रदूषण (Environmental Pollution)", totalQuestions: 2 },
-{ id: 344, title: "जलवायु परिवर्तन (Climate Change)", totalQuestions: 2 },
-{ id: 345, title: "प्राकृतिक संसाधन (Natural Resources)", totalQuestions: 2 },
-{ id: 346, title: "पर्यावरण नीतियां, कानून और नैतिकता (Environmental Policies, Laws, and Ethics)", totalQuestions: 2 }
+{ id: 301, title: "मात्रक और मापन (Units and Measurement)", totalQuestions: 3 }
 ]
 }
 ]
@@ -1809,131 +1700,9 @@ name: "Social Science",
 sections: [
 {
 id: "soc_hist_ancient",
-name: "1. Ancient Indian History (प्राचीन भारतीय इतिहास)",
+name: "1. Ancient Indian History",
 chapters: [
-{ id: 401, title: "सिंधु घाटी सभ्यता (Indus Valley Civilization)", totalQuestions: 2 },
-{ id: 402, title: "वैदिक काल (Vedic Age)", totalQuestions: 2 },
-{ id: 403, title: "बौद्ध धर्म और जैन धर्म (Buddhism & Jainism)", totalQuestions: 2 },
-{ id: 404, title: "मौर्य साम्राज्य (Mauryan Empire)", totalQuestions: 2 },
-{ id: 405, title: "गुप्त साम्राज्य (Gupta Empire - Golden Age)", totalQuestions: 2 }
-]
-},
-{
-id: "soc_hist_med",
-name: "2. Medieval Indian History (मध्यकालीन भारतीय इतिहास)",
-chapters: [
-{ id: 406, title: "दिल्ली सल्तनत (Delhi Sultanate)", totalQuestions: 2 },
-{ id: 407, title: "मुगल साम्राज्य (Mughal Empire)", totalQuestions: 2 },
-{ id: 408, title: "भक्ति और सूफी आंदोलन (Bhakti & Sufi Movement)", totalQuestions: 2 },
-{ id: 409, title: "विजयनगर साम्राज्य (Vijaynagar Empire)", totalQuestions: 2 }
-]
-},
-{
-id: "soc_hist_modern",
-name: "3. Modern History & European Companies (आधुनिक भारत)",
-chapters: [
-{ id: 410, title: "यूरोपीय कंपनियों का आगमन (Arrival of European Companies)", totalQuestions: 2 },
-{ id: 411, title: "1857 की क्रांति (Revolt of 1857)", totalQuestions: 2 },
-{ id: 412, title: "भारतीय राष्ट्रीय कांग्रेस (INC: Sthapana & Adhiveshan)", totalQuestions: 2 },
-{ id: 413, title: "गांधी युग (Gandhian Era)", totalQuestions: 2 },
-{ id: 414, title: "गवर्नर-जनरल और वायसराय (Governor-General & Acts)", totalQuestions: 2 }
-]
-},
-{
-id: "soc_hist_world",
-name: "4. World History (विश्व इतिहास)",
-chapters: [
-{ id: 415, title: "पुनर्जागरण (Renaissance)", totalQuestions: 2 },
-{ id: 416, title: "अमेरिकी स्वतंत्रता संग्राम (American Revolution)", totalQuestions: 2 },
-{ id: 417, title: "फ्रांसीसी क्रांति (French Revolution)", totalQuestions: 2 },
-{ id: 418, title: "औद्योगिक क्रांति (Industrial Revolution)", totalQuestions: 2 },
-{ id: 419, title: "यूरोप में राष्ट्रवाद का उदय (Rise of Nationalism)", totalQuestions: 2 },
-{ id: 420, title: "साम्राज्यवाद और उपनिवेशवाद (Imperialism and Colonialism)", totalQuestions: 2 },
-{ id: 421, title: "प्रथम विश्व युद्ध (World War I)", totalQuestions: 2 },
-{ id: 422, title: "रूसी क्रांति (Russian Revolution)", totalQuestions: 2 },
-{ id: 423, title: "दो महायुद्धों के बीच का काल (Inter-War Period)", totalQuestions: 2 },
-{ id: 424, title: "द्वितीय विश्व युद्ध (World War II)", totalQuestions: 2 },
-{ id: 425, title: "शीत युद्ध (Cold War & NAM)", totalQuestions: 2 },
-{ id: 426, title: "औपनिवेशिक मुक्ति और सोवियत संघ का विघटन", totalQuestions: 2 }
-]
-},
-{
-id: "soc_hist_post",
-name: "5. Post-Independence India & Culture",
-chapters: [
-{ id: 427, title: "देशी रियासतों का एकीकरण (Integration of Princely States)", totalQuestions: 2 },
-{ id: 428, title: "राज्यों का भाषाई पुनर्गठन (Linguistic Reorganisation)", totalQuestions: 2 },
-{ id: 429, title: "आर्थिक विकास और योजना (Economic Development & Planning)", totalQuestions: 2 },
-{ id: 430, title: "कृषि एवं वैज्ञानिक ग्रोथ (Agricultural & Scientific Growth)", totalQuestions: 2 },
-{ id: 431, title: "विदेश नीति और युद्ध (Foreign Policy & Wars)", totalQuestions: 2 },
-{ id: 432, title: "प्रमुख राजनीतिक मील के पत्थर (Political Milestones)", totalQuestions: 2 },
-{ id: 433, title: "कला और वास्तुकला (Art & Architecture)", totalQuestions: 2 },
-{ id: 434, title: "त्योहार और परंपराएँ (Festivals & Traditions)", totalQuestions: 2 },
-{ id: 435, title: "प्राचीन ग्रंथ और दर्शन (Ancient Texts & Philosophy)", totalQuestions: 2 },
-{ id: 436, title: "भाषा और साहित्य (Language & Literature)", totalQuestions: 2 }
-]
-},
-{
-id: "soc_geo_ind",
-name: "6. Indian Geography (भारतीय भूगोल)",
-chapters: [
-{ id: 437, title: "भारत की स्थिति और विस्तार (Location & Extent)", totalQuestions: 2 },
-{ id: 438, title: "भौतिक विभाजन (Physical Divisions)", totalQuestions: 2 },
-{ id: 439, title: "अपवाह तंत्र (Drainage System)", totalQuestions: 2 },
-{ id: 440, title: "जलवायु और मानसून (Climate & Monsoon)", totalQuestions: 2 },
-{ id: 441, title: "मिट्टी और प्राकृतिक वनस्पति (Vegetation & Soils)", totalQuestions: 2 },
-{ id: 442, title: "खनिज और ऊर्जा संसाधन (Mineral & Energy)", totalQuestions: 2 },
-{ id: 443, title: "मानव भूगोल (Human Geography)", totalQuestions: 2 }
-]
-},
-{
-id: "soc_geo_world",
-name: "7. World Geography (विश्व भूगोल)",
-chapters: [
-{ id: 444, title: "ब्रह्मांड और सौरमंडल (Universe & Solar System)", totalQuestions: 2 },
-{ id: 445, title: "भू-आकृति विज्ञान (Geomorphology)", totalQuestions: 2 },
-{ id: 446, title: "जलवायु विज्ञान (Climatology)", totalQuestions: 2 },
-{ id: 447, title: "समुद्र विज्ञान (Oceanography)", totalQuestions: 2 },
-{ id: 448, title: "विश्व के प्रमुख भौतिक क्षेत्र (World Physical Features)", totalQuestions: 2 }
-]
-},
-{
-id: "soc_polity",
-name: "8. Indian Polity (भारतीय राजव्यवस्था)",
-chapters: [
-{ id: 449, title: "संविधान का ऐतिहासिक विकास और संविधान सभा", totalQuestions: 2 },
-{ id: 450, title: "प्रस्तावना (Preamble)", totalQuestions: 2 },
-{ id: 451, title: "संविधान की विशेषताएँ और स्रोत", totalQuestions: 2 },
-{ id: 452, title: "भाग, नागरिकता और मौलिक अधिकार", totalQuestions: 2 },
-{ id: 453, title: "नीति निर्देशक तत्व और मौलिक कर्तव्य (DPSP)", totalQuestions: 2 },
-{ id: 454, title: "संघ की कार्यपालिका (President, PM, Council)", totalQuestions: 2 },
-{ id: 455, title: "संसद (Parliament: Lok Sabha, Rajya Sabha, Bills)", totalQuestions: 2 },
-{ id: 456, title: "न्यायपालिका (Supreme Court & High Court)", totalQuestions: 2 },
-{ id: 457, title: "राज्य सरकार (Governor, State Legislature, CM)", totalQuestions: 2 },
-{ id: 458, title: "केंद्र-राज्य संबंध (Centre-State Relations)", totalQuestions: 2 },
-{ id: 459, title: "आपातकालीन प्रावधान (Emergency Provisions)", totalQuestions: 2 },
-{ id: 460, title: "संवैधानिक और गैर-संवैधानिक निकाय", totalQuestions: 2 },
-{ id: 461, title: "स्थानीय सरकार (Panchayati Raj & Municipalities)", totalQuestions: 2 },
-{ id: 462, title: "संविधान संशोधन और मूल ढांचा (Amendments)", totalQuestions: 2 }
-]
-},
-{
-id: "soc_econ",
-name: "9. Economics (अर्थव्यवस्था)",
-chapters: [
-{ id: 463, title: "अर्थव्यवस्था के क्षेत्र और बुनियादी सिद्धांत (Sectors & Basics)", totalQuestions: 2 },
-{ id: 464, title: "राष्ट्रीय आय, जीडीपी और आर्थिक विकास (National Income & GDP)", totalQuestions: 2 },
-{ id: 465, title: "भारतीय बैंकिंग प्रणाली और आरबीआई (Banking & RBI)", totalQuestions: 2 },
-{ id: 466, title: "बजट, राजकोषीय नीति और कर प्रणाली (Budget, Fiscal Policy & GST)", totalQuestions: 2 },
-{ id: 467, title: "पंचवर्षीय योजनाएँ और नीति आयोग (Five-Year Plans & NITI Aayog)", totalQuestions: 2 }
-]
-},
-{
-id: "soc_socio",
-name: "10. Sociology (समाजशास्त्र)",
-chapters: [
-{ id: 468, title: "समाजशास्त्र का परिचय और संस्थाएँ (Introduction, Family, Marriage)", totalQuestions: 2 },
-{ id: 469, title: "भारतीय समाज, जाति और सामाजिक परिवर्तन (Caste & Stratification)", totalQuestions: 2 }
+{ id: 401, title: "सिंधु घाटी सभ्यता (Indus Valley Civilization)", totalQuestions: 3 }
 ]
 }
 ]
@@ -1945,11 +1714,7 @@ sections: [
 id: "comp_chapters",
 name: "Computer Science & IT Fundamentals",
 chapters: [
-{ id: 501, title: "Computer Introduction (कंप्यूटर का परिचय)", totalQuestions: 2 },
-{ id: 502, title: "Operating Systems and Software (ऑपरेटिंग सिस्टम और सॉफ्टवेयर)", totalQuestions: 2 },
-{ id: 503, title: "Computer Networks and Internet (कंप्यूटर नेटवर्किंग और इंटरनेट)", totalQuestions: 2 },
-{ id: 504, title: "Database Management Systems and SQL (डेटाबेस मैनेजमेंट सिस्टम और SQL)", totalQuestions: 2 },
-{ id: 505, title: "Programming and Basics (प्रोग्रामिंग और बुनियादी अवधारणाएँ)", totalQuestions: 2 }
+{ id: 501, title: "Computer Introduction (कंप्यूटर का परिचय)", totalQuestions: 3 }
 ]
 }
 ]
@@ -1959,18 +1724,9 @@ name: "English",
 sections: [
 {
 id: "eng_chapters",
-name: "English Language & Grammar Curriculum",
+name: "English Language & Grammar",
 chapters: [
-{ id: 601, title: "Vocabulary: Synonyms, Antonyms & Homonyms (शब्दावली - समानार्थी, विलोम)", totalQuestions: 2 },
-{ id: 602, title: "Spellings & Cloze Test (वर्तनी परीक्षण और क्लोज़ टेस्ट)", totalQuestions: 2 },
-{ id: 603, title: "Idioms, Phrases & One-Word Substitution (मुहावरे और एक शब्द प्रतिस्थापन)", totalQuestions: 2 },
-{ id: 604, title: "Grammar: Active & Passive Voice (सक्रिय और निष्क्रिय आवाज)", totalQuestions: 2 },
-{ id: 605, title: "Grammar: Direct & Indirect Speech (प्रत्यक्ष एवं अप्रत्यक्ष भाषण)", totalQuestions: 2 },
-{ id: 606, title: "Fill in the Blanks: Prepositions, Tenses & Conjunctions (रिक्त स्थान भरें)", totalQuestions: 2 },
-{ id: 607, title: "Sentence Correction & Error Spotting (वाक्य सुधार और त्रुटि पहचान)", totalQuestions: 2 },
-{ id: 608, title: "Sentence Rearrangement & Para Jumbles (पैरा जंबल्स)", totalQuestions: 2 },
-{ id: 609, title: "Reading Comprehension (समझबूझ कर पढ़ना)", totalQuestions: 2 },
-{ id: 610, title: "Descriptive Writing: Essay, Letter & Summary Writing (वर्णनात्मक लेखन)", totalQuestions: 2 }
+{ id: 601, title: "Vocabulary: Synonyms, Antonyms & Homonyms (शब्दावली - समानार्थी, विलोम)", totalQuestions: 3 }
 ]
 }
 ]
@@ -2006,7 +1762,7 @@ sec.chapters.forEach(ch => {
 const safeTitle = ch.title.replace(/'/g, "\\'");
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
-card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">2 Questions • Practice Drill</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Stream: <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subj.name}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (2 Qs)</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 10)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Questions Available</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Stream: <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subj.name}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (${ch.totalQuestions} Qs)</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 20)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
 grid.appendChild(card);
 });
 });
@@ -2041,7 +1797,7 @@ sec.chapters.forEach(ch => {
 const safeTitle = ch.title.replace(/'/g, "\\'");
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
-card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Qs / 10 Mins</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title} - Mock Exam</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 10)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Qs / 20 Mins</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title} - Mock Exam</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 20)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
 grid.appendChild(card);
 });
 });
@@ -2063,72 +1819,68 @@ const j = Math.floor(Math.random() * (i + 1));
 return arr;
 }
 
-const chapterQuestionsDB = {
-"Number System": [
-{
-q: "Q1. Find the unit digit in the product (7^95 - 3^58).\n(7^95 - 3^58) के गुणनफल में इकाई अंक क्या होगा?",
-options: ["A) 0", "B) 4", "C) 6", "D) 7"],
-answer: 1,
-exp: "Explanation / स्पष्टीकरण:\n• Cyclicity of 7 is 4. Power 95 ÷ 4 gives remainder 3. So 7^3 ends in 3.\n• Cyclicity of 3 is 4. Power 58 ÷ 4 gives remainder 2. So 3^2 ends in 9.\n• Unit digit = (13 - 9) = 4. Hence, Option B is correct."
-},
-{
-q: "Q2. Which of the following is the smallest prime number?\nनिम्नलिखित में से सबसे छोटी अभाज्य संख्या कौन सी है?",
-options: ["A) 0", "B) 1", "C) 2", "D) 3"],
-answer: 2,
-exp: "Explanation / स्पष्टीकरण:\n• 2 is the smallest prime number and the only even prime number."
-}
-]
-};
-
 function getQuestionsForChapter(chapterTitle, subjectName) {
-for (let key in chapterQuestionsDB) {
-if (chapterTitle.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(chapterTitle.toLowerCase())) {
-return chapterQuestionsDB[key];
+// Dynamically check external Gist databases first
+if (chapterTitle.toLowerCase().includes("number system")) {
+if (typeof window.MATH_QUESTIONS !== 'undefined' && window.MATH_QUESTIONS["Number System"]) {
+return window.MATH_QUESTIONS["Number System"];
 }
 }
-const cleanTitle = chapterTitle.split('(')[0].trim();
+if (typeof window.MATH_QUESTIONS !== 'undefined' && window.MATH_QUESTIONS[chapterTitle]) {
+return window.MATH_QUESTIONS[chapterTitle];
+}
+if (typeof window.REASONING_QUESTIONS !== 'undefined' && window.REASONING_QUESTIONS[chapterTitle]) {
+return window.REASONING_QUESTIONS[chapterTitle];
+}
+if (typeof window.SCIENCE_QUESTIONS !== 'undefined' && window.SCIENCE_QUESTIONS[chapterTitle]) {
+return window.SCIENCE_QUESTIONS[chapterTitle];
+}
+if (typeof window.SOCIAL_SCIENCE_QUESTIONS !== 'undefined' && window.SOCIAL_SCIENCE_QUESTIONS[chapterTitle]) {
+return window.SOCIAL_SCIENCE_QUESTIONS[chapterTitle];
+}
+if (typeof window.COMPUTER_QUESTIONS !== 'undefined' && window.COMPUTER_QUESTIONS[chapterTitle]) {
+return window.COMPUTER_QUESTIONS[chapterTitle];
+}
+if (typeof window.ENGLISH_QUESTIONS !== 'undefined' && window.ENGLISH_QUESTIONS[chapterTitle]) {
+return window.ENGLISH_QUESTIONS[chapterTitle];
+}
+
+// Fallback dynamic generator if specific question bank isn't mapped yet
 return [
 {
-q: `Q1. In competitive examinations, what is the core foundational theorem/concept of '${cleanTitle}'?\n'${cleanTitle}' का मुख्य वैचारिक एवं सैद्धांतिक नियम क्या है?`,
+q: `Q1. In competitive examinations, what is the core foundational theorem of '${chapterTitle}'?\n'${chapterTitle}' का मुख्य वैचारिक नियम क्या है?`,
 options: [
-`A) Fundamental analytical law and core property of ${cleanTitle}`,
+`A) Fundamental analytical law and core property`,
 `B) Empirical inverse proportionality derivation`,
 `C) Non-linear asymptotic equilibrium`,
 `D) None of the above`
 ],
 answer: 0,
-exp: `Explanation / स्पष्टीकरण:\n• Core Principle of ${cleanTitle}: In competitive tests, mastering this section requires understanding the primary governing axioms.`
-},
-{
-q: `Q2. When solving practical analytical problems under '${cleanTitle}', which approach guarantees the highest accuracy?\n'${cleanTitle}' के अंतर्गत व्यावहारिक प्रश्नों को हल करते समय कौन सी विधि सर्वाधिक सटीक मानी जाती है?`,
-options: [
-`A) Direct step-by-step conceptual formulation of ${cleanTitle}`,
-`B) Random iterative approximation`,
-`C) Unverified assumption technique`,
-`D) Arbitrary unit deduction`
-],
-answer: 0,
-exp: `Explanation / स्पष्टीकरण:\n• Examination Strategy for ${cleanTitle}: Always apply direct formulaic relations.`
+exp: `Explanation / स्पष्टीकरण:\n• Core Principle of ${chapterTitle}: Mastering this section requires understanding primary governing axioms.`
 }
 ];
 }
 
 function startChapterPractice(chapterTitle, subjectName) {
 currentChapter = { title: chapterTitle, subjectName };
+
 document.getElementById('practice-main-view').classList.add('hidden');
 document.getElementById('practice-runner-view').classList.remove('hidden');
 document.getElementById('runner-chapter-title').innerText = currentChapter.title;
 document.getElementById('runner-chapter-badge').innerText = currentChapter.subjectName;
 
 let baseList = getQuestionsForChapter(chapterTitle, subjectName);
+
 practiceQuestions = shuffleArray(baseList).map(q => {
 let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
 let indexedOpts = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
 let shuffledIndexedOpts = shuffleArray(indexedOpts);
+let newOptions = shuffledIndexedOpts.map(item => item.opt);
+let newCorrectIndex = shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect);
 return {
 ...q,
-options: shuffledIndexedOpts.map(item => item.opt),
-answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
+options: newOptions,
+answer: newCorrectIndex
 };
 });
 
@@ -2146,13 +1898,15 @@ paletteGrid.innerHTML = '';
 practiceQuestions.forEach((_, idx) => {
 const btn = document.createElement('button');
 let btnClass = 'w-9 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition border cursor-pointer ';
+
 if (idx === pIndex) {
 btnClass += 'bg-indigo-600 text-white border-indigo-500 shadow-md';
 } else if (userAnswers[idx] !== undefined) {
 btnClass += 'bg-teal-500/20 text-teal-700 dark:text-teal-300 border-teal-500/40';
 } else {
-btnClass += 'bg-slate-100 dark:bg-[#0b0f19] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800';
+btnClass += 'bg-slate-100 dark:bg-[#0b0f19] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-indigo-500';
 }
+
 btn.className = btnClass;
 btn.innerText = idx + 1;
 btn.onclick = () => jumpToQuestion(idx);
@@ -2172,12 +1926,14 @@ if (pIndex >= practiceQuestions.length) {
 finishPracticeRunner();
 return;
 }
+
 const q = practiceQuestions[pIndex];
 document.getElementById('runner-q-progress').innerText = `Question ${pIndex + 1} of ${practiceQuestions.length}`;
 document.getElementById('runner-q-text').innerText = q.q;
 
 const grid = document.getElementById('runner-options-grid');
 grid.innerHTML = '';
+
 const savedOpt = userAnswers[pIndex];
 
 q.options.forEach((opt, idx) => {
@@ -2195,9 +1951,11 @@ showExplanationState(savedOpt, q);
 expBox.classList.add('hidden');
 }
 
-document.getElementById('runner-score-display').innerText = `Attempted: ${Object.keys(userAnswers).length} / ${practiceQuestions.length}`;
+let answeredCount = Object.keys(userAnswers).length;
+document.getElementById('runner-score-display').innerText = `Attempted: ${answeredCount} / ${practiceQuestions.length}`;
 document.getElementById('runner-prev-btn').disabled = (pIndex === 0);
 document.getElementById('runner-next-btn').innerText = (pIndex === practiceQuestions.length - 1) ? "Finish Session" : "Next";
+
 startTimer();
 renderQuestionPalette();
 }
@@ -2214,7 +1972,9 @@ timeLeft--;
 timerEl.innerText = timeLeft + 's';
 if (timeLeft <= 0) {
 clearInterval(timerInterval);
-if (userAnswers[pIndex] === undefined) userAnswers[pIndex] = -1;
+if (userAnswers[pIndex] === undefined) {
+userAnswers[pIndex] = -1;
+}
 loadPracticeQuestion();
 }
 }, 1000);
@@ -2222,7 +1982,8 @@ loadPracticeQuestion();
 
 function selectPracticeOption(idx) {
 userAnswers[pIndex] = idx;
-showExplanationState(idx, practiceQuestions[pIndex]);
+const q = practiceQuestions[pIndex];
+showExplanationState(idx, q);
 renderQuestionPalette();
 }
 
@@ -2240,6 +2001,7 @@ badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full tex
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Incorrect Answer / गलत उत्तर';
 expBox.className = 'mb-6 p-5 rounded-xl border border-rose-500/30 bg-rose-500/10 leading-relaxed';
 }
+
 document.getElementById('runner-exp-text').innerText = q.exp;
 expBox.classList.remove('hidden');
 }
@@ -2264,6 +2026,7 @@ document.getElementById('runner-question-box').classList.add('hidden');
 document.getElementById('runner-finished-box').classList.remove('hidden');
 
 let attempted = 0, correct = 0, incorrect = 0, unattempted = 0;
+
 practiceQuestions.forEach((q, idx) => {
 const ans = userAnswers[idx];
 if (ans !== undefined && ans !== -1) {
@@ -2288,6 +2051,16 @@ correct: correct,
 total: practiceQuestions.length,
 date: new Date().toLocaleDateString()
 });
+
+const mockBtn = document.getElementById('runner-launch-mock-btn');
+if (mockBtn) {
+const safeTitle = currentChapter.title.replace(/'/g, "\\'");
+mockBtn.onclick = () => {
+exitPracticeRunner();
+switchTab('vault');
+launchChapterSimulation(safeTitle, practiceQuestions.length, 20);
+};
+}
 }
 
 function exitPracticeRunner() {
@@ -2298,23 +2071,31 @@ document.getElementById('runner-question-box').classList.remove('hidden');
 document.getElementById('runner-finished-box').classList.add('hidden');
 }
 
-let examTitle = "", examQuestions = [], eIndex = 0, examAnswers = {}, examTimerInterval = null, examSecondsLeft = 0;
+let examTitle = "";
+let examQuestions = [];
+let eIndex = 0;
+let examAnswers = {};
+let examTimerInterval = null;
+let examSecondsLeft = 0;
 
 function launchChapterSimulation(chapterTitle, totalQuestions, totalMinutes) {
 examTitle = chapterTitle + " - Mock Exam";
-examSecondsLeft = (totalMinutes || 10) * 60;
+examSecondsLeft = (totalMinutes || 20) * 60;
 examAnswers = {};
 eIndex = 0;
 
 let baseList = getQuestionsForChapter(chapterTitle, "");
+
 examQuestions = shuffleArray(baseList).map(q => {
 let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
 let indexedOpts = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
 let shuffledIndexedOpts = shuffleArray(indexedOpts);
+let newOptions = shuffledIndexedOpts.map(item => item.opt);
+let newCorrectIndex = shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect);
 return {
 ...q,
-options: shuffledIndexedOpts.map(item => item.opt),
-answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
+options: newOptions,
+answer: newCorrectIndex
 };
 });
 
@@ -2353,13 +2134,15 @@ paletteGrid.innerHTML = '';
 examQuestions.forEach((_, idx) => {
 const btn = document.createElement('button');
 let btnClass = 'w-9 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition border cursor-pointer ';
+
 if (idx === eIndex) {
 btnClass += 'bg-indigo-600 text-white border-indigo-500 shadow-md';
 } else if (examAnswers[idx] !== undefined) {
 btnClass += 'bg-teal-500/20 text-teal-700 dark:text-teal-300 border-teal-500/40';
 } else {
-btnClass += 'bg-slate-100 dark:bg-[#0b0f19] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800';
+btnClass += 'bg-slate-100 dark:bg-[#0b0f19] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-indigo-500';
 }
+
 btn.className = btnClass;
 btn.innerText = idx + 1;
 btn.onclick = () => jumpToExamQuestion(idx);
@@ -2375,19 +2158,24 @@ renderExamPalette();
 
 function loadExamQuestion() {
 if (eIndex >= examQuestions.length) return;
+
 const q = examQuestions[eIndex];
 document.getElementById('exam-q-progress').innerText = `Question ${eIndex + 1} of ${examQuestions.length}`;
 document.getElementById('exam-q-text').innerText = q.q;
 
 const grid = document.getElementById('exam-options-grid');
 grid.innerHTML = '';
+
 const savedOpt = examAnswers[eIndex];
 
 q.options.forEach((opt, idx) => {
 const isChecked = (savedOpt === idx) ? 'checked' : '';
 const label = document.createElement('label');
 label.className = 'flex items-center gap-3 p-3.5 bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 cursor-pointer transition';
-label.innerHTML = `<input type="radio" name="exam-opt" value="${idx}" ${isChecked} onchange="selectExamOption(${idx})" class="text-indigo-600 focus:ring-indigo-500"><div class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold">${opt}</div>`;
+label.innerHTML = `
+    <input type="radio" name="exam-opt" value="${idx}" ${isChecked} onchange="selectExamOption(${idx})" class="text-indigo-600 focus:ring-indigo-500">
+    <div class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold">${opt}</div>
+`;
 grid.appendChild(label);
 });
 
@@ -2449,6 +2237,7 @@ document.getElementById('exam-question-box').classList.add('hidden');
 document.getElementById('exam-submitted-box').classList.remove('hidden');
 
 let attempted = 0, correct = 0, incorrect = 0, unattempted = 0;
+
 examQuestions.forEach((q, idx) => {
 const ans = examAnswers[idx];
 if (ans !== undefined) {
@@ -2487,16 +2276,26 @@ function renderUserTestHistory() {
 const container = document.getElementById('user-test-history-container');
 if(!container) return;
 container.innerHTML = '';
+
 if (userTestHistory.length === 0) {
 container.innerHTML = `<div class="text-center py-6 text-slate-400 text-xs">No tests attempted yet. Complete a Practice or Mock test to view your scores here!</div>`;
 return;
 }
+
 userTestHistory.forEach(item => {
 const row = document.createElement('div');
 row.className = 'flex items-center justify-between p-3.5 bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl text-xs';
 row.innerHTML = `<div><span class="font-bold text-indigo-600 dark:text-indigo-400 uppercase">[${item.type}]</span> <span class="text-slate-800 dark:text-slate-200 font-semibold ml-2">${item.title}</span><span class="block text-[10px] text-slate-400 mt-0.5">Date: ${item.date}</span></div><div class="text-right font-bold text-teal-600">Score: ${item.correct} / ${item.total}</div>`;
 container.appendChild(row);
 });
+
+let totalQ = 0, totalC = 0;
+userTestHistory.forEach(i => { totalQ += i.total; totalC += i.correct; });
+if (totalQ > 0) {
+let acc = ((totalC / totalQ) * 100).toFixed(1) + '%';
+const accEl = document.getElementById('dashboard-accuracy-display');
+if(accEl) accEl.innerText = acc;
+}
 }
 
 let customChaptersList = [];
@@ -2505,15 +2304,18 @@ function renderCustomChapters() {
 const grid = document.getElementById('custom-chapters-grid');
 if(!grid) return;
 grid.innerHTML = '';
+
 if (customChaptersList.length === 0) {
 grid.innerHTML = `<div class="col-span-full text-center py-12 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 rounded-2xl"><div class="w-12 h-12 bg-indigo-500/10 text-indigo-600 rounded-xl flex items-center justify-center text-lg mx-auto mb-3"><i class="fa-solid fa-book-bookmark"></i></div><h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">No Custom Chapters Added Yet</h4><p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Click "Add Chapter" above to search and add chapters from any subject curriculum.</p><button onclick="openAddChapterModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow transition cursor-pointer">Add Your First Chapter</button></div>`;
 return;
 }
+
 customChaptersList.forEach(ch => {
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
 const safeTitle = ch.title.replace(/'/g, "\\'");
-card.innerHTML = `<div><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold uppercase px-2 py-1 rounded">Custom Chapter</span><h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-4">Stream: <span class="uppercase text-indigo-600 font-medium">${ch.subject}</span> (${ch.questions} Qs)</p></div><div class="space-y-2"><button onclick="switchTab('practice'); startChapterPractice('${safeTitle}', '${ch.subject}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow cursor-pointer">Launch Practice</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 10)" class="w-full bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow cursor-pointer">Launch Mock Exam</button><button onclick="deleteCustomChapter(${ch.id})" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-red-500 hover:text-white text-slate-600 dark:text-slate-300 text-xs font-semibold py-2.5 rounded-xl transition cursor-pointer">Remove Chapter</button></div>`;
+
+card.innerHTML = `<div><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold uppercase px-2 py-1 rounded">Custom Chapter</span><h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-4">Stream: <span class="uppercase text-indigo-600 font-medium">${ch.subject}</span> (${ch.questions} Qs)</p></div><div class="space-y-2"><button onclick="switchTab('practice'); startChapterPractice('${safeTitle}', '${ch.subject}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow cursor-pointer">Launch Practice</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 20)" class="w-full bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow cursor-pointer">Launch Mock Exam</button><button onclick="deleteCustomChapter(${ch.id})" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-red-500 hover:text-white text-slate-600 dark:text-slate-300 text-xs font-semibold py-2.5 rounded-xl transition cursor-pointer">Remove Chapter</button></div>`;
 grid.appendChild(card);
 });
 }
@@ -2524,12 +2326,19 @@ const searchVal = document.getElementById('chapter-search-input').value.toLowerC
 const selectEl = document.getElementById('new-chapter-select');
 if(!selectEl) return;
 selectEl.innerHTML = '';
+
 const subj = curriculumData[subjKey];
 if (!subj) return;
+
 let allChapters = [];
-subj.sections.forEach(sec => { allChapters = allChapters.concat(sec.chapters); });
+subj.sections.forEach(sec => {
+allChapters = allChapters.concat(sec.chapters);
+});
+
 let titles = allChapters.map(c => c.title);
-titles.filter(t => t.toLowerCase().includes(searchVal)).forEach(title => {
+const filtered = titles.filter(t => t.toLowerCase().includes(searchVal));
+
+filtered.forEach(title => {
 const opt = document.createElement('option');
 opt.value = title;
 opt.innerText = title;
@@ -2537,26 +2346,35 @@ selectEl.appendChild(opt);
 });
 }
 
-function filterChapterDropdown(query) { updateChapterSelectDropdown(); }
+function filterChapterDropdown(query) {
+updateChapterSelectDropdown();
+}
+
 function openAddChapterModal() {
 document.getElementById('add-chapter-modal').classList.remove('hidden');
 document.getElementById('new-chapter-subject').value = 'mathematics';
 document.getElementById('chapter-search-input').value = '';
 updateChapterSelectDropdown();
 }
-function closeAddChapterModal() { document.getElementById('add-chapter-modal').classList.add('hidden'); }
+
+function closeAddChapterModal() {
+document.getElementById('add-chapter-modal').classList.add('hidden');
+}
+
 function handleChapterSubmit(e) {
 e.preventDefault();
 const subject = document.getElementById('new-chapter-subject').value;
 const title = document.getElementById('new-chapter-select').value;
 if(!title) return;
-customChaptersList.push({ id: Date.now(), title, subject, questions: 2 });
+
+customChaptersList.push({ id: Date.now(), title, subject, questions: 50 });
 closeAddChapterModal();
 renderCustomChapters();
 switchTab('chapters');
 showToast('Custom chapter added successfully!');
 e.target.reset();
 }
+
 function deleteCustomChapter(id) {
 customChaptersList = customChaptersList.filter(c => c.id !== id);
 renderCustomChapters();
@@ -2564,25 +2382,32 @@ showToast('Chapter removed successfully.');
 }
 
 function openAuthModal() {
-document.getElementById('auth-modal').classList.remove('hidden');
+const modal = document.getElementById('auth-modal');
+if(modal) modal.classList.remove('hidden');
 switchAuthMode('login');
 document.getElementById('reg-step-1').classList.remove('hidden');
 document.getElementById('reg-step-verify-email').classList.add('hidden');
 }
-function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
+
+function closeAuthModal() {
+const modal = document.getElementById('auth-modal');
+if(modal) modal.classList.add('hidden');
+}
+
 function switchAuthMode(mode) {
 const loginBtn = document.getElementById('auth-tab-login');
 const regBtn = document.getElementById('auth-tab-register');
 const loginForm = document.getElementById('auth-form-login');
 const regForm = document.getElementById('auth-form-register');
+
 if (mode === 'login') {
 if(loginBtn) loginBtn.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white transition cursor-pointer';
-if(regBtn) regBtn.className = 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 transition cursor-pointer';
+if(regBtn) regBtn.className = 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition cursor-pointer';
 if(loginForm) loginForm.classList.remove('hidden');
 if(regForm) regForm.classList.add('hidden');
 } else {
 if(regBtn) regBtn.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-teal-600 text-white transition cursor-pointer';
-if(loginBtn) loginBtn.className = 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 transition cursor-pointer';
+if(loginBtn) loginBtn.className = 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition cursor-pointer';
 if(regForm) regForm.classList.remove('hidden');
 if(loginForm) loginForm.classList.add('hidden');
 }
@@ -2591,6 +2416,7 @@ if(loginForm) loginForm.classList.add('hidden');
 function updateHeaderAuthUI() {
 const container = document.getElementById('header-auth-container');
 if(!container) return;
+
 if (currentUser) {
 container.innerHTML = `<div class="relative group"><button class="flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-600 dark:text-indigo-300 font-bold text-xs px-3.5 py-2.5 rounded-xl transition cursor-pointer"><i class="fa-solid fa-user-check"></i> <span>Hi, ${currentUser.name}</span> <i class="fa-solid fa-chevron-down text-[10px]"></i></button><div class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl py-2 hidden group-hover:block z-50"><div class="px-4 py-2 border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 truncate">${currentUser.email}</div><button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 font-semibold transition flex items-center gap-2 cursor-pointer"><i class="fa-solid fa-right-from-bracket"></i> Sign Out / Logout</button></div></div>`;
 } else {
@@ -2603,23 +2429,37 @@ e.preventDefault();
 const email = document.getElementById('login-identifier').value.trim();
 const passcode = document.getElementById('login-passcode').value.trim();
 const statusMsg = document.getElementById('login-status-msg');
+
 statusMsg.innerHTML = `<span class="text-amber-500">Authenticating session...</span>`;
+
 firebase.auth().signInWithEmailAndPassword(email, passcode)
 .then((userCredential) => {
 const user = userCredential.user;
+
 if (!user.emailVerified) {
-statusMsg.innerHTML = `<span class="text-amber-400">कृपया पहले ईमेल वेरिफाई करें। लिंक इनबॉक्स या Spam फ़ोल्डर में चेक करें।</span>`;
+statusMsg.innerHTML = `
+    <span class="text-amber-400">
+        कृपया पहले ईमेल वेरिफाई करें। लिंक इनबॉक्स या <strong>Spam</strong> फ़ोल्डर में चेक करें।<br>
+        <a href="javascript:void(0)" onclick="resendLoginVerification('${email}')" class="underline font-bold text-indigo-400">Resend Link</a>
+    </span>`;
 firebase.auth().signOut();
 return;
 }
-currentUser = { name: user.displayName || email.split('@')[0], email };
+
+currentUser = {
+name: user.displayName || email.split('@')[0],
+email: email
+};
 localStorage.setItem('targettire_user', JSON.stringify(currentUser));
 closeAuthModal();
 updateHeaderAuthUI();
-showToast(`Welcome back, ${currentUser.name}!`);
+showToast(`Welcome back, ${currentUser.name}! Session authenticated.`);
 statusMsg.innerHTML = '';
 e.target.reset();
-}).catch((err) => { statusMsg.innerHTML = `<span class="text-rose-500">Error: ${err.message}</span>`; });
+})
+.catch((err) => {
+statusMsg.innerHTML = `<span class="text-rose-500">Error: ${err.message}</span>`;
+});
 }
 
 function handleRegisterSubmit(e) {
@@ -2628,11 +2468,15 @@ const name = document.getElementById('reg-name').value.trim();
 const email = document.getElementById('reg-email').value.trim();
 const password = document.getElementById('reg-password').value.trim();
 const statusMsg = document.getElementById('reg-status-msg');
+
 statusMsg.innerHTML = `<span class="text-teal-400"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Creating account & sending verification email...</span>`;
+
 firebase.auth().createUserWithEmailAndPassword(email, password)
 .then((userCredential) => {
-return userCredential.user.updateProfile({ displayName: name }).then(() => {
-return userCredential.user.sendEmailVerification();
+const user = userCredential.user;
+
+return user.updateProfile({ displayName: name }).then(() => {
+return user.sendEmailVerification();
 }).then(() => {
 statusMsg.innerHTML = '';
 document.getElementById('verify-email-display').innerText = email;
@@ -2640,35 +2484,86 @@ document.getElementById('reg-step-1').classList.add('hidden');
 document.getElementById('reg-step-verify-email').classList.remove('hidden');
 showToast(`वेरिफिकेशन लिंक भेज दिया गया है। Inbox या Spam फ़ोल्डर चेक करें!`);
 });
-}).catch((error) => { statusMsg.innerHTML = `<span class="text-rose-500">Firebase Error: ${error.message}</span>`; });
+})
+.catch((error) => {
+statusMsg.innerHTML = `<span class="text-rose-500">Firebase Error: ${error.message}</span>`;
+});
 }
 
 function checkEmailVerified() {
 const user = firebase.auth().currentUser;
 const verifyMsg = document.getElementById('email-verify-status-msg');
-if (!user) return;
+
+if (!user) {
+verifyMsg.innerHTML = `<span class="text-rose-500">Session expired. Please switch to Sign In.</span>`;
+return;
+}
+
+verifyMsg.innerHTML = `<span class="text-teal-400"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Checking verification status...</span>`;
+
 user.reload().then(() => {
 if (user.emailVerified) {
-currentUser = { name: user.displayName || user.email.split('@')[0], email: user.email };
+currentUser = {
+name: user.displayName || user.email.split('@')[0],
+email: user.email
+};
 localStorage.setItem('targettire_user', JSON.stringify(currentUser));
-verifyMsg.innerHTML = `<span class="text-teal-300 font-bold">✓ Email verified successfully!</span>`;
+verifyMsg.innerHTML = `<span class="text-teal-300 font-bold">✓ Email verified successfully! Logging you in...</span>`;
+
 setTimeout(() => {
 closeAuthModal();
 updateHeaderAuthUI();
 showToast(`Welcome to TargetTire, ${currentUser.name}!`);
+verifyMsg.innerHTML = '';
 document.getElementById('auth-form-register').reset();
 document.getElementById('reg-step-verify-email').classList.add('hidden');
 document.getElementById('reg-step-1').classList.remove('hidden');
 }, 1500);
 } else {
-verifyMsg.innerHTML = `<span class="text-amber-400">Email not verified yet! Check Spam folder.</span>`;
+verifyMsg.innerHTML = `<span class="text-amber-400">Email not verified yet! Please open your Gmail/inbox or Spam folder and click the link.</span>`;
 }
+}).catch(err => {
+verifyMsg.innerHTML = `<span class="text-rose-500">Error: ${err.message}</span>`;
 });
 }
 
 function resendVerificationEmail() {
 const user = firebase.auth().currentUser;
-if (user) user.sendEmailVerification().then(() => showToast('Verification email resent.'));
+const verifyMsg = document.getElementById('email-verify-status-msg');
+if (!user) return;
+
+user.sendEmailVerification()
+.then(() => {
+verifyMsg.innerHTML = `<span class="text-teal-300">नया लिंक भेज दिया गया है! कृपया Spam / Inbox चेक करें।</span>`;
+showToast('Verification email resent successfully.');
+})
+.catch((err) => {
+verifyMsg.innerHTML = `<span class="text-rose-500">Error: ${err.message}</span>`;
+});
+}
+
+function resendLoginVerification(email) {
+const statusMsg = document.getElementById('login-status-msg');
+statusMsg.innerHTML = `<span class="text-teal-400">Resending verification link...</span>`;
+
+const passcode = document.getElementById('login-passcode').value.trim();
+if (!passcode) {
+statusMsg.innerHTML = `<span class="text-amber-400">Please enter your passcode to resend link.</span>`;
+return;
+}
+
+firebase.auth().signInWithEmailAndPassword(email, passcode)
+.then((userCredential) => {
+return userCredential.user.sendEmailVerification();
+})
+.then(() => {
+firebase.auth().signOut();
+statusMsg.innerHTML = `<span class="text-teal-300">Verification link resent! Check your Inbox or Spam folder.</span>`;
+showToast('Verification email resent.');
+})
+.catch((err) => {
+statusMsg.innerHTML = `<span class="text-rose-500">Error: ${err.message}</span>`;
+});
 }
 
 function handleLogout() {
@@ -2685,13 +2580,19 @@ const toast = document.getElementById('toast');
 if(!toast) return;
 document.getElementById('toast-message').innerText = msg;
 toast.classList.remove('translate-y-24', 'opacity-0');
-setTimeout(() => { toast.classList.add('translate-y-24', 'opacity-0'); }, 3500);
+setTimeout(() => {
+toast.classList.add('translate-y-24', 'opacity-0');
+}, 3500);
 }
 
 window.onload = function() {
 const savedUser = localStorage.getItem('targettire_user');
 if (savedUser) {
-try { currentUser = JSON.parse(savedUser); } catch(err) { currentUser = null; }
+try {
+currentUser = JSON.parse(savedUser);
+} catch(err) {
+currentUser = null;
+}
 }
 updateHeaderAuthUI();
 renderHeaderExamDropdown();
