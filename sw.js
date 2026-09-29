@@ -32,11 +32,13 @@ self.addEventListener('activate', event => {
 
 // Fetch Event
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Return cached response if found, else fetch from network
-        return response || fetch(event.request);
-      })
-  );
+  if (event.request.url.includes('data.js')) {
+    // Always fetch data.js from network to ensure instant updates
+    event.respondWith(fetch(event.request));
+  } else {
+    event.respondWith(
+      caches.match(event.request)
+        .then(response => response || fetch(event.request))
+    );
+  }
 });
