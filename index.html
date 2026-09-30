@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+0<!DOCTYPE html>
 <html lang="en" class="dark scroll-smooth">
 <head>
 <meta name="google-site-verification" content="ehyZKoX0oolUIxXhLoN0XLBHb2SAAHNoTHpyR3eNfC8" />
@@ -855,17 +855,7 @@ Resend Verification Email
 </div>
 
 <script>
-  self.addEventListener('fetch', event => {
-  if (event.request.url.includes('data.js')) {
-    // Always fetch data.js from network to ensure instant updates
-    event.respondWith(fetch(event.request));
-  } else {
-    event.respondWith(
-      caches.match(event.request)
-        .then(response => response || fetch(event.request))
-    );
-  }
-});
+  
 const TARGETTIRE_CA_DATABASE = {
 date: "29 September 2026",
 bulletinTitle: "राष्ट्रीय एवं अंतर्राष्ट्रीय करेंट अफेयर्स बुलेटिन",
