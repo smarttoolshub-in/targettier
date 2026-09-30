@@ -1,8 +1,8 @@
 // TargetTire Local Curriculum & Question Data Module (2026)
-// You can edit chapters, add questions, or update current affairs right here without touching index.html!
-​window.TARGETTIRE_CA_DATABASE = {
-date: "29 September 2026",
-bulletinTitle: "राष्ट्रीय एवं अंतर्राष्ट्रीय करेंट अफेयर्स बुलेटिन",
+// Updated version for live testing
+window.TARGETTIRE_CA_DATABASE = {
+date: "30 September 2026",
+bulletinTitle: "राष्ट्रीय एवं अंतर्राष्ट्रीय करेंट अफेयर्स बुलेटिन (Updated)",
 points: [
 "भारत सरकार ने वर्ष 2026 के लिए रक्षा विनिर्माण लक्ष्यों और स्वदेशीकरण को बढ़ावा देने हेतु नई नीति की घोषणा की है।",
 "भारतीय रिजर्व बैंक (RBI) ने डिजिटल मुद्रा (e-Rupee) के विस्तार के लिए नए सुरक्षा मानक जारी किए हैं।",
@@ -13,14 +13,15 @@ question: "हाल ही में RBI द्वारा डिजिटल 
 options: [
 "साइबर सुरक्षा और एन्क्रिप्शन",
 "न्यूनतम ब्याज दरें",
-"1",
-"23"
+"विदेशी मुद्रा विनिमय",
+"कृषि ऋण माफ़ी"
 ],
 answer: 0,
 explanation: "डिजिटल मुद्रा (e-Rupee) की सुरक्षा और गोपनीयता बढ़ाने के लिए RBI ने कड़े साइबर सुरक्षा मानक तय किए हैं।"
 }
 };
-​window.curriculumData = {
+
+window.curriculumData = {
 mathematics: {
 name: "Mathematics",
 sections: [
@@ -28,7 +29,7 @@ sections: [
 id: "math_chapters",
 name: "Quantitative Aptitude & Advanced Math",
 chapters: [
-{ id: 101, title: "Number System", totalQuestions: 2 },
+{ id: 101, title: "Number System", totalQuestions: 3 },
 { id: 102, title: "Simplification", totalQuestions: 2 },
 { id: 103, title: "Percentage", totalQuestions: 2 },
 { id: 104, title: "Profit & Loss", totalQuestions: 2 },
@@ -355,19 +356,26 @@ chapters: [
 ]
 }
 };
-​window.chapterQuestionsDB = {
+
+window.chapterQuestionsDB = {
 "Number System": [
 {
 q: "Q1. What is the remainder when 17^200 is divided by 18?\nजब 17^200 को 18 से विभाजित किया जाए, तो शेषफल क्या होगा?",
-        options: ["A) 1", "B) 17", "C) 0", "D) 2"],
-        answer: 0,
-        exp: "Explanation / स्पष्टीकरण:\n• (17^200) mod 18 = (-1)^200 mod 18 = 1.\n(-1) की सम घात 1 होती है, अतः शेषफल 1 होगा।"
-    },
-    {
-        q: "Q2. If the LCM of two numbers is 60 and their sum is 34, find the numbers.\nयदि दो संख्याओं का LCM 60 है और उनका योग 34 है, तो संख्याएँ ज्ञात कीजिए।",
-        options: ["A) (10, 24)", "B) (15, 19)", "C) (10, 20)", "D) (14, 20)"],
-        answer: 0,
-        exp: "Explanation / स्पष्टीकरण:\n• Options check: 10 + 24 = 34, and LCM of 10 and 24 is 60.\nविकल्पों से जांच करने पर 10 और 24 का योग 34 और LCM 60 है।"
-    }
+options: ["A) 1", "B) 17", "C) 0", "D) 2"],
+answer: 0,
+exp: "Explanation / स्पष्टीकरण:\n• (17^200) mod 18 = (-1)^200 mod 18 = 1.\n(-1) की सम घात 1 होती है, अतः शेषफल 1 होगा।"
+},
+{
+q: "Q2. If the LCM of two numbers is 60 and their sum is 34, find the numbers.\nयदि दो संख्याओं का LCM 60 है और उनका योग 34 है, तो संख्याएँ ज्ञात कीजिए।",
+options: ["A) (10, 24)", "B) (15, 19)", "C) (10, 20)", "D) (14, 20)"],
+answer: 0,
+exp: "Explanation / स्पष्टीकरण:\n• Options check: 10 + 24 = 34, and LCM of 10 and 24 is 60.\nविकल्पों से जांच करने पर 10 और 24 का योग 34 और LCM 60 है।"
+},
+{
+q: "Q3. Find the sum of first 20 natural numbers.\nप्रथम 20 प्राकृतिक संख्याओं का योग ज्ञात कीजिए।",
+options: ["A) 210", "B) 200", "C) 190", "D) 220"],
+answer: 0,
+exp: "Explanation / स्पष्टीकरण:\n• Sum = n(n+1)/2 = 20 × 21 / 2 = 210."
+}
 ]
 };
