@@ -14363,7 +14363,7 @@ exp: "Explanation / स्पष्टीकरण:\n• A strong argument must 
 }
 ]
 };
-};
+
 window.chapterQuestionsDB = {
 ...window.chapterQuestionsDB,
 "Causes and Effect": [
@@ -25031,7 +25031,7 @@ options: ["A) Continental System / Continental Blockade (महाद्वी�
 answer: 0,
 exp: "Explanation / स्पष्टीकरण:\n• The **Continental System** banned all European nations allied with France from trading with Great Britain, which ultimately backfired and drained French resources."
 },
-q: "Q20. Which disastrous military campaign in 1812 marked the beginning of the end of Napoleon's empire?\n1812 में नेपोलियन का कौन सा रूस पर आक्रमण उसके साम्राज्य के पतन का कारण बना?",
+{q: "Q20. Which disastrous military campaign in 1812 marked the beginning of the end of Napoleon's empire?\n1812 में नेपोलियन का कौन सा रूस पर आक्रमण उसके साम्राज्य के पतन का कारण बना?",
 options: ["A) Invasion of Russia (रूस पर आक्रमण - 1812)", "B) Peninsular War", "C) Invasion of Egypt", "D) Battle of Waterloo"],
 answer: 0,
 exp: "Explanation / स्पष्टीकरण:\n• Napoleon's disastrous **Invasion of Russia in 1812**, battered by the harsh Russian winter and scorched-earth tactics, destroyed his Grand Army."
@@ -26468,7 +26468,7 @@ options: ["A) Belgrade, Yugoslavia (बेलग्रेड, यूगोस्
 answer: 0,
 exp: "Explanation / स्पष्टीकरण:\n• The **First NAM Summit** was held in **Belgrade (Yugoslavia) in September 1961**, formally establishing the movement with 25 participating nations."
 },
-q: "Q13. In which year was the historic Asian-African Conference held in Indonesia that laid the conceptual groundwork for NAM?\nएशियाई-अफ्रिकी देशों का ऐतिहासिक 'बांडुंग सम्मेलन' (Bandung Conference) किस वर्ष आयोजित हुआ था?",
+{q: "Q13. In which year was the historic Asian-African Conference held in Indonesia that laid the conceptual groundwork for NAM?\nएशियाई-अफ्रिकी देशों का ऐतिहासिक 'बांडुंग सम्मेलन' (Bandung Conference) किस वर्ष आयोजित हुआ था?",
 options: ["A) 1955 AD (वर्ष 1955 - बांडुंग, इंडोनेशिया)", "B) 1961 AD", "C) 1947 AD", "D) 1950 AD"],
 answer: 0,
 exp: "Explanation / स्पष्टीकरण:\n• **The Bandung Conference of 1955** in Indonesia gathered 29 Asian and African states to oppose colonialism, racism, and alignment with Cold War superpowers."
@@ -26998,7 +26998,7 @@ options: ["A) 1966 AD (1 नवंबर 1966)", "B) 1960 AD", "C) 1956 AD", "D)
 answer: 0,
 exp: "Explanation / स्पष्टीकरण:\n• On **November 1, 1966**, Punjab was trifurcated under the Punjab Reorganization Act, creating Haryana and the UT of Chandigarh."
 },
-q: "Q9. Which committee appointed by the Congress in 1948 initially advised against linguistic reorganization of states, prioritizing national unity?\n1948 में कांग्रेस द्वारा बनाई गई किस समिति (जेवीपी कमेटी) ने राष्ट्रीय एकता को प्राथमिकता देते हुए शुरुआती दौर में भाषाई राज्यों का विरोध किया था?",
+{q: "Q9. Which committee appointed by the Congress in 1948 initially advised against linguistic reorganization of states, prioritizing national unity?\n1948 में कांग्रेस द्वारा बनाई गई किस समिति (जेवीपी कमेटी) ने राष्ट्रीय एकता को प्राथमिकता देते हुए शुरुआती दौर में भाषाई राज्यों का विरोध किया था?",
 options: ["A) JVP Committee - Jawaharlal Nehru, Vallabhbhai Patel, and Pattabhi Sitaramayya\n(जेवीपी समिति - जवाहरलाल नेहरू, सरदार पटेल और पट्टाभि सीतारमैया)", "B) Dhar Commission", "C) Fazal Ali Commission", "D) Nehru-Liaqat Committee"],
 answer: 0,
 exp: "Explanation / स्पष्टीकरण:\n• The **JVP Committee (1948)** concluded that linguistic reorganization should be postponed as it could threaten national unity and stability."
@@ -30548,7 +30548,7 @@ options: ["A) It has no land boundaries and is defined entirely by encircling oc
 answer: 0,
 exp: "Explanation / स्पष्टीकरण:\n• The **Sargasso Sea** is a region of the North Atlantic bounded by circulating ocean currents (gyres) rather than land boundaries, famous for floating *Sargassum* seaweed."
 },
-5: {
+ {
 q: "Q15. What are flat, vast, sediment-covered regions forming the deepest parts of the ocean basins called?\nमहासागरीय बेसिन के सबसे गहरे और समतल मैदानों को क्या कहा जाता है?",
 options: ["A) Abyssal Plains / abyssal plains (गहरे सागरीय मैदान)", "B) Continental Shelves", "C) Mid-oceanic ridges", "D) Trench floors"],
 answer: 0,
@@ -31657,6 +31657,8 @@ q: "Q14. In which Part and Article of the Indian Constitution are the 'Fundament
 options: ["A) Part IVA, Article 51A (भाग IVA, अनुच्छेद 51A)", "B) Part III, Article 32", "C) Part IV, Article 36", "D) Part II, Article 11"],
 answer: 0,
 exp: "Explanation / स्पष्टीकरण:\n• **Fundamental Duties** are enshrined in **Part IVA, Article 51A** of the Constitution, contained within a single comprehensive article."
+},
+{
 q: "Q15. On whose recommendation were the Fundamental Duties incorporated into the Indian Constitution?\nकिस समिति की सिफारिश पर भारतीय संविधान में मौलिक कर्तव्यों को शामिल किया गया था?",
 options: ["A) Swaran Singh Committee / स्वर्ण सिंह समिति (1976)", "B) Sarkaria Commission", "C) Balwant Rai Mehta Committee", "D) Punchhi Commission"],
 answer: 0,
@@ -35296,7 +35298,7 @@ options: ["A) Concurrent transactions execute independently without interfering 
 answer: 0,
 exp: "Explanation / स्पष्टीकरण:\n• **Isolation** ensures that concurrent transactions execute separately without interfering with each other, preventing intermediate uncommitted states from clashing."
 },
-q: "Q12. What does the 'Durability' property in ACID compliance guarantee?\nACID नियमों में 'ड्यूरेबिलिटी' (Durability) क्या सुनिश्चित करती है?",
+{q: "Q12. What does the 'Durability' property in ACID compliance guarantee?\nACID नियमों में ड्यूरेबिलिटी (Durability) क्या सुनिश्चित करती है?",
 options: ["A) Once a transaction is committed, its changes are permanent even in the event of a system crash or power failure\n(एक बार ट्रांजैक्शन सेव (कमिट) होने के बाद सिस्टम क्रैश होने पर भी डेटा हमेशा सुरक्षित रहता है)", "B) Database hardware physical metal cabinets are unbreakable", "C) SQL query code lasts forever without updates", "D) Network cables never get disconnected"],
 answer: 0,
 exp: "Explanation / स्पष्टीकरण:\n• **Durability** guarantees that once a transaction has been committed, its results survive system crashes, power outages, and hardware failures permanently."
