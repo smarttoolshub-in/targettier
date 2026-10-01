@@ -1,5 +1,5 @@
 // TargetTire AI Assistant Script with Gemini API Integration
-const GEMINI_API_KEY = "AQ.Ab8RN6L4NkIvodo2czpQgD8lZG8cr9EF7grWkaPo-p6LFBAx-Q";
+const GEMINI_API_KEY = "....";
 
 function initAIChatWidget() {
     const chatHTML = `
