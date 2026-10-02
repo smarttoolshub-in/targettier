@@ -57,6 +57,11 @@ user-select: text;
 </style>
 </head>
 <body class="bg-slate-50 dark:bg-[#0b0f19] text-slate-800 dark:text-slate-300 min-h-screen flex flex-col transition-colors duration-300">
+
+<!-- Local Audio Elements for Correct/Wrong Answers -->
+<audio id="success-audio" src="correct.mp3" preload="auto"></audio>
+<audio id="error-audio" src="wrong.mp3" preload="auto"></audio>
+
 <header id="main-site-header" class="bg-white/95 dark:bg-[#0b0f19]/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800/80 sticky top-0 z-50 transition-colors duration-300">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex items-center justify-between h-20">
@@ -1651,7 +1656,7 @@ groupSpan.innerText = g.name;
 groupSpan.className = "hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer";
 groupSpan.onclick = () => resetVaultExamNav();
 }
-if(sep2) sep2.classList.add('hidden');
+if(sep2) sep2.classList.remove('hidden');
 if(subSpan) {
 subSpan.classList.remove('hidden');
 subSpan.innerText = subName;
@@ -1686,55 +1691,6 @@ grid.appendChild(lockCard);
 let activeSubjectKey = 'mathematics';
 function selectSubjectStream(subjKey) {
 activeSubjectKey = subjKey;
-document.querySelectorAll('#practice-subject-pills .practice-subject-btn').forEach(btn => {
-btn.className = 'practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer';
-});
-const activeBtn = document.getElementById('subj-btn-' + subjKey);
-if (activeBtn) {
-activeBtn.className = 'practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-indigo-600 text-white transition cursor-pointer';
-}
-renderPracticeStreamHub();
-}
-
-function renderPracticeStreamHub() {
-const grid = document.getElementById('practice-container-grid');
-if(!grid) return;
-grid.innerHTML = '';
-const curriculumDataSource = window.curriculumData || {};
-const subj = curriculumDataSource[activeSubjectKey];
-if(!subj) return;
-
-subj.sections.forEach(sec => {
-const secHeader = document.createElement('div');
-secHeader.className = 'col-span-full mt-2 mb-1';
-secHeader.innerHTML = `<h3 class="text-sm font-bold text-indigo-600 dark:text-indigo-400 border-b border-slate-200 dark:border-slate-800 pb-2">${sec.name}</h3>`;
-grid.appendChild(secHeader);
-
-let chList = sec.chapters;
-if (!currentUser) {
-chList = [sec.chapters[0]];
-}
-
-chList.forEach(ch => {
-const safeTitle = ch.title.replace(/'/g, "\\'");
-const card = document.createElement('div');
-card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
-card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Questions • Practice Drill</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Stream: <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subj.name}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (${ch.totalQuestions} Qs)</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
-grid.appendChild(card);
-});
-
-if (!currentUser && sec.chapters.length > 1) {
-const lockCard = document.createElement('div');
-lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
-lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> ${sec.chapters.length - 1} more chapters in ${sec.name} are locked for guests. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all chapters.`;
-grid.appendChild(lockCard);
-}
-});
-}
-
-let activeVaultSubjectKey = 'mathematics';
-function selectVaultSubjectStream(subjKey) {
-activeVaultSubjectKey = subjKey;
 document.querySelectorAll('#vault-subject-pills .vault-subject-btn').forEach(btn => {
 btn.className = 'vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer';
 });
@@ -1789,39 +1745,21 @@ let timerInterval = null;
 let timeLeft = 30;
 let runnerLangMode = 'bi'; // 'bi' (Both), 'en' (English only), 'hi' (Hindi only)
 
-// --- AUDIO SOUND EFFECTS (Web Audio API) ---
+// --- LOCAL AUDIO PLAYERS FOR SUCCESS / ERROR SOUNDS ---
 function playSuccessSound() {
-    try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
-        gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 0.3);
-    } catch(e) {}
+    const audio = document.getElementById('success-audio');
+    if(audio) {
+        audio.currentTime = 0;
+        audio.play().catch(e => console.log("Audio play error:", e));
+    }
 }
 
 function playErrorSound() {
-    try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        oscillator.type = 'triangle';
-        oscillator.frequency.setValueAtTime(180, audioCtx.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.2);
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 0.25);
-    } catch(e) {}
+    const audio = document.getElementById('error-audio');
+    if(audio) {
+        audio.currentTime = 0;
+        audio.play().catch(e => console.log("Audio play error:", e));
+    }
 }
 
 function shuffleArray(array) {
@@ -1881,49 +1819,110 @@ exp: `Explanation / स्पष्टीकरण:\n• Examination Strategy fo
 ];
 }
 
+// --- RESUME PRACTICE CHECKER ---
 function startChapterPractice(chapterTitle, subjectName) {
-currentChapter = { title: chapterTitle, subjectName };
-// Focus Mode Activation: Hide header & footer, maximize practice area
-document.getElementById('main-site-header').classList.add('hidden');
-const footerEl = document.querySelector('footer');
-if(footerEl) footerEl.classList.add('hidden');
+    currentChapter = { title: chapterTitle, subjectName };
+    const savedProgressKey = `targettire_progress_${chapterTitle}`;
+    const savedData = localStorage.getItem(savedProgressKey);
 
-document.getElementById('practice-main-view').classList.add('hidden');
-document.getElementById('practice-runner-view').classList.remove('hidden');
-document.getElementById('runner-chapter-title').innerText = currentChapter.title;
-document.getElementById('runner-chapter-badge').innerText = currentChapter.subjectName;
+    if (savedData) {
+        openCustomConfirm(
+            "Resume Practice / अभ्यास जारी रखें", 
+            "You have previous progress saved for this chapter. Would you like to resume from where you left off or start fresh?", 
+            () => {
+                loadSavedPracticeSession(savedData);
+            },
+            () => {
+                localStorage.removeItem(savedProgressKey);
+                initializeNewPracticeSession(chapterTitle, subjectName);
+            },
+            "Resume", "Start Fresh"
+        );
+    } else {
+        initializeNewPracticeSession(chapterTitle, subjectName);
+    }
+}
 
-let baseList = getQuestionsForChapter(chapterTitle, subjectName);
-practiceQuestions = shuffleArray(baseList).map(q => {
-let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
-let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
-let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
-let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
-let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
+function initializeNewPracticeSession(chapterTitle, subjectName) {
+    document.getElementById('main-site-header').classList.add('hidden');
+    const footerEl = document.querySelector('footer');
+    if(footerEl) footerEl.classList.add('hidden');
 
-let indexedOpts = optsEn.map((opt, idx) => ({ 
-optEn: opt, 
-optHi: optsHi[idx] || opt, 
-originalIndex: idx 
-}));
-let shuffledIndexedOpts = shuffleArray(indexedOpts);
-return {
-...q,
-qEn: qEnText,
-qHi: qHiText,
-optionsEn: shuffledIndexedOpts.map(item => item.optEn),
-optionsHi: shuffledIndexedOpts.map(item => item.optHi),
-answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
-};
-});
+    document.getElementById('practice-main-view').classList.add('hidden');
+    document.getElementById('practice-runner-view').classList.remove('hidden');
+    document.getElementById('runner-chapter-title').innerText = currentChapter.title;
+    document.getElementById('runner-chapter-badge').innerText = currentChapter.subjectName;
 
-pIndex = 0;
-userAnswers = {};
-runnerLangMode = 'bi';
-updateRunnerLangButtonLabel();
-loadPracticeQuestion();
-renderQuestionPalette();
-window.scrollTo({ top: 0, behavior: 'smooth' });
+    let baseList = getQuestionsForChapter(chapterTitle, subjectName);
+    practiceQuestions = shuffleArray(baseList).map(q => {
+        let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
+        let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
+        let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
+        let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
+        let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
+
+        let indexedOpts = optsEn.map((opt, idx) => ({ 
+            optEn: opt, 
+            optHi: optsHi[idx] || opt, 
+            originalIndex: idx 
+        }));
+        let shuffledIndexedOpts = shuffleArray(indexedOpts);
+        return {
+            ...q,
+            qEn: qEnText,
+            qHi: qHiText,
+            optionsEn: shuffledIndexedOpts.map(item => item.optEn),
+            optionsHi: shuffledIndexedOpts.map(item => item.optHi),
+            answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
+        };
+    });
+
+    pIndex = 0;
+    userAnswers = {};
+    runnerLangMode = 'bi';
+    updateRunnerLangButtonLabel();
+    loadPracticeQuestion();
+    renderQuestionPalette();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function loadSavedPracticeSession(jsonData) {
+    try {
+        const data = JSON.parse(jsonData);
+        currentChapter = data.currentChapter;
+        practiceQuestions = data.practiceQuestions;
+        pIndex = data.pIndex || 0;
+        userAnswers = data.userAnswers || {};
+
+        document.getElementById('main-site-header').classList.add('hidden');
+        const footerEl = document.querySelector('footer');
+        if(footerEl) footerEl.classList.add('hidden');
+
+        document.getElementById('practice-main-view').classList.add('hidden');
+        document.getElementById('practice-runner-view').classList.remove('hidden');
+        document.getElementById('runner-chapter-title').innerText = currentChapter.title;
+        document.getElementById('runner-chapter-badge').innerText = currentChapter.subjectName;
+
+        runnerLangMode = 'bi';
+        updateRunnerLangButtonLabel();
+        loadPracticeQuestion();
+        renderQuestionPalette();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        showToast("Resumed practice from your last checkpoint!");
+    } catch(e) {
+        initializeNewPracticeSession(currentChapter.title, currentChapter.subjectName);
+    }
+}
+
+function saveCurrentPracticeProgress() {
+    if (!currentChapter) return;
+    const progressData = {
+        currentChapter,
+        practiceQuestions,
+        pIndex,
+        userAnswers
+    };
+    localStorage.setItem(`targettire_progress_${currentChapter.title}`, JSON.stringify(progressData));
 }
 
 function toggleRunnerLanguage() {
@@ -2028,6 +2027,7 @@ document.getElementById('runner-prev-btn').disabled = (pIndex === 0);
 document.getElementById('runner-next-btn').innerText = (pIndex === practiceQuestions.length - 1) ? "Finish Session" : "Next";
 startTimer();
 renderQuestionPalette();
+saveCurrentPracticeProgress();
 }
 
 function startTimer() {
@@ -2052,6 +2052,7 @@ function selectPracticeOption(idx) {
 userAnswers[pIndex] = idx;
 showExplanationState(idx, practiceQuestions[pIndex]);
 renderQuestionPalette();
+saveCurrentPracticeProgress();
 }
 
 function showExplanationState(selectedIdx, q) {
@@ -2060,12 +2061,12 @@ const badgeEl = document.getElementById('runner-status-badge');
 const expBox = document.getElementById('runner-explanation-box');
 
 if (isCorrect) {
-playSuccessSound(); // 👈 सही उत्तर पर अच्छी आवाज़
+playSuccessSound();
 badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/35 animate-bounce';
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> शानदार! बिल्कुल सही उत्तर / Correct Answer 🎉';
 expBox.className = 'mb-6 p-5 rounded-xl border border-teal-500/40 bg-teal-500/10 leading-relaxed shadow-lg transition-all duration-300';
 } else {
-playErrorSound(); // 👈 गलत उत्तर पर अलग आवाज़
+playErrorSound();
 badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/35';
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ओह! गलत उत्तर / Incorrect Answer';
 expBox.className = 'mb-6 p-5 rounded-xl border border-rose-500/40 bg-rose-500/10 leading-relaxed transition-all duration-300';
@@ -2091,12 +2092,15 @@ loadPracticeQuestion();
 function confirmExitPractice() {
 openCustomConfirm("Exit Practice", "Are you sure you want to exit this practice session?", () => {
 exitPracticeRunner();
-switchTab('dashboard'); // 👈 सिर्फ यहाँ कंफर्म करने पर ही डैशबोर्ड खुलेगा
+switchTab('dashboard');
 });
 }
 
 function finishPracticeRunner() {
 clearInterval(timerInterval);
+if (currentChapter) {
+localStorage.removeItem(`targettire_progress_${currentChapter.title}`);
+}
 document.getElementById('runner-question-box').classList.add('hidden');
 document.getElementById('runner-finished-box').classList.remove('hidden');
 
@@ -2141,50 +2145,114 @@ document.getElementById('runner-finished-box').classList.add('hidden');
 
 let examTitle = "", examQuestions = [], eIndex = 0, examAnswers = {}, examTimerInterval = null, examSecondsLeft = 0, examLangMode = 'bi';
 
+// --- RESUME MOCK CHECKER ---
 function launchChapterSimulation(chapterTitle, totalQuestions, totalMinutes) {
-examTitle = chapterTitle + " - Mock Exam";
-examSecondsLeft = (totalMinutes || 30) * 60;
-examAnswers = {};
-eIndex = 0;
+    examTitle = chapterTitle + " - Mock Exam";
+    const savedMockKey = `targettire_mock_progress_${chapterTitle}`;
+    const savedMockData = localStorage.getItem(savedMockKey);
 
-document.getElementById('main-site-header').classList.add('hidden');
-const footerEl = document.querySelector('footer');
-if(footerEl) footerEl.classList.add('hidden');
+    if (savedMockData) {
+        openCustomConfirm(
+            "Resume Mock Exam / मॉक टेस्ट जारी रखें", 
+            "You have an active mock test progress saved. Would you like to resume your previous attempt or start a fresh simulation?", 
+            () => {
+                loadSavedMockSession(savedMockData);
+            },
+            () => {
+                localStorage.removeItem(savedMockKey);
+                initializeNewMockSession(chapterTitle, totalQuestions, totalMinutes);
+            },
+            "Resume Mock", "Start Fresh"
+        );
+    } else {
+        initializeNewMockSession(chapterTitle, totalQuestions, totalMinutes);
+    }
+}
 
-let baseList = getQuestionsForChapter(chapterTitle, "");
-examQuestions = shuffleArray(baseList).map(q => {
-let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
-let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
-let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
-let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
-let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
+function initializeNewMockSession(chapterTitle, totalQuestions, totalMinutes) {
+    examSecondsLeft = (totalMinutes || 30) * 60;
+    examAnswers = {};
+    eIndex = 0;
 
-let indexedOpts = optsEn.map((opt, idx) => ({ 
-optEn: opt, 
-optHi: optsHi[idx] || opt, 
-originalIndex: idx 
-}));
-let shuffledIndexedOpts = shuffleArray(indexedOpts);
-return {
-...q,
-qEn: qEnText,
-qHi: qHiText,
-optionsEn: shuffledIndexedOpts.map(item => item.optEn),
-optionsHi: shuffledIndexedOpts.map(item => item.optHi),
-answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
-};
-});
+    document.getElementById('main-site-header').classList.add('hidden');
+    const footerEl = document.querySelector('footer');
+    if(footerEl) footerEl.classList.add('hidden');
 
-document.getElementById('vault-main-view').classList.add('hidden');
-document.getElementById('vault-runner-view').classList.remove('hidden');
-document.getElementById('exam-set-title').innerText = examTitle;
+    let baseList = getQuestionsForChapter(chapterTitle, "");
+    examQuestions = shuffleArray(baseList).map(q => {
+        let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
+        let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
+        let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
+        let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
+        let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
 
-examLangMode = 'bi';
-updateExamLangButtonLabel();
-loadExamQuestion();
-renderExamPalette();
-startExamMainTimer();
-window.scrollTo({ top: 0, behavior: 'smooth' });
+        let indexedOpts = optsEn.map((opt, idx) => ({ 
+            optEn: opt, 
+            optHi: optsHi[idx] || opt, 
+            originalIndex: idx 
+        }));
+        let shuffledIndexedOpts = shuffleArray(indexedOpts);
+        return {
+            ...q,
+            qEn: qEnText,
+            qHi: qHiText,
+            optionsEn: shuffledIndexedOpts.map(item => item.optEn),
+            optionsHi: shuffledIndexedOpts.map(item => item.optHi),
+            answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
+        };
+    });
+
+    document.getElementById('vault-main-view').classList.add('hidden');
+    document.getElementById('vault-runner-view').classList.remove('hidden');
+    document.getElementById('exam-set-title').innerText = examTitle;
+
+    examLangMode = 'bi';
+    updateExamLangButtonLabel();
+    loadExamQuestion();
+    renderExamPalette();
+    startExamMainTimer();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function loadSavedMockSession(jsonData) {
+    try {
+        const data = JSON.parse(jsonData);
+        examTitle = data.examTitle;
+        examQuestions = data.examQuestions;
+        eIndex = data.eIndex || 0;
+        examAnswers = data.examAnswers || {};
+        examSecondsLeft = data.examSecondsLeft || 1800;
+
+        document.getElementById('main-site-header').classList.add('hidden');
+        const footerEl = document.querySelector('footer');
+        if(footerEl) footerEl.classList.add('hidden');
+
+        document.getElementById('vault-main-view').classList.add('hidden');
+        document.getElementById('vault-runner-view').classList.remove('hidden');
+        document.getElementById('exam-set-title').innerText = examTitle;
+
+        examLangMode = 'bi';
+        updateExamLangButtonLabel();
+        loadExamQuestion();
+        renderExamPalette();
+        startExamMainTimer();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        showToast("Resumed mock test from your checkpoint!");
+    } catch(e) {
+        initializeNewMockSession(examTitle.replace(" - Mock Exam", ""), 50, 30);
+    }
+}
+
+function saveCurrentMockProgress() {
+    if (!examTitle) return;
+    const progressData = {
+        examTitle,
+        examQuestions,
+        eIndex,
+        examAnswers,
+        examSecondsLeft
+    };
+    localStorage.setItem(`targettire_mock_progress_${examTitle.replace(" - Mock Exam", "")}`, JSON.stringify(progressData));
 }
 
 function toggleExamLanguage() {
@@ -2222,6 +2290,7 @@ examSecondsLeft--;
 let mins = Math.floor(examSecondsLeft / 60);
 let secs = examSecondsLeft % 60;
 timerEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+saveCurrentMockProgress();
 }, 1000);
 }
 
@@ -2299,6 +2368,7 @@ renderExamPalette();
 function selectExamOption(idx) {
 examAnswers[eIndex] = idx;
 renderExamPalette();
+saveCurrentMockProgress();
 }
 
 function nextExamQuestion() {
@@ -2324,28 +2394,40 @@ submitExamSimulation();
 function confirmExitExam() {
 openCustomConfirm("Exit Simulation", "Are you sure you want to exit the simulation exam?", () => {
 exitExamVault();
-switchTab('dashboard'); // 👈 सिर्फ यहाँ कंफर्म करने पर ही डैशबोर्ड खुलेगा
+switchTab('dashboard');
 });
 }
 
 let customConfirmCallback = null;
-function openCustomConfirm(title, desc, onYes) {
-document.getElementById('confirm-title').innerText = title;
-document.getElementById('confirm-desc').innerText = desc;
-customConfirmCallback = onYes;
-document.getElementById('custom-confirm-modal').classList.remove('hidden');
-document.getElementById('confirm-yes-btn').onclick = () => {
-closeCustomConfirm();
-if(customConfirmCallback) customConfirmCallback();
-};
+let customConfirmAltCallback = null;
+
+function openCustomConfirm(title, desc, onYes, onAlt = null, yesText = "Yes", altText = "Cancel") {
+    document.getElementById('confirm-title').innerText = title;
+    document.getElementById('confirm-desc').innerText = desc;
+    customConfirmCallback = onYes;
+    customConfirmAltCallback = onAlt;
+
+    const yesBtn = document.getElementById('confirm-yes-btn');
+    if(yesBtn) yesBtn.innerText = yesText;
+
+    document.getElementById('custom-confirm-modal').classList.remove('hidden');
+    yesBtn.onclick = () => {
+        closeCustomConfirm();
+        if(customConfirmCallback) customConfirmCallback();
+    };
 }
+
 function closeCustomConfirm() {
-document.getElementById('custom-confirm-modal').classList.add('hidden');
-customConfirmCallback = null;
+    document.getElementById('custom-confirm-modal').classList.add('hidden');
+    customConfirmCallback = null;
+    customConfirmAltCallback = null;
 }
 
 function submitExamSimulation() {
 clearInterval(examTimerInterval);
+if (examTitle) {
+    localStorage.removeItem(`targettire_mock_progress_${examTitle.replace(" - Mock Exam", "")}`);
+}
 document.getElementById('exam-question-box').classList.add('hidden');
 document.getElementById('exam-submitted-box').classList.remove('hidden');
 
