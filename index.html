@@ -57,7 +57,6 @@ user-select: text;
 </style>
 </head>
 <body class="bg-slate-50 dark:bg-[#0b0f19] text-slate-800 dark:text-slate-300 min-h-screen flex flex-col transition-colors duration-300">
-
 <header id="main-site-header" class="bg-white/95 dark:bg-[#0b0f19]/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800/80 sticky top-0 z-50 transition-colors duration-300">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex items-center justify-between h-20">
@@ -471,7 +470,7 @@ Next <i class="fa-solid fa-arrow-right ml-1"></i>
 <button id="runner-launch-mock-btn" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">
 <i class="fa-solid fa-shield-halved mr-1"></i> Give Mock Test Now
 </button>
-<button onclick="exitPracticeRunner(); switchTab('dashboard');" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
+<button onclick="exitPracticeRunner()" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
 Return to Practice Hub
 </button>
 </div>
@@ -596,7 +595,7 @@ Next <i class="fa-solid fa-arrow-right ml-1"></i>
 <p id="exam-summary-unattempted" class="text-lg font-bold text-slate-400">0</p>
 </div>
 </div>
-<button onclick="exitExamVault(); switchTab('dashboard');" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
+<button onclick="exitExamVault()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
 Return to Mock Vault
 </button>
 </div>
@@ -691,7 +690,6 @@ Return to Mock Vault
 </div>
 </div>
 </main>
-
 <!-- Current Affairs Modal Popup -->
 <div id="current-affairs-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
 <div class="bg-white dark:bg-[#131b2e] w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-7 flex flex-col max-h-[85vh]">
@@ -1538,22 +1536,9 @@ sampleChapters = [sampleChapters[0]];
 
 sampleChapters.forEach(ch => {
 const safeTitle = ch.title.replace(/'/g, "\\'");
-const hasSaved = localStorage.getItem(`targettire_progress_${ch.title}`) !== null;
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
-
-
-let actionButtons = `<button onclick="startChapterPractice('${safeTitle}', '${subName}', false)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (${ch.questions} Qs)</button>`;
-if (hasSaved) {
-    actionButtons = `
-        <div class="grid grid-cols-2 gap-2">
-            <button onclick="startChapterPractice('${safeTitle}', '${subName}', true)" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer"><i class="fa-solid fa-play mr-1"></i> Resume</button>
-            <button onclick="startChapterPractice('${safeTitle}', '${subName}', false)" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Start Fresh</button>
-        </div>
-    `;
-}
-
-card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.questions} Qs / 30s Timer</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Target Exam: <span class="text-indigo-600 font-medium">${subName}</span></p></div><div class="space-y-2">${actionButtons}<button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 30, false)" class="w-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Launch Mock Exam</button></div>`;
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.questions} Qs / 30s Timer</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Target Exam: <span class="text-indigo-600 font-medium">${subName}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subName}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (${ch.questions} Qs)</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 30)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
 grid.appendChild(card);
 });
 if (!currentUser) {
@@ -1666,7 +1651,7 @@ groupSpan.innerText = g.name;
 groupSpan.className = "hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer";
 groupSpan.onclick = () => resetVaultExamNav();
 }
-if(sep2) sep2.classList.remove('hidden');
+if(sep2) sep2.classList.add('hidden');
 if(subSpan) {
 subSpan.classList.remove('hidden');
 subSpan.innerText = subName;
@@ -1684,21 +1669,9 @@ mockSets = [mockSets[0]];
 
 mockSets.forEach(m => {
 const safeTitle = m.title.replace(/'/g, "\\'");
-const hasSavedMock = localStorage.getItem(`targettire_mock_progress_${m.title} - Mock Exam`) !== null;
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
-
-let mockActionButtons = `<button onclick="launchChapterSimulation('${safeTitle}', ${m.questions}, ${m.mins}, false)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
-if (hasSavedMock) {
-    mockActionButtons = `
-        <div class="grid grid-cols-2 gap-2">
-            <button onclick="launchChapterSimulation('${safeTitle}', ${m.questions}, ${m.mins}, true)" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer"><i class="fa-solid fa-play mr-1"></i> Resume Mock</button>
-            <button onclick="launchChapterSimulation('${safeTitle}', ${m.questions}, ${m.mins}, false)" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Start Fresh</button>
-        </div>
-    `;
-}
-
-card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${m.questions} Qs / ${m.mins} Min</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${m.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subName}</span></p></div><div class="space-y-2">${mockActionButtons}</div>`;
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${m.questions} Qs / ${m.mins} Min</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${m.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subName}</span></p></div><button onclick="launchChapterSimulation('${safeTitle}', ${m.questions}, ${m.mins})" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
 grid.appendChild(card);
 });
 if (!currentUser) {
@@ -1711,8 +1684,8 @@ grid.appendChild(lockCard);
 }
 
 let activeSubjectKey = 'mathematics';
-function selectSubjectStream(subjKey) {
-activeSubjectKey = subjKey;
+function selectVaultSubjectStream(subjKey) {
+activeVaultSubjectKey = subjKey;
 document.querySelectorAll('#vault-subject-pills .vault-subject-btn').forEach(btn => {
 btn.className = 'vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer';
 });
@@ -1744,22 +1717,9 @@ chList = [sec.chapters[0]];
 
 chList.forEach(ch => {
 const safeTitle = ch.title.replace(/'/g, "\\'");
-const fullMockTitle = `${ch.title} - Mock Exam`;
-const hasSavedMock = localStorage.getItem(`targettire_mock_progress_${fullMockTitle}`) !== null;
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
-
-let streamMockButtons = `<button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30, false)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
-if (hasSavedMock) {
-    streamMockButtons = `
-        <div class="grid grid-cols-2 gap-2">
-            <button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30, true)" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer"><i class="fa-solid fa-play mr-1"></i> Resume Mock</button>
-            <button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30, false)" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Start Fresh</button>
-        </div>
-    `;
-}
-
-card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Qs / 30 Mins</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title} - Mock Exam</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><div class="space-y-2">${streamMockButtons}</div>`;
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Qs / 30 Mins</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title} - Mock Exam</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
 grid.appendChild(card);
 });
 
@@ -1780,7 +1740,7 @@ let timerInterval = null;
 let timeLeft = 30;
 let runnerLangMode = 'bi';
 
-// --- SYNTHETIC AUDIO SOUND EFFECTS (Web Audio API) ---
+// --- SUCCESS / ERROR SOUND EFFECTS (Web Audio API) ---
 function playSuccessSound() {
     try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1872,104 +1832,48 @@ exp: `Explanation / स्पष्टीकरण:\n• Examination Strategy fo
 ];
 }
 
-// --- PRACTICE SESSION & RESUME LOGIC ---
-function startChapterPractice(chapterTitle, subjectName, isResume = false) {
-    currentChapter = { title: chapterTitle, subjectName };
-    const savedProgressKey = `targettire_progress_${chapterTitle}`;
-    
-    if (isResume) {
-        const savedData = localStorage.getItem(savedProgressKey);
-        if (savedData) {
-            loadSavedPracticeSession(savedData);
-            return;
-        }
-    }
-    
-    // Start Fresh
-    localStorage.removeItem(savedProgressKey);
-    initializeNewPracticeSession(chapterTitle, subjectName);
-}
+function startChapterPractice(chapterTitle, subjectName) {
+currentChapter = { title: chapterTitle, subjectName };
+document.getElementById('main-site-header').classList.add('hidden');
+const footerEl = document.querySelector('footer');
+if(footerEl) footerEl.classList.add('hidden');
 
-function initializeNewPracticeSession(chapterTitle, subjectName) {
-    document.getElementById('main-site-header').classList.add('hidden');
-    const footerEl = document.querySelector('footer');
-    if(footerEl) footerEl.classList.add('hidden');
+document.getElementById('practice-main-view').classList.add('hidden');
+document.getElementById('practice-runner-view').classList.remove('hidden');
+document.getElementById('runner-chapter-title').innerText = currentChapter.title;
+document.getElementById('runner-chapter-badge').innerText = currentChapter.subjectName;
 
-    document.getElementById('practice-main-view').classList.add('hidden');
-    document.getElementById('practice-runner-view').classList.remove('hidden');
-    document.getElementById('runner-chapter-title').innerText = currentChapter.title;
-    document.getElementById('runner-chapter-badge').innerText = currentChapter.subjectName;
+let baseList = getQuestionsForChapter(chapterTitle, subjectName);
+practiceQuestions = shuffleArray(baseList).map(q => {
+let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
+let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
+let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
+let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
+let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
 
-    let baseList = getQuestionsForChapter(chapterTitle, subjectName);
-    practiceQuestions = shuffleArray(baseList).map(q => {
-        let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
-        let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
-        let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
-        let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
-        let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
+let indexedOpts = optsEn.map((opt, idx) => ({ 
+optEn: opt, 
+optHi: optsHi[idx] || opt, 
+originalIndex: idx 
+}));
+let shuffledIndexedOpts = shuffleArray(indexedOpts);
+return {
+...q,
+qEn: qEnText,
+qHi: qHiText,
+optionsEn: shuffledIndexedOpts.map(item => item.optEn),
+optionsHi: shuffledIndexedOpts.map(item => item.optHi),
+answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
+};
+});
 
-        let indexedOpts = optsEn.map((opt, idx) => ({ 
-            optEn: opt, 
-            optHi: optsHi[idx] || opt, 
-            originalIndex: idx 
-        }));
-        let shuffledIndexedOpts = shuffleArray(indexedOpts);
-        return {
-            ...q,
-            qEn: qEnText,
-            qHi: qHiText,
-            optionsEn: shuffledIndexedOpts.map(item => item.optEn),
-            optionsHi: shuffledIndexedOpts.map(item => item.optHi),
-            answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
-        };
-    });
-
-    pIndex = 0;
-    userAnswers = {};
-    runnerLangMode = 'bi';
-    updateRunnerLangButtonLabel();
-    loadPracticeQuestion();
-    renderQuestionPalette();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function loadSavedPracticeSession(jsonData) {
-    try {
-        const data = JSON.parse(jsonData);
-        currentChapter = data.currentChapter;
-        practiceQuestions = data.practiceQuestions;
-        pIndex = data.pIndex || 0;
-        userAnswers = data.userAnswers || {};
-
-        document.getElementById('main-site-header').classList.add('hidden');
-        const footerEl = document.querySelector('footer');
-        if(footerEl) footerEl.classList.add('hidden');
-
-        document.getElementById('practice-main-view').classList.add('hidden');
-        document.getElementById('practice-runner-view').classList.remove('hidden');
-        document.getElementById('runner-chapter-title').innerText = currentChapter.title;
-        document.getElementById('runner-chapter-badge').innerText = currentChapter.subjectName;
-
-        runnerLangMode = 'bi';
-        updateRunnerLangButtonLabel();
-        loadPracticeQuestion();
-        renderQuestionPalette();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        showToast("Resumed practice from your last checkpoint!");
-    } catch(e) {
-        initializeNewPracticeSession(currentChapter.title, currentChapter.subjectName);
-    }
-}
-
-function saveCurrentPracticeProgress() {
-    if (!currentChapter) return;
-    const progressData = {
-        currentChapter,
-        practiceQuestions,
-        pIndex,
-        userAnswers
-    };
-    localStorage.setItem(`targettire_progress_${currentChapter.title}`, JSON.stringify(progressData));
+pIndex = 0;
+userAnswers = {};
+runnerLangMode = 'bi';
+updateRunnerLangButtonLabel();
+loadPracticeQuestion();
+renderQuestionPalette();
+window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleRunnerLanguage() {
@@ -2074,7 +1978,6 @@ document.getElementById('runner-prev-btn').disabled = (pIndex === 0);
 document.getElementById('runner-next-btn').innerText = (pIndex === practiceQuestions.length - 1) ? "Finish Session" : "Next";
 startTimer();
 renderQuestionPalette();
-saveCurrentPracticeProgress();
 }
 
 function startTimer() {
@@ -2099,7 +2002,6 @@ function selectPracticeOption(idx) {
 userAnswers[pIndex] = idx;
 showExplanationState(idx, practiceQuestions[pIndex]);
 renderQuestionPalette();
-saveCurrentPracticeProgress();
 }
 
 function showExplanationState(selectedIdx, q) {
@@ -2108,12 +2010,12 @@ const badgeEl = document.getElementById('runner-status-badge');
 const expBox = document.getElementById('runner-explanation-box');
 
 if (isCorrect) {
-playSuccessSound();
+playSuccessSound(); // 👈 सही उत्तर पर आवाज़
 badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/35 animate-bounce';
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> शानदार! बिल्कुल सही उत्तर / Correct Answer 🎉';
 expBox.className = 'mb-6 p-5 rounded-xl border border-teal-500/40 bg-teal-500/10 leading-relaxed shadow-lg transition-all duration-300';
 } else {
-playErrorSound();
+playErrorSound(); // 👈 गलत उत्तर पर आवाज़
 badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/35';
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ओह! गलत उत्तर / Incorrect Answer';
 expBox.className = 'mb-6 p-5 rounded-xl border border-rose-500/40 bg-rose-500/10 leading-relaxed transition-all duration-300';
@@ -2139,15 +2041,12 @@ loadPracticeQuestion();
 function confirmExitPractice() {
 openCustomConfirm("Exit Practice", "Are you sure you want to exit this practice session?", () => {
 exitPracticeRunner();
-switchTab('dashboard');
+switchTab('dashboard'); // 👈 सीधा डैशबोर्ड पर भेजेगा
 });
 }
 
 function finishPracticeRunner() {
 clearInterval(timerInterval);
-if (currentChapter) {
-localStorage.removeItem(`targettire_progress_${currentChapter.title}`);
-}
 document.getElementById('runner-question-box').classList.add('hidden');
 document.getElementById('runner-finished-box').classList.remove('hidden');
 
@@ -2192,108 +2091,50 @@ document.getElementById('runner-finished-box').classList.add('hidden');
 
 let examTitle = "", examQuestions = [], eIndex = 0, examAnswers = {}, examTimerInterval = null, examSecondsLeft = 0, examLangMode = 'bi';
 
-// --- MOCK SIMULATION & RESUME MOCK LOGIC ---
-function launchChapterSimulation(chapterTitle, totalQuestions, totalMinutes, isResume = false) {
-    examTitle = chapterTitle + " - Mock Exam";
-    const savedMockKey = `targettire_mock_progress_${examTitle}`;
+function launchChapterSimulation(chapterTitle, totalQuestions, totalMinutes) {
+examTitle = chapterTitle + " - Mock Exam";
+examSecondsLeft = (totalMinutes || 30) * 60;
+examAnswers = {};
+eIndex = 0;
 
-    if (isResume) {
-        const savedMockData = localStorage.getItem(savedMockKey);
-        if (savedMockData) {
-            loadSavedMockSession(savedMockData);
-            return;
-        }
-    }
+document.getElementById('main-site-header').classList.add('hidden');
+const footerEl = document.querySelector('footer');
+if(footerEl) footerEl.classList.add('hidden');
 
-    // Start Fresh Mock
-    localStorage.removeItem(savedMockKey);
-    initializeNewMockSession(chapterTitle, totalQuestions, totalMinutes);
-}
+let baseList = getQuestionsForChapter(chapterTitle, "");
+examQuestions = shuffleArray(baseList).map(q => {
+let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
+let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
+let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
+let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
+let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
 
-function initializeNewMockSession(chapterTitle, totalQuestions, totalMinutes) {
-    examSecondsLeft = (totalMinutes || 30) * 60;
-    examAnswers = {};
-    eIndex = 0;
+let indexedOpts = optsEn.map((opt, idx) => ({ 
+optEn: opt, 
+optHi: optsHi[idx] || opt, 
+originalIndex: idx 
+}));
+let shuffledIndexedOpts = shuffleArray(indexedOpts);
+return {
+...q,
+qEn: qEnText,
+qHi: qHiText,
+optionsEn: shuffledIndexedOpts.map(item => item.optEn),
+optionsHi: shuffledIndexedOpts.map(item => item.optHi),
+answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
+};
+});
 
-    document.getElementById('main-site-header').classList.add('hidden');
-    const footerEl = document.querySelector('footer');
-    if(footerEl) footerEl.classList.add('hidden');
+document.getElementById('vault-main-view').classList.add('hidden');
+document.getElementById('vault-runner-view').classList.remove('hidden');
+document.getElementById('exam-set-title').innerText = examTitle;
 
-    let baseList = getQuestionsForChapter(chapterTitle, "");
-    examQuestions = shuffleArray(baseList).map(q => {
-        let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
-        let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
-        let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
-        let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
-        let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
-
-        let indexedOpts = optsEn.map((opt, idx) => ({ 
-            optEn: opt, 
-            optHi: optsHi[idx] || opt, 
-            originalIndex: idx 
-        }));
-        let shuffledIndexedOpts = shuffleArray(indexedOpts);
-        return {
-            ...q,
-            qEn: qEnText,
-            qHi: qHiText,
-            optionsEn: shuffledIndexedOpts.map(item => item.optEn),
-            optionsHi: shuffledIndexedOpts.map(item => item.optHi),
-            answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
-        };
-    });
-
-    document.getElementById('vault-main-view').classList.add('hidden');
-    document.getElementById('vault-runner-view').classList.remove('hidden');
-    document.getElementById('exam-set-title').innerText = examTitle;
-
-    examLangMode = 'bi';
-    updateExamLangButtonLabel();
-    loadExamQuestion();
-    renderExamPalette();
-    startExamMainTimer();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function loadSavedMockSession(jsonData) {
-    try {
-        const data = JSON.parse(jsonData);
-        examTitle = data.examTitle;
-        examQuestions = data.examQuestions;
-        eIndex = data.eIndex || 0;
-        examAnswers = data.examAnswers || {};
-        examSecondsLeft = data.examSecondsLeft || 1800;
-
-        document.getElementById('main-site-header').classList.add('hidden');
-        const footerEl = document.querySelector('footer');
-        if(footerEl) footerEl.classList.add('hidden');
-
-        document.getElementById('vault-main-view').classList.add('hidden');
-        document.getElementById('vault-runner-view').classList.remove('hidden');
-        document.getElementById('exam-set-title').innerText = examTitle;
-
-        examLangMode = 'bi';
-        updateExamLangButtonLabel();
-        loadExamQuestion();
-        renderExamPalette();
-        startExamMainTimer();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        showToast("Resumed mock test from your checkpoint!");
-    } catch(e) {
-        initializeNewMockSession(examTitle.replace(" - Mock Exam", ""), 50, 30);
-    }
-}
-
-function saveCurrentMockProgress() {
-    if (!examTitle) return;
-    const progressData = {
-        examTitle,
-        examQuestions,
-        eIndex,
-        examAnswers,
-        examSecondsLeft
-    };
-    localStorage.setItem(`targettire_mock_progress_${examTitle}`, JSON.stringify(progressData));
+examLangMode = 'bi';
+updateExamLangButtonLabel();
+loadExamQuestion();
+renderExamPalette();
+startExamMainTimer();
+window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleExamLanguage() {
@@ -2331,7 +2172,6 @@ examSecondsLeft--;
 let mins = Math.floor(examSecondsLeft / 60);
 let secs = examSecondsLeft % 60;
 timerEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-saveCurrentMockProgress();
 }, 1000);
 }
 
@@ -2409,7 +2249,6 @@ renderExamPalette();
 function selectExamOption(idx) {
 examAnswers[eIndex] = idx;
 renderExamPalette();
-saveCurrentMockProgress();
 }
 
 function nextExamQuestion() {
@@ -2435,32 +2274,28 @@ submitExamSimulation();
 function confirmExitExam() {
 openCustomConfirm("Exit Simulation", "Are you sure you want to exit the simulation exam?", () => {
 exitExamVault();
-switchTab('dashboard');
+switchTab('dashboard'); // 👈 सीधा डैशबोर्ड पर भेजेगा
 });
 }
 
-function openCustomConfirm(title, desc, onYes, onAlt = null, yesText = "Yes", altText = "Cancel") {
-    document.getElementById('confirm-title').innerText = title;
-    document.getElementById('confirm-desc').innerText = desc;
-    const yesBtn = document.getElementById('confirm-yes-btn');
-    if(yesBtn) yesBtn.innerText = yesText;
-
-    document.getElementById('custom-confirm-modal').classList.remove('hidden');
-    yesBtn.onclick = () => {
-        closeCustomConfirm();
-        if(onYes) onYes();
-    };
+let customConfirmCallback = null;
+function openCustomConfirm(title, desc, onYes) {
+document.getElementById('confirm-title').innerText = title;
+document.getElementById('confirm-desc').innerText = desc;
+customConfirmCallback = onYes;
+document.getElementById('custom-confirm-modal').classList.remove('hidden');
+document.getElementById('confirm-yes-btn').onclick = () => {
+closeCustomConfirm();
+if(customConfirmCallback) customConfirmCallback();
+};
 }
-
 function closeCustomConfirm() {
-    document.getElementById('custom-confirm-modal').classList.add('hidden');
+document.getElementById('custom-confirm-modal').classList.add('hidden');
+customConfirmCallback = null;
 }
 
 function submitExamSimulation() {
 clearInterval(examTimerInterval);
-if (examTitle) {
-    localStorage.removeItem(`targettire_mock_progress_${examTitle}`);
-}
 document.getElementById('exam-question-box').classList.add('hidden');
 document.getElementById('exam-submitted-box').classList.remove('hidden');
 
