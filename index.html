@@ -2071,7 +2071,7 @@ loadPracticeQuestion();
 }, 1000);
 }
 
-// फिक्स 1: विकल्प चुनते ही टाइमर रुक जाएगा
+// यहाँ टाइमर तुरंत रोक दिया गया है
 function selectPracticeOption(idx) {
 clearInterval(timerInterval); 
 userAnswers[pIndex] = idx;
@@ -2116,7 +2116,7 @@ loadPracticeQuestion();
 }
 }
 
-// फिक्स 2: प्रैक्टिस से बाहर जाने के लिए टाइमर बंद और सही से डैशबोर्ड पर रीडायरेक्ट
+// प्रैक्टिस से बाहर जाने पर टाइमर क्लियर करके डैशबोर्ड पर भेजना
 function confirmExitPractice() {
     clearInterval(timerInterval);
     openCustomConfirm("Exit Practice", "क्या आप वाकई टेस्ट छोड़कर डैशबोर्ड पर जाना चाहते हैं?", () => {
@@ -2387,7 +2387,7 @@ openCustomConfirm("Submit Exam", "क्या आप वाकई इस मॉ
 });
 }
 
-// फिक्स 3: मॉक टेस्ट से बाहर आने के लिए टाइमर बंद और डैशबोर्ड पर रीडायरेक्ट
+// मॉक टेस्ट से बाहर आने पर टाइमर क्लियर करके डैशबोर्ड पर भेजना
 function confirmExitExam() {
     clearInterval(examTimerInterval);
     openCustomConfirm("Exit Simulation", "क्या आप वाकई मॉक टेस्ट छोड़कर डैशबोर्ड पर जाना चाहते हैं?", () => {
@@ -2485,7 +2485,7 @@ customChaptersList.forEach(ch => {
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
 const safeTitle = ch.title.replace(/'/g, "\\'");
-card.innerHTML = `<div><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold uppercase px-2 py-1 rounded">Custom Chapter</span><h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-4">Stream: <span class="uppercase text-indigo-600 font-medium">${ch.subject}</span> (${ch.questions} Qs)</p></div><div class="space-y-2"><button onclick="switchTab('practice'); startChapterPractice('${safeTitle}', '${ch.subject}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow cursor-pointer">Launch Practice</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 30)" class="w-full bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold py-2.5 rounded-xl transition cursor-pointer">Launch Mock Exam</button><button onclick="deleteCustomChapter(${ch.id})" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-red-500 hover:text-white text-slate-600 dark:text-slate-300 text-xs font-semibold py-2.5 rounded-xl transition cursor-pointer">Remove Chapter</button></div>`;
+card.innerHTML = `<div><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold uppercase px-2 py-1 rounded">Custom Chapter</span><h3 class="text-base font-bold mt-3 mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-4">Stream: <span class="uppercase text-indigo-600 font-medium">${ch.subject}</span> (${ch.questions} Qs)</p></div><div class="space-y-2"><button onclick="switchTab('practice'); startChapterPractice('${safeTitle}', '${ch.subject}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow cursor-pointer">Launch Practice</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 30)" class="w-full bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow cursor-pointer">Launch Mock Exam</button><button onclick="deleteCustomChapter(${ch.id})" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-red-500 hover:text-white text-slate-600 dark:text-slate-300 text-xs font-semibold py-2.5 rounded-xl transition cursor-pointer">Remove Chapter</button></div>`;
 grid.appendChild(card);
 });
 }
@@ -2555,7 +2555,7 @@ if(loginForm) loginForm.classList.remove('hidden');
 if(regForm) regForm.classList.add('hidden');
 } else {
 if(regBtn) regBtn.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-teal-600 text-white transition cursor-pointer';
-if(loginBtn) loginBtn.className = 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 transition cursor-pointer';
+if(loginbtn) loginBtn.className = 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 transition cursor-pointer';
 if(regForm) regForm.classList.remove('hidden');
 if(loginForm) loginForm.classList.add('hidden');
 }
