@@ -2180,12 +2180,12 @@ const badgeEl = document.getElementById('runner-status-badge');
 const expBox = document.getElementById('runner-explanation-box');
 
 if (isCorrect) {
-playSuccessSound();
+playBrandNewSuccessTune();
 badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/35 animate-bounce';
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> शानदार! बिल्कुल सही उत्तर / Correct Answer 🎉';
 expBox.className = 'mb-6 p-5 rounded-xl border border-teal-500/40 bg-teal-500/10 leading-relaxed shadow-lg transition-all duration-300';
 } else {
-playErrorSound();
+playBrandNewErrorTune();
 badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/35';
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ओह! गलत उत्तर / Incorrect Answer';
 expBox.className = 'mb-6 p-5 rounded-xl border border-rose-500/40 bg-rose-500/10 leading-relaxed transition-all duration-300';
@@ -2808,51 +2808,52 @@ loadCurrentAffairsFromGist();
             </p>
         </div>
     </footer>
-    function playSuccessSound() {
+    function playBrandNewSuccessTune() {
     try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        if (ctx.state === 'suspended') {
+            ctx.resume();
         }
-        let now = audioCtx.currentTime;
-        let notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 Arpeggio
-        notes.forEach((freq, idx) => {
-            let osc = audioCtx.createOscillator();
-            let gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, now + (idx * 0.07));
-            gain.gain.setValueAtTime(0.12, now + (idx * 0.07));
-            gain.gain.exponentialRampToValueAtTime(0.001, now + (idx * 0.07) + 0.3);
-            osc.connect(gain); 
-            gain.connect(audioCtx.destination);
-            osc.start(now + (idx * 0.07));
-            osc.stop(now + (idx * 0.07) + 0.3);
+        let now = ctx.currentTime;
+        // एक बहुत ही प्यारी और कभी न रुकने वाली रिफ्रेशिंग विक्ट्री ट्यून
+        [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((freq, idx) => {
+            let osc = ctx.createOscillator();
+            let gain = ctx.createGain();
+            osc.type = 'triangle'; // प्रीमियम स्मूथ साउंड के लिए
+            osc.frequency.setValueAtTime(freq, now + (idx * 0.06));
+            gain.gain.setValueAtTime(0.15, now + (idx * 0.06));
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + (idx * 0.06) + 0.35);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + (idx * 0.06));
+            osc.stop(now + (idx * 0.06) + 0.35);
         });
-    } catch(e) {}
+    } catch(err) {
+        console.log("Audio error:", err);
+    }
 }
 
-function playErrorSound() {
+function playBrandNewErrorTune() {
     try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        if (ctx.state === 'suspended') {
+            ctx.resume();
         }
-        let now = audioCtx.currentTime;
-        let osc = audioCtx.createOscillator();
-        let gain = audioCtx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(220, now);
-        osc.frequency.exponentialRampToValueAtTime(146.83, now + 0.25);
-        gain.gain.setValueAtTime(0.12, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-        osc.connect(gain); 
-        gain.connect(audioCtx.destination);
+        let now = ctx.currentTime;
+        let osc = ctx.createOscillator();
+        let gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(150, now);
+        osc.frequency.exponentialRampToValueAtTime(90, now + 0.2);
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+        osc.connect(gain);
+        osc.connect(ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.28);
-    } catch(e) {}
+        osc.stop(now + 0.25);
+    } catch(err) {}
 }
-```eof
-
-बस इस कोड को अपने पूरे एचटीएमएल/जावास्क्रिप्ट फाइल के **सबसे नीचे (आख़िर में)** ले जाकर पेस्ट कर दीजिए। आपके दोनों नए अलग फंक्शन्स तैयार हैं और प्रैक्टिस सेक्शन में शानदार काम करेंगे!
-</body>
+    </body>
 </html>
