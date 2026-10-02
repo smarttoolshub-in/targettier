@@ -2133,10 +2133,7 @@ grid.appendChild(label);
 const expBox = document.getElementById('runner-explanation-box');
 if (savedOpt !== undefined) {
 showExplanationState(savedOpt, q);
-} else {
-expBox.classList.add('hidden');
-}
-
+} 
 document.getElementById('runner-score-display').innerText = `Attempted: ${Object.keys(userAnswers).length} / ${practiceQuestions.length}`;
 document.getElementById('runner-prev-btn').disabled = (pIndex === 0);
 document.getElementById('runner-next-btn').innerText = (pIndex === practiceQuestions.length - 1) ? "Finish Session" : "Next";
