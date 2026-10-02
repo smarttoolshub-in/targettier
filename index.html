@@ -8,7 +8,6 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#6366f1">
 <script src="https://cdn.tailwindcss.com"></script>
-<!-- External Data Module Link -->
 <script src="data.js"></script>
 <script src="exams-data.js"></script>
 <script src="pyq-data.js"></script>
@@ -246,7 +245,6 @@ View Full Bulletin & Quiz
 </section>
 </div>
 
-<!-- Remaining tabs preserved -->
 <div id="tab-exam-detail" class="tab-content hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
 <div class="flex items-center space-x-4">
@@ -380,7 +378,6 @@ This examination is one of the most prestigious competitive recruitment tests co
 </div>
 </div>
 
-<!-- Practice Resume Choice Screen -->
 <div id="practice-resume-choice-view" class="hidden max-w-xl mx-auto py-16 text-center">
 <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 p-8 rounded-3xl shadow-2xl">
 <div class="w-16 h-16 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-5">
@@ -537,7 +534,6 @@ Return to Practice Hub
 </div>
 </div>
 
-<!-- Mock Resume Choice Screen -->
 <div id="mock-resume-choice-view" class="hidden max-w-xl mx-auto py-16 text-center">
 <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 p-8 rounded-3xl shadow-2xl">
 <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-5">
@@ -732,7 +728,7 @@ Return to Mock Vault
 </div>
 </div>
 </main>
-<!-- Current Affairs Modal Popup -->
+
 <div id="current-affairs-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
 <div class="bg-white dark:bg-[#131b2e] w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-7 flex flex-col max-h-[85vh]">
 <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200 dark:border-slate-800">
@@ -1725,9 +1721,9 @@ grid.appendChild(lockCard);
 }
 }
 
-let activeSubjectKey = 'mathematics';
-function selectSubjectStream(subjKey) {
-activeSubjectKey = subjKey;
+let activeVaultSubjectKey = 'mathematics';
+function selectVaultSubjectStream(subjKey) {
+activeVaultSubjectKey = subjKey;
 document.querySelectorAll('#vault-subject-pills .vault-subject-btn').forEach(btn => {
 btn.className = 'vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer';
 });
@@ -1743,7 +1739,7 @@ const grid = document.getElementById('vault-container-grid');
 if(!grid) return;
 grid.innerHTML = '';
 const curriculumDataSource = window.curriculumData || {};
-const subj = curriculumDataSource[activeSubjectKey];
+const subj = curriculumDataSource[activeVaultSubjectKey];
 if(!subj) return;
 
 subj.sections.forEach(sec => {
@@ -2048,7 +2044,11 @@ expBox.classList.add('hidden');
 document.getElementById('runner-score-display').innerText = `Attempted: ${Object.keys(userAnswers).length} / ${practiceQuestions.length}`;
 document.getElementById('runner-prev-btn').disabled = (pIndex === 0);
 document.getElementById('runner-next-btn').innerText = (pIndex === practiceQuestions.length - 1) ? "Finish Session" : "Next";
+if (savedOpt === undefined) {
 startTimer();
+} else {
+clearInterval(timerInterval);
+}
 renderQuestionPalette();
 }
 
@@ -2071,9 +2071,8 @@ loadPracticeQuestion();
 }, 1000);
 }
 
-// यहाँ टाइमर तुरंत रोक दिया गया है
 function selectPracticeOption(idx) {
-clearInterval(timerInterval); 
+clearInterval(timerInterval);
 userAnswers[pIndex] = idx;
 savePracticeProgress();
 showExplanationState(idx, practiceQuestions[pIndex]);
@@ -2116,7 +2115,6 @@ loadPracticeQuestion();
 }
 }
 
-// प्रैक्टिस से बाहर जाने पर टाइमर क्लियर करके डैशबोर्ड पर भेजना
 function confirmExitPractice() {
     clearInterval(timerInterval);
     openCustomConfirm("Exit Practice", "क्या आप वाकई टेस्ट छोड़कर डैशबोर्ड पर जाना चाहते हैं?", () => {
@@ -2387,7 +2385,6 @@ openCustomConfirm("Submit Exam", "क्या आप वाकई इस मॉ
 });
 }
 
-// मॉक टेस्ट से बाहर आने पर टाइमर क्लियर करके डैशबोर्ड पर भेजना
 function confirmExitExam() {
     clearInterval(examTimerInterval);
     openCustomConfirm("Exit Simulation", "क्या आप वाकई मॉक टेस्ट छोड़कर डैशबोर्ड पर जाना चाहते हैं?", () => {
@@ -2448,6 +2445,10 @@ date: new Date().toLocaleDateString()
 
 function exitExamVault() {
 clearInterval(examTimerInterval);
+document.getElementById('main-site-header').classList.remove('hidden');
+const footerEl = document.querySelector('footer');
+if(footerEl) footerEl.classList.remove('hidden');
+
 document.getElementById('vault-runner-view').classList.add('hidden');
 document.getElementById('mock-resume-choice-view').classList.add('hidden');
 document.getElementById('vault-main-view').classList.remove('hidden');
@@ -2555,7 +2556,7 @@ if(loginForm) loginForm.classList.remove('hidden');
 if(regForm) regForm.classList.add('hidden');
 } else {
 if(regBtn) regBtn.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-teal-600 text-white transition cursor-pointer';
-if(loginbtn) loginBtn.className = 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 transition cursor-pointer';
+if(loginBtn) loginBtn.className = 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 transition cursor-pointer';
 if(regForm) regForm.classList.remove('hidden');
 if(loginForm) loginForm.classList.add('hidden');
 }
@@ -2695,10 +2696,8 @@ renderMyExamsTab();
 loadCurrentAffairsFromGist();
 };
 </script>
-    <!-- AI Chat Widget Script -->
     <script src="ai-chat.js"></script>
 
-   <!-- Footer - Body ke andar sabse niche -->
     <footer style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background: #0b0f19; color: #94a3b8; border-top: 1px solid #1e293b; padding: 20px 48px; margin-top: auto; font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; z-index: 40;">
         <div style="max-width: 1600px; margin: 0 auto; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; width: 100%; box-sizing: border-box;">
             <p style="font-size: 13px; color: #e2e8f0; font-weight: 500; margin: 0;">
