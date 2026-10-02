@@ -1,6 +1,6 @@
 // ca-data.js - Daily Current Affairs Bulletin & Quiz Database
 window.TARGETTIRE_CA_DATABASE = {
-  date: "1 October 2026",
+  date: "2 October 2026",
   bulletinTitle: "राष्ट्रीय एवं अंतर्राष्ट्रीय करेंट अफेयर्स बुलेटिन",
   points: [
     "राष्ट्रीय और अंतर्राष्ट्रीय स्तर की प्रतियोगी परीक्षाओं के लिए आज का मुख्य करेंट अफेयर्स अपडेट.",
