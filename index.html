@@ -380,7 +380,7 @@ This examination is one of the most prestigious competitive recruitment tests co
 </div>
 </div>
 
-<!-- Practice Resume Choice Screen -->
+<!-- Practice Resume Choice Screen (Replaces Popup) -->
 <div id="practice-resume-choice-view" class="hidden max-w-xl mx-auto py-16 text-center">
 <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 p-8 rounded-3xl shadow-2xl">
 <div class="w-16 h-16 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-5">
@@ -537,7 +537,7 @@ Return to Practice Hub
 </div>
 </div>
 
-<!-- Mock Resume Choice Screen -->
+<!-- Mock Resume Choice Screen (Replaces Popup) -->
 <div id="mock-resume-choice-view" class="hidden max-w-xl mx-auto py-16 text-center">
 <div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 p-8 rounded-3xl shadow-2xl">
 <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-5">
@@ -1728,6 +1728,55 @@ grid.appendChild(lockCard);
 let activeSubjectKey = 'mathematics';
 function selectSubjectStream(subjKey) {
 activeSubjectKey = subjKey;
+document.querySelectorAll('#practice-subject-pills .practice-subject-btn').forEach(btn => {
+btn.className = 'practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer';
+});
+const activeBtn = document.getElementById('subj-btn-' + subjKey);
+if (activeBtn) {
+activeBtn.className = 'practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-indigo-600 text-white transition cursor-pointer';
+}
+renderPracticeStreamHub();
+}
+
+function renderPracticeStreamHub() {
+const grid = document.getElementById('practice-container-grid');
+if(!grid) return;
+grid.innerHTML = '';
+const curriculumDataSource = window.curriculumData || {};
+const subj = curriculumDataSource[activeSubjectKey];
+if(!subj) return;
+
+subj.sections.forEach(sec => {
+const secHeader = document.createElement('div');
+secHeader.className = 'col-span-full mt-2 mb-1';
+secHeader.innerHTML = `<h3 class="text-sm font-bold text-indigo-600 dark:text-indigo-400 border-b border-slate-200 dark:border-slate-800 pb-2">${sec.name}</h3>`;
+grid.appendChild(secHeader);
+
+let chList = sec.chapters;
+if (!currentUser) {
+chList = [sec.chapters[0]];
+}
+
+chList.forEach(ch => {
+const safeTitle = ch.title.replace(/'/g, "\\'");
+const card = document.createElement('div');
+card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Questions • Practice Drill</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Stream: <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subj.name}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (${ch.totalQuestions} Qs)</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
+grid.appendChild(card);
+});
+
+if (!currentUser && sec.chapters.length > 1) {
+const lockCard = document.createElement('div');
+lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
+lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> ${sec.chapters.length - 1} more chapters in ${sec.name} are locked for guests. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all chapters.`;
+grid.appendChild(lockCard);
+}
+});
+}
+
+let activeVaultSubjectKey = 'mathematics';
+function selectVaultSubjectStream(subjKey) {
+activeVaultSubjectKey = subjKey;
 document.querySelectorAll('#vault-subject-pills .vault-subject-btn').forEach(btn => {
 btn.className = 'vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer';
 });
@@ -1832,54 +1881,52 @@ const j = Math.floor(Math.random() * (i + 1));
 return arr;
 }
 
-// --- यहाँ पर इंग्लिश और हिंदी दोनों ऑप्शंस एक साथ सही से शफल होंगे ---
 function getQuestionsForChapter(chapterTitle, subjectName) {
-    const db = window.chapterQuestionsDB || {};
-    let rawQuestions = [];
-    
-    for (let key in db) {
-        if (chapterTitle.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(chapterTitle.toLowerCase())) {
-            rawQuestions = db[key];
-            break;
-        }
-    }
-
-    if (!rawQuestions || rawQuestions.length === 0) {
-        const cleanTitle = chapterTitle.split('(')[0].trim();
-        rawQuestions = [
-            {
-                qEn: `Q1. What is the core foundational concept of '${cleanTitle}'?`,
-                qHi: `प्रश्न 1: '${cleanTitle}' का मुख्य वैचारिक नियम क्या है?`,
-                optionsEn: [`Fundamental law`, `Inverse proportion`, `Asymptotic equilibrium`, `None`],
-                optionsHi: [`मूल नियम`, `व्युत्क्रमानुपाती`, `संतुलन`, `इनमें से कोई नहीं`],
-                answer: 0,
-                exp: `Explanation for ${cleanTitle}`
-            }
-        ];
-    }
-
-    return rawQuestions.map(q => {
-        let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
-        let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
-        let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
-
-        let indexedOpts = optsEn.map((opt, idx) => ({ 
-            optEn: opt, 
-            optHi: optsHi[idx] || opt, 
-            originalIndex: idx 
-        }));
-
-        let shuffledIndexedOpts = shuffleArray(indexedOpts);
-
-        return {
-            ...q,
-            qEn: q.qEn || q.q || "Question",
-            qHi: q.qHi || q.q || "प्रश्न",
-            optionsEn: shuffledIndexedOpts.map(item => item.optEn),
-            optionsHi: shuffledIndexedOpts.map(item => item.optHi),
-            answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
-        };
-    });
+const db = window.chapterQuestionsDB || {};
+for (let key in db) {
+if (chapterTitle.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(chapterTitle.toLowerCase())) {
+return db[key];
+}
+}
+const cleanTitle = chapterTitle.split('(')[0].trim();
+return [
+{
+qEn: `Q1. In competitive examinations, what is the core foundational theorem/concept of '${cleanTitle}'?`,
+qHi: `प्रश्न 1: प्रतियोगी परीक्षाओं में '${cleanTitle}' का मुख्य वैचारिक एवं सैद्धांतिक नियम क्या है?`,
+optionsEn: [
+`Fundamental analytical law and core property of ${cleanTitle}`,
+`Empirical inverse proportionality derivation`,
+`Non-linear asymptotic equilibrium`,
+`None of the above`
+],
+optionsHi: [
+`मूल विश्लेषणात्मक नियम और ${cleanTitle} का मुख्य गुण`,
+`आनुभविक व्युत्क्रमानुपाती व्युत्पत्ति`,
+`गैर-रैखिक स्पर्शोन्मुख संतुलन`,
+`इनमें से कोई नहीं`
+],
+answer: 0,
+exp: `Explanation / स्पष्टीकरण:\n• Core Principle of ${cleanTitle}: In competitive tests, mastering this section requires understanding the primary governing axioms.`
+},
+{
+qEn: `Q2. When solving practical analytical problems under '${cleanTitle}', which approach guarantees the highest accuracy?`,
+qHi: `प्रश्न 2: '${cleanTitle}' के अंतर्गत व्यावहारिक प्रश्नों को हल करते समय कौन सी विधि सर्वाधिक सटीक मानी जाती है?`,
+optionsEn: [
+`Direct step-by-step conceptual formulation of ${cleanTitle}`,
+`Random iterative approximation`,
+`Unverified assumption technique`,
+`Arbitrary unit deduction`
+],
+optionsHi: [
+`सीधी चरण-दर-चरण वैचारिक सूत्रीकरण विधि`,
+`यादृच्छिक पुनरावृत्ति सन्निकटन`,
+`अत्यात्यापित मान्यता तकनीक`,
+`मनमाना इकाई कटौती`
+],
+answer: 0,
+exp: `Explanation / स्पष्टीकरण:\n• Examination Strategy for ${cleanTitle}: Always apply direct formulaic relations.`
+}
+];
 }
 
 function startChapterPractice(chapterTitle, subjectName) {
@@ -1912,7 +1959,29 @@ document.getElementById('practice-runner-view').classList.remove('hidden');
 document.getElementById('runner-chapter-title').innerText = currentChapter.title;
 document.getElementById('runner-chapter-badge').innerText = currentChapter.subjectName;
 
-practiceQuestions = getQuestionsForChapter(pendingPracticeTitle, pendingPracticeSub);
+let baseList = getQuestionsForChapter(pendingPracticeTitle, pendingPracticeSub);
+practiceQuestions = shuffleArray(baseList).map(q => {
+let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
+let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
+let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
+let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
+let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
+
+let indexedOpts = optsEn.map((opt, idx) => ({ 
+optEn: opt, 
+optHi: optsHi[idx] || opt, 
+originalIndex: idx 
+}));
+let shuffledIndexedOpts = shuffleArray(indexedOpts);
+return {
+...q,
+qEn: qEnText,
+qHi: qHiText,
+optionsEn: shuffledIndexedOpts.map(item => item.optEn),
+optionsHi: shuffledIndexedOpts.map(item => item.optHi),
+answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
+};
+});
 
 pIndex = 0;
 userAnswers = {};
@@ -2073,7 +2142,6 @@ loadPracticeQuestion();
 }
 
 function selectPracticeOption(idx) {
-clearInterval(timerInterval);
 userAnswers[pIndex] = idx;
 savePracticeProgress();
 showExplanationState(idx, practiceQuestions[pIndex]);
@@ -2117,8 +2185,8 @@ loadPracticeQuestion();
 }
 
 function confirmExitPractice() {
-    clearInterval(timerInterval);
     openCustomConfirm("Exit Practice", "क्या आप वाकई टेस्ट छोड़कर डैशबोर्ड पर जाना चाहते हैं?", () => {
+        clearInterval(timerInterval);
         if (currentChapter) {
             localStorage.removeItem('targettire_practice_' + currentChapter.title.replace(/\s+/g, '_'));
         }
@@ -2206,7 +2274,29 @@ document.getElementById('main-site-header').classList.add('hidden');
 const footerEl = document.querySelector('footer');
 if(footerEl) footerEl.classList.add('hidden');
 
-examQuestions = getQuestionsForChapter(pendingMockTitle, "");
+let baseList = getQuestionsForChapter(pendingMockTitle, "");
+examQuestions = shuffleArray(baseList).map(q => {
+let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
+let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
+let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
+let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
+let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
+
+let indexedOpts = optsEn.map((opt, idx) => ({ 
+optEn: opt, 
+optHi: optsHi[idx] || opt, 
+originalIndex: idx 
+}));
+let shuffledIndexedOpts = shuffleArray(indexedOpts);
+return {
+...q,
+qEn: qEnText,
+qHi: qHiText,
+optionsEn: shuffledIndexedOpts.map(item => item.optEn),
+optionsHi: shuffledIndexedOpts.map(item => item.optHi),
+answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
+};
+});
 
 const savedMockKey = 'targettire_mock_' + pendingMockTitle.replace(/\s+/g, '_');
 if (choice === 'resume') {
@@ -2387,8 +2477,8 @@ openCustomConfirm("Submit Exam", "क्या आप वाकई इस मॉ
 }
 
 function confirmExitExam() {
-    clearInterval(examTimerInterval);
     openCustomConfirm("Exit Simulation", "क्या आप वाकई मॉक टेस्ट छोड़कर डैशबोर्ड पर जाना चाहते हैं?", () => {
+        clearInterval(examTimerInterval);
         localStorage.removeItem('targettire_mock_' + examTitle.replace(/\s+/g, '_'));
         exitExamVault();
         switchTab('dashboard');
