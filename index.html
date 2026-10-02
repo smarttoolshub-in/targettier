@@ -1883,7 +1883,6 @@ exp: `Explanation / स्पष्टीकरण:\n• Examination Strategy fo
 
 function startChapterPractice(chapterTitle, subjectName) {
 currentChapter = { title: chapterTitle, subjectName };
-// Focus Mode Activation: Hide header & footer, maximize practice area
 document.getElementById('main-site-header').classList.add('hidden');
 const footerEl = document.querySelector('footer');
 if(footerEl) footerEl.classList.add('hidden');
@@ -1919,11 +1918,37 @@ answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorre
 
 pIndex = 0;
 userAnswers = {};
+
+// --- RESUME FEATURE CHECK (LocalStorage) ---
+const savedStateKey = 'targettire_practice_' + chapterTitle.replace(/\s+/g, '_');
+const savedState = localStorage.getItem(savedStateKey);
+if (savedState) {
+    if (confirm("आपका पिछला प्रैक्टिस सत्र यहाँ अधूरा छूट गया था। क्या आप वहीं से रिज्यूम (Resume) करना चाहते हैं?")) {
+        try {
+            const data = JSON.parse(savedState);
+            pIndex = data.pIndex || 0;
+            userAnswers = data.userAnswers || {};
+        } catch(e) {}
+    } else {
+        localStorage.removeItem(savedStateKey);
+    }
+}
+
 runnerLangMode = 'bi';
 updateRunnerLangButtonLabel();
 loadPracticeQuestion();
 renderQuestionPalette();
 window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function savePracticeProgress() {
+    if (!currentChapter) return;
+    const savedStateKey = 'targettire_practice_' + currentChapter.title.replace(/\s+/g, '_');
+    const stateData = {
+        pIndex: pIndex,
+        userAnswers: userAnswers
+    };
+    localStorage.setItem(savedStateKey, JSON.stringify(stateData));
 }
 
 function toggleRunnerLanguage() {
@@ -1971,6 +1996,7 @@ paletteGrid.appendChild(btn);
 function jumpToQuestion(idx) {
 clearInterval(timerInterval);
 pIndex = idx;
+savePracticeProgress();
 loadPracticeQuestion();
 renderQuestionPalette();
 }
@@ -2043,6 +2069,7 @@ timerEl.innerText = timeLeft + 's';
 if (timeLeft <= 0) {
 clearInterval(timerInterval);
 if (userAnswers[pIndex] === undefined) userAnswers[pIndex] = -1;
+savePracticeProgress();
 loadPracticeQuestion();
 }
 }, 1000);
@@ -2050,6 +2077,7 @@ loadPracticeQuestion();
 
 function selectPracticeOption(idx) {
 userAnswers[pIndex] = idx;
+savePracticeProgress();
 showExplanationState(idx, practiceQuestions[pIndex]);
 renderQuestionPalette();
 }
@@ -2060,12 +2088,12 @@ const badgeEl = document.getElementById('runner-status-badge');
 const expBox = document.getElementById('runner-explanation-box');
 
 if (isCorrect) {
-playSuccessSound(); // 👈 सही उत्तर पर अच्छी आवाज़
+playSuccessSound();
 badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/35 animate-bounce';
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> शानदार! बिल्कुल सही उत्तर / Correct Answer 🎉';
 expBox.className = 'mb-6 p-5 rounded-xl border border-teal-500/40 bg-teal-500/10 leading-relaxed shadow-lg transition-all duration-300';
 } else {
-playErrorSound(); // 👈 गलत उत्तर पर अलग आवाज़
+playErrorSound();
 badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/35';
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ओह! गलत उत्तर / Incorrect Answer';
 expBox.className = 'mb-6 p-5 rounded-xl border border-rose-500/40 bg-rose-500/10 leading-relaxed transition-all duration-300';
@@ -2077,6 +2105,7 @@ expBox.classList.remove('hidden');
 function nextPracticeQuestion() {
 clearInterval(timerInterval);
 pIndex++;
+savePracticeProgress();
 loadPracticeQuestion();
 }
 
@@ -2084,19 +2113,27 @@ function prevPracticeQuestion() {
 if (pIndex > 0) {
 clearInterval(timerInterval);
 pIndex--;
+savePracticeProgress();
 loadPracticeQuestion();
 }
 }
 
 function confirmExitPractice() {
-    openCustomConfirm("Exit Practice", "Are you sure you want to exit this practice session?", () => {
-        exitPracticeRunner(); // 👈 यह रनर स्क्रीन को छिपाएगा और हेडर/फुटर वापस लाएगा
-        switchTab('dashboard'); // 👈 यह सीधे डैशबोर्ड पर पहुँचा देगा
+    openCustomConfirm("Exit Practice", "क्या आप वाकई टेस्ट छोड़कर डैशबोर्ड पर जाना चाहते हैं?", () => {
+        clearInterval(timerInterval);
+        if (currentChapter) {
+            localStorage.removeItem('targettire_practice_' + currentChapter.title.replace(/\s+/g, '_'));
+        }
+        exitPracticeRunner();
+        switchTab('dashboard');
     });
 }
 
 function finishPracticeRunner() {
 clearInterval(timerInterval);
+if (currentChapter) {
+    localStorage.removeItem('targettire_practice_' + currentChapter.title.replace(/\s+/g, '_'));
+}
 document.getElementById('runner-question-box').classList.add('hidden');
 document.getElementById('runner-finished-box').classList.remove('hidden');
 
@@ -2175,6 +2212,22 @@ answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorre
 };
 });
 
+// --- RESUME MOCK CHECK (LocalStorage) ---
+const savedMockKey = 'targettire_mock_' + chapterTitle.replace(/\s+/g, '_');
+const savedMockState = localStorage.getItem(savedMockKey);
+if (savedMockState) {
+    if (confirm("आपका पिछला मॉक टेस्ट अधूरा छूट गया था। क्या आप वहीं से रिज्यूम (Resume) करना चाहते हैं?")) {
+        try {
+            const data = JSON.parse(savedMockState);
+            eIndex = data.eIndex || 0;
+            examAnswers = data.examAnswers || {};
+            examSecondsLeft = data.examSecondsLeft || examSecondsLeft;
+        } catch(e) {}
+    } else {
+        localStorage.removeItem(savedMockKey);
+    }
+}
+
 document.getElementById('vault-main-view').classList.add('hidden');
 document.getElementById('vault-runner-view').classList.remove('hidden');
 document.getElementById('exam-set-title').innerText = examTitle;
@@ -2185,6 +2238,16 @@ loadExamQuestion();
 renderExamPalette();
 startExamMainTimer();
 window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function saveMockProgress() {
+    const savedMockKey = 'targettire_mock_' + examTitle.replace(/\s+/g, '_');
+    const stateData = {
+        eIndex: eIndex,
+        examAnswers: examAnswers,
+        examSecondsLeft: examSecondsLeft
+    };
+    localStorage.setItem(savedMockKey, JSON.stringify(stateData));
 }
 
 function toggleExamLanguage() {
@@ -2219,6 +2282,7 @@ submitExamSimulation();
 return;
 }
 examSecondsLeft--;
+saveMockProgress();
 let mins = Math.floor(examSecondsLeft / 60);
 let secs = examSecondsLeft % 60;
 timerEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
@@ -2249,6 +2313,7 @@ paletteGrid.appendChild(btn);
 
 function jumpToExamQuestion(idx) {
 eIndex = idx;
+saveMockProgress();
 loadExamQuestion();
 renderExamPalette();
 }
@@ -2298,12 +2363,14 @@ renderExamPalette();
 
 function selectExamOption(idx) {
 examAnswers[eIndex] = idx;
+saveMockProgress();
 renderExamPalette();
 }
 
 function nextExamQuestion() {
 if (eIndex < examQuestions.length - 1) {
 eIndex++;
+saveMockProgress();
 loadExamQuestion();
 } else {
 submitExamSimulation();
@@ -2313,18 +2380,23 @@ submitExamSimulation();
 function prevExamQuestion() {
 if (eIndex > 0) {
 eIndex--;
+saveMockProgress();
 loadExamQuestion();
 }
 }
 
 function submitExamEarly() {
-submitExamSimulation();
+openCustomConfirm("Submit Exam", "क्या आप वाकई इस मॉक टेस्ट को सबमिट करना चाहते हैं?", () => {
+    submitExamSimulation();
+});
 }
 
 function confirmExitExam() {
-    openCustomConfirm("Exit Simulation", "Are you sure you want to exit the simulation exam?", () => {
-        exitExamVault(); // 👈 यह मॉक स्क्रीन को छिपाएगा
-        switchTab('dashboard'); // 👈 यह सीधे डैशबोर्ड पर पहुँचा देगा
+    openCustomConfirm("Exit Simulation", "क्या आप वाकई मॉक टेस्ट छोड़कर डैशबोर्ड पर जाना चाहते हैं?", () => {
+        clearInterval(examTimerInterval);
+        localStorage.removeItem('targettire_mock_' + examTitle.replace(/\s+/g, '_'));
+        exitExamVault();
+        switchTab('dashboard');
     });
 }
 
@@ -2346,6 +2418,7 @@ customConfirmCallback = null;
 
 function submitExamSimulation() {
 clearInterval(examTimerInterval);
+localStorage.removeItem('targettire_mock_' + examTitle.replace(/\s+/g, '_'));
 document.getElementById('exam-question-box').classList.add('hidden');
 document.getElementById('exam-submitted-box').classList.remove('hidden');
 
