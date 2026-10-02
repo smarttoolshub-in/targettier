@@ -470,7 +470,7 @@ Next <i class="fa-solid fa-arrow-right ml-1"></i>
 <button id="runner-launch-mock-btn" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">
 <i class="fa-solid fa-shield-halved mr-1"></i> Give Mock Test Now
 </button>
-<button onclick="exitPracticeRunner()" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
+<button onclick="exitPracticeRunner(); switchTab('dashboard');" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
 Return to Practice Hub
 </button>
 </div>
@@ -595,7 +595,7 @@ Next <i class="fa-solid fa-arrow-right ml-1"></i>
 <p id="exam-summary-unattempted" class="text-lg font-bold text-slate-400">0</p>
 </div>
 </div>
-<button onclick="exitExamVault()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
+<button onclick="exitExamVault(); switchTab('dashboard');" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
 Return to Mock Vault
 </button>
 </div>
@@ -1789,6 +1789,41 @@ let timerInterval = null;
 let timeLeft = 30;
 let runnerLangMode = 'bi'; // 'bi' (Both), 'en' (English only), 'hi' (Hindi only)
 
+// --- AUDIO SOUND EFFECTS (Web Audio API) ---
+function playSuccessSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
+        gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.3);
+    } catch(e) {}
+}
+
+function playErrorSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.type = 'triangle';
+        oscillator.frequency.setValueAtTime(180, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.2);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.25);
+    } catch(e) {}
+}
+
 function shuffleArray(array) {
 let arr = [...array];
 for (let i = arr.length - 1; i > 0; i--) {
@@ -1861,7 +1896,6 @@ document.getElementById('runner-chapter-badge').innerText = currentChapter.subje
 let baseList = getQuestionsForChapter(chapterTitle, subjectName);
 practiceQuestions = shuffleArray(baseList).map(q => {
 let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
-// If questions don't have separate qEn/qHi, create them from q
 let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
 let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
 let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
@@ -1949,7 +1983,6 @@ return;
 const q = practiceQuestions[pIndex];
 document.getElementById('runner-q-progress').innerText = `Question ${pIndex + 1} of ${practiceQuestions.length}`;
 
-
 let displayText = "";
 if (runnerLangMode === 'bi') {
 displayText = `${q.qEn}\n<span class="text-xs text-indigo-400 font-normal">(${q.qHi})</span>`;
@@ -2027,13 +2060,15 @@ const badgeEl = document.getElementById('runner-status-badge');
 const expBox = document.getElementById('runner-explanation-box');
 
 if (isCorrect) {
-badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/30';
-badgeEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> Correct Answer / सही उत्तर';
-expBox.className = 'mb-6 p-5 rounded-xl border border-teal-500/30 bg-teal-500/10 leading-relaxed';
+playSuccessSound(); // 👈 सही उत्तर पर अच्छी आवाज़
+badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/35 animate-bounce';
+badgeEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> शानदार! बिल्कुल सही उत्तर / Correct Answer 🎉';
+expBox.className = 'mb-6 p-5 rounded-xl border border-teal-500/40 bg-teal-500/10 leading-relaxed shadow-lg transition-all duration-300';
 } else {
-badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/30';
-badgeEl.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Incorrect Answer / गलत उत्तर';
-expBox.className = 'mb-6 p-5 rounded-xl border border-rose-500/30 bg-rose-500/10 leading-relaxed';
+playErrorSound(); // 👈 गलत उत्तर पर अलग आवाज़
+badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/35';
+badgeEl.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ओह! गलत उत्तर / Incorrect Answer';
+expBox.className = 'mb-6 p-5 rounded-xl border border-rose-500/40 bg-rose-500/10 leading-relaxed transition-all duration-300';
 }
 document.getElementById('runner-exp-text').innerText = q.exp || "Explanation provided for correct evaluation.";
 expBox.classList.remove('hidden');
@@ -2056,6 +2091,7 @@ loadPracticeQuestion();
 function confirmExitPractice() {
 openCustomConfirm("Exit Practice", "Are you sure you want to exit this practice session?", () => {
 exitPracticeRunner();
+switchTab('dashboard'); // 👈 सिर्फ यहाँ कंफर्म करने पर ही डैशबोर्ड खुलेगा
 });
 }
 
@@ -2093,7 +2129,6 @@ date: new Date().toLocaleDateString()
 
 function exitPracticeRunner() {
 clearInterval(timerInterval);
-// Restore Header & Footer on exit
 document.getElementById('main-site-header').classList.remove('hidden');
 const footerEl = document.querySelector('footer');
 if(footerEl) footerEl.classList.remove('hidden');
@@ -2112,7 +2147,6 @@ examSecondsLeft = (totalMinutes || 30) * 60;
 examAnswers = {};
 eIndex = 0;
 
-// Focus Mode Activation for Mock Vault
 document.getElementById('main-site-header').classList.add('hidden');
 const footerEl = document.querySelector('footer');
 if(footerEl) footerEl.classList.add('hidden');
@@ -2290,6 +2324,7 @@ submitExamSimulation();
 function confirmExitExam() {
 openCustomConfirm("Exit Simulation", "Are you sure you want to exit the simulation exam?", () => {
 exitExamVault();
+switchTab('dashboard'); // 👈 सिर्फ यहाँ कंफर्म करने पर ही डैशबोर्ड खुलेगा
 });
 }
 
@@ -2343,11 +2378,6 @@ date: new Date().toLocaleDateString()
 
 function exitExamVault() {
 clearInterval(examTimerInterval);
-// Restore Header & Footer on exit
-document.getElementById('main-site-header').classList.remove('hidden');
-const footerEl = document.querySelector('footer');
-if(footerEl) footerEl.classList.remove('hidden');
-
 document.getElementById('vault-runner-view').classList.add('hidden');
 document.getElementById('vault-main-view').classList.remove('hidden');
 document.getElementById('exam-question-box').classList.remove('hidden');
