@@ -58,10 +58,6 @@ user-select: text;
 </head>
 <body class="bg-slate-50 dark:bg-[#0b0f19] text-slate-800 dark:text-slate-300 min-h-screen flex flex-col transition-colors duration-300">
 
-<!-- Local Audio Elements for Correct/Wrong Answers -->
-<audio id="success-audio" src="correct.mp3" preload="auto"></audio>
-<audio id="error-audio" src="wrong.mp3" preload="auto"></audio>
-
 <header id="main-site-header" class="bg-white/95 dark:bg-[#0b0f19]/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800/80 sticky top-0 z-50 transition-colors duration-300">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex items-center justify-between h-20">
@@ -695,6 +691,7 @@ Return to Mock Vault
 </div>
 </div>
 </main>
+
 <!-- Current Affairs Modal Popup -->
 <div id="current-affairs-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
 <div class="bg-white dark:bg-[#131b2e] w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-7 flex flex-col max-h-[85vh]">
@@ -1541,9 +1538,22 @@ sampleChapters = [sampleChapters[0]];
 
 sampleChapters.forEach(ch => {
 const safeTitle = ch.title.replace(/'/g, "\\'");
+const hasSaved = localStorage.getItem(`targettire_progress_${ch.title}`) !== null;
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
-card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.questions} Qs / 30s Timer</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Target Exam: <span class="text-indigo-600 font-medium">${subName}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subName}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (${ch.questions} Qs)</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 30)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
+
+
+let actionButtons = `<button onclick="startChapterPractice('${safeTitle}', '${subName}', false)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (${ch.questions} Qs)</button>`;
+if (hasSaved) {
+    actionButtons = `
+        <div class="grid grid-cols-2 gap-2">
+            <button onclick="startChapterPractice('${safeTitle}', '${subName}', true)" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer"><i class="fa-solid fa-play mr-1"></i> Resume</button>
+            <button onclick="startChapterPractice('${safeTitle}', '${subName}', false)" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Start Fresh</button>
+        </div>
+    `;
+}
+
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.questions} Qs / 30s Timer</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Target Exam: <span class="text-indigo-600 font-medium">${subName}</span></p></div><div class="space-y-2">${actionButtons}<button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.questions}, 30, false)" class="w-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Launch Mock Exam</button></div>`;
 grid.appendChild(card);
 });
 if (!currentUser) {
@@ -1674,9 +1684,21 @@ mockSets = [mockSets[0]];
 
 mockSets.forEach(m => {
 const safeTitle = m.title.replace(/'/g, "\\'");
+const hasSavedMock = localStorage.getItem(`targettire_mock_progress_${m.title} - Mock Exam`) !== null;
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
-card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${m.questions} Qs / ${m.mins} Min</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${m.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subName}</span></p></div><button onclick="launchChapterSimulation('${safeTitle}', ${m.questions}, ${m.mins})" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
+
+let mockActionButtons = `<button onclick="launchChapterSimulation('${safeTitle}', ${m.questions}, ${m.mins}, false)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
+if (hasSavedMock) {
+    mockActionButtons = `
+        <div class="grid grid-cols-2 gap-2">
+            <button onclick="launchChapterSimulation('${safeTitle}', ${m.questions}, ${m.mins}, true)" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer"><i class="fa-solid fa-play mr-1"></i> Resume Mock</button>
+            <button onclick="launchChapterSimulation('${safeTitle}', ${m.questions}, ${m.mins}, false)" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Start Fresh</button>
+        </div>
+    `;
+}
+
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${m.questions} Qs / ${m.mins} Min</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${m.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subName}</span></p></div><div class="space-y-2">${mockActionButtons}</div>`;
 grid.appendChild(card);
 });
 if (!currentUser) {
@@ -1722,9 +1744,22 @@ chList = [sec.chapters[0]];
 
 chList.forEach(ch => {
 const safeTitle = ch.title.replace(/'/g, "\\'");
+const fullMockTitle = `${ch.title} - Mock Exam`;
+const hasSavedMock = localStorage.getItem(`targettire_mock_progress_${fullMockTitle}`) !== null;
 const card = document.createElement('div');
 card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
-card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Qs / 30 Mins</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title} - Mock Exam</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
+
+let streamMockButtons = `<button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30, false)" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Simulation Exam</button>`;
+if (hasSavedMock) {
+    streamMockButtons = `
+        <div class="grid grid-cols-2 gap-2">
+            <button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30, true)" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer"><i class="fa-solid fa-play mr-1"></i> Resume Mock</button>
+            <button onclick="launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30, false)" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Start Fresh</button>
+        </div>
+    `;
+}
+
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Qs / 30 Mins</span><span class="text-[11px] text-amber-500 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Proctored</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title} - Mock Exam</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Simulated Exam for <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><div class="space-y-2">${streamMockButtons}</div>`;
 grid.appendChild(card);
 });
 
@@ -1743,23 +1778,41 @@ let pIndex = 0;
 let userAnswers = {};
 let timerInterval = null;
 let timeLeft = 30;
-let runnerLangMode = 'bi'; // 'bi' (Both), 'en' (English only), 'hi' (Hindi only)
+let runnerLangMode = 'bi';
 
-// --- LOCAL AUDIO PLAYERS FOR SUCCESS / ERROR SOUNDS ---
+// --- SYNTHETIC AUDIO SOUND EFFECTS (Web Audio API) ---
 function playSuccessSound() {
-    const audio = document.getElementById('success-audio');
-    if(audio) {
-        audio.currentTime = 0;
-        audio.play().catch(e => console.log("Audio play error:", e));
-    }
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
+        gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.3);
+    } catch(e) {}
 }
 
 function playErrorSound() {
-    const audio = document.getElementById('error-audio');
-    if(audio) {
-        audio.currentTime = 0;
-        audio.play().catch(e => console.log("Audio play error:", e));
-    }
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.type = 'triangle';
+        oscillator.frequency.setValueAtTime(180, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.2);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.25);
+    } catch(e) {}
 }
 
 function shuffleArray(array) {
@@ -1819,28 +1872,22 @@ exp: `Explanation / स्पष्टीकरण:\n• Examination Strategy fo
 ];
 }
 
-// --- RESUME PRACTICE CHECKER ---
-function startChapterPractice(chapterTitle, subjectName) {
+// --- PRACTICE SESSION & RESUME LOGIC ---
+function startChapterPractice(chapterTitle, subjectName, isResume = false) {
     currentChapter = { title: chapterTitle, subjectName };
     const savedProgressKey = `targettire_progress_${chapterTitle}`;
-    const savedData = localStorage.getItem(savedProgressKey);
-
-    if (savedData) {
-        openCustomConfirm(
-            "Resume Practice / अभ्यास जारी रखें", 
-            "You have previous progress saved for this chapter. Would you like to resume from where you left off or start fresh?", 
-            () => {
-                loadSavedPracticeSession(savedData);
-            },
-            () => {
-                localStorage.removeItem(savedProgressKey);
-                initializeNewPracticeSession(chapterTitle, subjectName);
-            },
-            "Resume", "Start Fresh"
-        );
-    } else {
-        initializeNewPracticeSession(chapterTitle, subjectName);
+    
+    if (isResume) {
+        const savedData = localStorage.getItem(savedProgressKey);
+        if (savedData) {
+            loadSavedPracticeSession(savedData);
+            return;
+        }
     }
+    
+    // Start Fresh
+    localStorage.removeItem(savedProgressKey);
+    initializeNewPracticeSession(chapterTitle, subjectName);
 }
 
 function initializeNewPracticeSession(chapterTitle, subjectName) {
@@ -2145,28 +2192,22 @@ document.getElementById('runner-finished-box').classList.add('hidden');
 
 let examTitle = "", examQuestions = [], eIndex = 0, examAnswers = {}, examTimerInterval = null, examSecondsLeft = 0, examLangMode = 'bi';
 
-// --- RESUME MOCK CHECKER ---
-function launchChapterSimulation(chapterTitle, totalQuestions, totalMinutes) {
+// --- MOCK SIMULATION & RESUME MOCK LOGIC ---
+function launchChapterSimulation(chapterTitle, totalQuestions, totalMinutes, isResume = false) {
     examTitle = chapterTitle + " - Mock Exam";
-    const savedMockKey = `targettire_mock_progress_${chapterTitle}`;
-    const savedMockData = localStorage.getItem(savedMockKey);
+    const savedMockKey = `targettire_mock_progress_${examTitle}`;
 
-    if (savedMockData) {
-        openCustomConfirm(
-            "Resume Mock Exam / मॉक टेस्ट जारी रखें", 
-            "You have an active mock test progress saved. Would you like to resume your previous attempt or start a fresh simulation?", 
-            () => {
-                loadSavedMockSession(savedMockData);
-            },
-            () => {
-                localStorage.removeItem(savedMockKey);
-                initializeNewMockSession(chapterTitle, totalQuestions, totalMinutes);
-            },
-            "Resume Mock", "Start Fresh"
-        );
-    } else {
-        initializeNewMockSession(chapterTitle, totalQuestions, totalMinutes);
+    if (isResume) {
+        const savedMockData = localStorage.getItem(savedMockKey);
+        if (savedMockData) {
+            loadSavedMockSession(savedMockData);
+            return;
+        }
     }
+
+    // Start Fresh Mock
+    localStorage.removeItem(savedMockKey);
+    initializeNewMockSession(chapterTitle, totalQuestions, totalMinutes);
 }
 
 function initializeNewMockSession(chapterTitle, totalQuestions, totalMinutes) {
@@ -2252,7 +2293,7 @@ function saveCurrentMockProgress() {
         examAnswers,
         examSecondsLeft
     };
-    localStorage.setItem(`targettire_mock_progress_${examTitle.replace(" - Mock Exam", "")}`, JSON.stringify(progressData));
+    localStorage.setItem(`targettire_mock_progress_${examTitle}`, JSON.stringify(progressData));
 }
 
 function toggleExamLanguage() {
@@ -2398,35 +2439,27 @@ switchTab('dashboard');
 });
 }
 
-let customConfirmCallback = null;
-let customConfirmAltCallback = null;
-
 function openCustomConfirm(title, desc, onYes, onAlt = null, yesText = "Yes", altText = "Cancel") {
     document.getElementById('confirm-title').innerText = title;
     document.getElementById('confirm-desc').innerText = desc;
-    customConfirmCallback = onYes;
-    customConfirmAltCallback = onAlt;
-
     const yesBtn = document.getElementById('confirm-yes-btn');
     if(yesBtn) yesBtn.innerText = yesText;
 
     document.getElementById('custom-confirm-modal').classList.remove('hidden');
     yesBtn.onclick = () => {
         closeCustomConfirm();
-        if(customConfirmCallback) customConfirmCallback();
+        if(onYes) onYes();
     };
 }
 
 function closeCustomConfirm() {
     document.getElementById('custom-confirm-modal').classList.add('hidden');
-    customConfirmCallback = null;
-    customConfirmAltCallback = null;
 }
 
 function submitExamSimulation() {
 clearInterval(examTimerInterval);
 if (examTitle) {
-    localStorage.removeItem(`targettire_mock_progress_${examTitle.replace(" - Mock Exam", "")}`);
+    localStorage.removeItem(`targettire_mock_progress_${examTitle}`);
 }
 document.getElementById('exam-question-box').classList.add('hidden');
 document.getElementById('exam-submitted-box').classList.remove('hidden');
@@ -2706,22 +2739,22 @@ renderMyExamsTab();
 loadCurrentAffairsFromGist();
 };
 </script>
-    <!-- AI Chat Widget Script -->
-    <script src="ai-chat.js"></script>
+<!-- AI Chat Widget Script -->
+<script src="ai-chat.js"></script>
 
-   <!-- Footer - Body ke andar sabse niche -->
-    <footer style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background: #0b0f19; color: #94a3b8; border-top: 1px solid #1e293b; padding: 20px 48px; margin-top: auto; font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; z-index: 40;">
-        <div style="max-width: 1600px; margin: 0 auto; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; width: 100%; box-sizing: border-box;">
-            <p style="font-size: 13px; color: #e2e8f0; font-weight: 500; margin: 0;">
-                &copy; 2026 <strong>TargetTire</strong>. All Rights Reserved. Designed for Competitive Aspirants.
-            </p>
-            <p style="font-size: 12px; color: #64748b; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0;">
-                <span>🔒 100% Secure & Privacy Protected</span> | 
-                <span>⚡ Powered by Google AI Infrastructure</span> | 
-                <a href="#" style="color: #818cf8; text-decoration: none;">Privacy Policy</a> | 
-                <a href="#" style="color: #818cf8; text-decoration: none;">Terms & Conditions</a>
-            </p>
-        </div>
-    </footer>
+<!-- Footer - Body ke andar sabse niche -->
+<footer style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background: #0b0f19; color: #94a3b8; border-top: 1px solid #1e293b; padding: 20px 48px; margin-top: auto; font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; z-index: 40;">
+    <div style="max-width: 1600px; margin: 0 auto; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; width: 100%; box-sizing: border-box;">
+        <p style="font-size: 13px; color: #e2e8f0; font-weight: 500; margin: 0;">
+            &copy; 2026 <strong>TargetTire</strong>. All Rights Reserved. Designed for Competitive Aspirants.
+        </p>
+        <p style="font-size: 12px; color: #64748b; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0;">
+            <span>🔒 100% Secure & Privacy Protected</span> | 
+            <span>⚡ Powered by Google AI Infrastructure</span> | 
+            <a href="#" style="color: #818cf8; text-decoration: none;">Privacy Policy</a> | 
+            <a href="#" style="color: #818cf8; text-decoration: none;">Terms & Conditions</a>
+        </p>
+    </div>
+</footer>
 </body>
 </html>
