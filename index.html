@@ -470,7 +470,7 @@ Next <i class="fa-solid fa-arrow-right ml-1"></i>
 <button id="runner-launch-mock-btn" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">
 <i class="fa-solid fa-shield-halved mr-1"></i> Give Mock Test Now
 </button>
-<button onclick="exitPracticeRunner()" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
+<button onclick="exitPracticeRunner(); switchTab('dashboard');" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
 Return to Practice Hub
 </button>
 </div>
@@ -595,7 +595,7 @@ Next <i class="fa-solid fa-arrow-right ml-1"></i>
 <p id="exam-summary-unattempted" class="text-lg font-bold text-slate-400">0</p>
 </div>
 </div>
-<button onclick="exitExamVault()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
+<button onclick="exitExamVault(); switchTab('dashboard');" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">
 Return to Mock Vault
 </button>
 </div>
@@ -1684,6 +1684,55 @@ grid.appendChild(lockCard);
 }
 
 let activeSubjectKey = 'mathematics';
+function selectSubjectStream(subjKey) {
+activeSubjectKey = subjKey;
+document.querySelectorAll('#practice-subject-pills .practice-subject-btn').forEach(btn => {
+btn.className = 'practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer';
+});
+const activeBtn = document.getElementById('subj-btn-' + subjKey);
+if (activeBtn) {
+activeBtn.className = 'practice-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-indigo-600 text-white transition cursor-pointer';
+}
+renderPracticeStreamHub();
+}
+
+function renderPracticeStreamHub() {
+const grid = document.getElementById('practice-container-grid');
+if(!grid) return;
+grid.innerHTML = '';
+const curriculumDataSource = window.curriculumData || {};
+const subj = curriculumDataSource[activeSubjectKey];
+if(!subj) return;
+
+subj.sections.forEach(sec => {
+const secHeader = document.createElement('div');
+secHeader.className = 'col-span-full mt-2 mb-1';
+secHeader.innerHTML = `<h3 class="text-sm font-bold text-indigo-600 dark:text-indigo-400 border-b border-slate-200 dark:border-slate-800 pb-2">${sec.name}</h3>`;
+grid.appendChild(secHeader);
+
+let chList = sec.chapters;
+if (!currentUser) {
+chList = [sec.chapters[0]];
+}
+
+chList.forEach(ch => {
+const safeTitle = ch.title.replace(/'/g, "\\'");
+const card = document.createElement('div');
+card.className = 'bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl flex flex-col justify-between shadow-sm';
+card.innerHTML = `<div><div class="flex items-center justify-between mb-4"><span class="bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 text-[10px] font-bold uppercase px-2.5 py-1 rounded">${ch.totalQuestions} Questions • Practice Drill</span><span class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold"><i class="fa-solid fa-shuffle mr-1"></i> Shuffled</span></div><h3 class="text-base font-bold mb-2 text-slate-900 dark:text-white">${ch.title}</h3><p class="text-slate-600 dark:text-slate-400 text-xs mb-5">Stream: <span class="text-indigo-600 font-medium">${subj.name}</span></p></div><div class="space-y-2"><button onclick="startChapterPractice('${safeTitle}', '${subj.name}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Practice (${ch.totalQuestions} Qs)</button><button onclick="switchTab('vault'); launchChapterSimulation('${safeTitle}', ${ch.totalQuestions}, 30)" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs uppercase tracking-wider transition shadow cursor-pointer">Launch Mock Exam</button></div>`;
+grid.appendChild(card);
+});
+
+if (!currentUser && sec.chapters.length > 1) {
+const lockCard = document.createElement('div');
+lockCard.className = 'col-span-full p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center text-xs text-amber-600 dark:text-amber-400 font-semibold';
+lockCard.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> ${sec.chapters.length - 1} more chapters in ${sec.name} are locked for guests. <a href="javascript:void(0)" onclick="openAuthModal()" class="underline font-bold">Login now</a> to unlock all chapters.`;
+grid.appendChild(lockCard);
+}
+});
+}
+
+let activeVaultSubjectKey = 'mathematics';
 function selectVaultSubjectStream(subjKey) {
 activeVaultSubjectKey = subjKey;
 document.querySelectorAll('#vault-subject-pills .vault-subject-btn').forEach(btn => {
@@ -1738,9 +1787,9 @@ let pIndex = 0;
 let userAnswers = {};
 let timerInterval = null;
 let timeLeft = 30;
-let runnerLangMode = 'bi';
+let runnerLangMode = 'bi'; // 'bi' (Both), 'en' (English only), 'hi' (Hindi only)
 
-// --- SUCCESS / ERROR SOUND EFFECTS (Web Audio API) ---
+// --- AUDIO SOUND EFFECTS (Web Audio API) ---
 function playSuccessSound() {
     try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1834,6 +1883,7 @@ exp: `Explanation / स्पष्टीकरण:\n• Examination Strategy fo
 
 function startChapterPractice(chapterTitle, subjectName) {
 currentChapter = { title: chapterTitle, subjectName };
+// Focus Mode Activation: Hide header & footer, maximize practice area
 document.getElementById('main-site-header').classList.add('hidden');
 const footerEl = document.querySelector('footer');
 if(footerEl) footerEl.classList.add('hidden');
@@ -2010,12 +2060,12 @@ const badgeEl = document.getElementById('runner-status-badge');
 const expBox = document.getElementById('runner-explanation-box');
 
 if (isCorrect) {
-playSuccessSound(); // 👈 सही उत्तर पर आवाज़
+playSuccessSound(); // 👈 सही उत्तर पर अच्छी आवाज़
 badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/35 animate-bounce';
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> शानदार! बिल्कुल सही उत्तर / Correct Answer 🎉';
 expBox.className = 'mb-6 p-5 rounded-xl border border-teal-500/40 bg-teal-500/10 leading-relaxed shadow-lg transition-all duration-300';
 } else {
-playErrorSound(); // 👈 गलत उत्तर पर आवाज़
+playErrorSound(); // 👈 गलत उत्तर पर अलग आवाज़
 badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/35';
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ओह! गलत उत्तर / Incorrect Answer';
 expBox.className = 'mb-6 p-5 rounded-xl border border-rose-500/40 bg-rose-500/10 leading-relaxed transition-all duration-300';
@@ -2039,10 +2089,10 @@ loadPracticeQuestion();
 }
 
 function confirmExitPractice() {
-openCustomConfirm("Exit Practice", "Are you sure you want to exit this practice session?", () => {
-exitPracticeRunner();
-switchTab('dashboard'); // 👈 सीधा डैशबोर्ड पर भेजेगा
-});
+    openCustomConfirm("Exit Practice", "Are you sure you want to exit this practice session?", () => {
+        exitPracticeRunner(); // 👈 यह रनर स्क्रीन को छिपाएगा और हेडर/फुटर वापस लाएगा
+        switchTab('dashboard'); // 👈 यह सीधे डैशबोर्ड पर पहुँचा देगा
+    });
 }
 
 function finishPracticeRunner() {
@@ -2272,10 +2322,10 @@ submitExamSimulation();
 }
 
 function confirmExitExam() {
-openCustomConfirm("Exit Simulation", "Are you sure you want to exit the simulation exam?", () => {
-exitExamVault();
-switchTab('dashboard'); // 👈 सीधा डैशबोर्ड पर भेजेगा
-});
+    openCustomConfirm("Exit Simulation", "Are you sure you want to exit the simulation exam?", () => {
+        exitExamVault(); // 👈 यह मॉक स्क्रीन को छिपाएगा
+        switchTab('dashboard'); // 👈 यह सीधे डैशबोर्ड पर पहुँचा देगा
+    });
 }
 
 let customConfirmCallback = null;
@@ -2574,22 +2624,22 @@ renderMyExamsTab();
 loadCurrentAffairsFromGist();
 };
 </script>
-<!-- AI Chat Widget Script -->
-<script src="ai-chat.js"></script>
+    <!-- AI Chat Widget Script -->
+    <script src="ai-chat.js"></script>
 
-<!-- Footer - Body ke andar sabse niche -->
-<footer style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background: #0b0f19; color: #94a3b8; border-top: 1px solid #1e293b; padding: 20px 48px; margin-top: auto; font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; z-index: 40;">
-    <div style="max-width: 1600px; margin: 0 auto; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; width: 100%; box-sizing: border-box;">
-        <p style="font-size: 13px; color: #e2e8f0; font-weight: 500; margin: 0;">
-            &copy; 2026 <strong>TargetTire</strong>. All Rights Reserved. Designed for Competitive Aspirants.
-        </p>
-        <p style="font-size: 12px; color: #64748b; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0;">
-            <span>🔒 100% Secure & Privacy Protected</span> | 
-            <span>⚡ Powered by Google AI Infrastructure</span> | 
-            <a href="#" style="color: #818cf8; text-decoration: none;">Privacy Policy</a> | 
-            <a href="#" style="color: #818cf8; text-decoration: none;">Terms & Conditions</a>
-        </p>
-    </div>
-</footer>
+   <!-- Footer - Body ke andar sabse niche -->
+    <footer style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background: #0b0f19; color: #94a3b8; border-top: 1px solid #1e293b; padding: 20px 48px; margin-top: auto; font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; z-index: 40;">
+        <div style="max-width: 1600px; margin: 0 auto; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; width: 100%; box-sizing: border-box;">
+            <p style="font-size: 13px; color: #e2e8f0; font-weight: 500; margin: 0;">
+                &copy; 2026 <strong>TargetTire</strong>. All Rights Reserved. Designed for Competitive Aspirants.
+            </p>
+            <p style="font-size: 12px; color: #64748b; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0;">
+                <span>🔒 100% Secure & Privacy Protected</span> | 
+                <span>⚡ Powered by Google AI Infrastructure</span> | 
+                <a href="#" style="color: #818cf8; text-decoration: none;">Privacy Policy</a> | 
+                <a href="#" style="color: #818cf8; text-decoration: none;">Terms & Conditions</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
