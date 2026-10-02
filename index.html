@@ -2805,7 +2805,8 @@ loadCurrentAffairsFromGist();
             </p>
         </div>
     </footer>
- <script>   function playBrandNewSuccessTune() {
+ <script>  
+     function playBrandNewSuccessTune() {
     try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const ctx = new AudioContext();
@@ -2851,6 +2852,7 @@ function playBrandNewErrorTune() {
         osc.start(now);
         osc.stop(now + 0.25);
     } catch(err) {}
-}<script>
+}
+<script>
     </body>
 </html>
