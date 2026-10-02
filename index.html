@@ -380,6 +380,27 @@ This examination is one of the most prestigious competitive recruitment tests co
 </div>
 </div>
 
+<!-- Practice Resume Choice Screen (Replaces Popup) -->
+<div id="practice-resume-choice-view" class="hidden max-w-xl mx-auto py-16 text-center">
+<div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 p-8 rounded-3xl shadow-2xl">
+<div class="w-16 h-16 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-5">
+<i class="fa-solid fa-clock-rotate-left"></i>
+</div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">अधूरा प्रैक्टिस सत्र मिला / Previous Session Found</h3>
+<p class="text-xs text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+आपका इस चैप्टर का पिछला टेस्ट अधूरा बचा हुआ है। आप चाहें तो वहीं से आगे बढ़ सकते हैं या नया फ्रेश टेस्ट शुरू कर सकते हैं।
+</p>
+<div class="space-y-3">
+<button onclick="executePracticeChoice('resume')" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider shadow transition cursor-pointer flex items-center justify-center gap-2">
+<i class="fa-solid fa-play"></i> Resume Previous Practice (वहीं से जारी रखें)
+</button>
+<button onclick="executePracticeChoice('fresh')" class="w-full bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2">
+<i class="fa-solid fa-rotate-right"></i> Start Fresh / New Test (नया टेस्ट शुरू करें)
+</button>
+</div>
+</div>
+</div>
+
 <div id="practice-runner-view" class="hidden max-w-5xl mx-auto py-8">
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 <div class="lg:col-span-1 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-5 rounded-2xl shadow-xl transition-colors duration-300 h-fit">
@@ -513,6 +534,27 @@ Return to Practice Hub
 <button onclick="selectVaultSubjectStream('english')" id="vault-subj-english" class="vault-subject-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer">English</button>
 </div>
 <div id="vault-container-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</div>
+</div>
+
+<!-- Mock Resume Choice Screen (Replaces Popup) -->
+<div id="mock-resume-choice-view" class="hidden max-w-xl mx-auto py-16 text-center">
+<div class="bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 p-8 rounded-3xl shadow-2xl">
+<div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-5">
+<i class="fa-solid fa-clock-rotate-left"></i>
+</div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">अधूरा मॉक टेस्ट मिला / Previous Mock Found</h3>
+<p class="text-xs text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+आपका इस परीक्षा का पिछला मॉक टेस्ट अधूरा बचा हुआ है। आप चाहें तो वहीं से आगे बढ़ सकते हैं या नया फ्रेश टेस्ट शुरू कर सकते हैं।
+</p>
+<div class="space-y-3">
+<button onclick="executeMockChoice('resume')" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider shadow transition cursor-pointer flex items-center justify-center gap-2">
+<i class="fa-solid fa-play"></i> Resume Previous Mock (वहीं से जारी रखें)
+</button>
+<button onclick="executeMockChoice('fresh')" class="w-full bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2">
+<i class="fa-solid fa-rotate-right"></i> Start Fresh / New Test (नया टेस्ट शुरू करें)
+</button>
+</div>
 </div>
 </div>
 
@@ -1787,9 +1829,15 @@ let pIndex = 0;
 let userAnswers = {};
 let timerInterval = null;
 let timeLeft = 30;
-let runnerLangMode = 'bi'; // 'bi' (Both), 'en' (English only), 'hi' (Hindi only)
+let runnerLangMode = 'bi';
 
-// --- AUDIO SOUND EFFECTS (Web Audio API) ---
+let pendingPracticeTitle = "";
+let pendingPracticeSub = "";
+
+let pendingMockTitle = "";
+let pendingMockQs = 50;
+let pendingMockMins = 30;
+
 function playSuccessSound() {
     try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1882,7 +1930,26 @@ exp: `Explanation / स्पष्टीकरण:\n• Examination Strategy fo
 }
 
 function startChapterPractice(chapterTitle, subjectName) {
-currentChapter = { title: chapterTitle, subjectName };
+pendingPracticeTitle = chapterTitle;
+pendingPracticeSub = subjectName;
+
+const savedStateKey = 'targettire_practice_' + chapterTitle.replace(/\s+/g, '_');
+const savedState = localStorage.getItem(savedStateKey);
+
+if (savedState) {
+    document.getElementById('practice-main-view').classList.add('hidden');
+    document.getElementById('practice-runner-view').classList.add('hidden');
+    document.getElementById('practice-resume-choice-view').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+} else {
+    executePracticeChoice('fresh');
+}
+}
+
+function executePracticeChoice(choice) {
+document.getElementById('practice-resume-choice-view').classList.add('hidden');
+currentChapter = { title: pendingPracticeTitle, subjectName: pendingPracticeSub };
+
 document.getElementById('main-site-header').classList.add('hidden');
 const footerEl = document.querySelector('footer');
 if(footerEl) footerEl.classList.add('hidden');
@@ -1892,7 +1959,7 @@ document.getElementById('practice-runner-view').classList.remove('hidden');
 document.getElementById('runner-chapter-title').innerText = currentChapter.title;
 document.getElementById('runner-chapter-badge').innerText = currentChapter.subjectName;
 
-let baseList = getQuestionsForChapter(chapterTitle, subjectName);
+let baseList = getQuestionsForChapter(pendingPracticeTitle, pendingPracticeSub);
 practiceQuestions = shuffleArray(baseList).map(q => {
 let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
 let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
@@ -1919,19 +1986,18 @@ answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorre
 pIndex = 0;
 userAnswers = {};
 
-// --- RESUME FEATURE CHECK (LocalStorage) ---
-const savedStateKey = 'targettire_practice_' + chapterTitle.replace(/\s+/g, '_');
-const savedState = localStorage.getItem(savedStateKey);
-if (savedState) {
-    if (confirm("आपका पिछला प्रैक्टिस सत्र यहाँ अधूरा छूट गया था। क्या आप वहीं से रिज्यूम (Resume) करना चाहते हैं?")) {
+const savedStateKey = 'targettire_practice_' + pendingPracticeTitle.replace(/\s+/g, '_');
+if (choice === 'resume') {
+    const savedState = localStorage.getItem(savedStateKey);
+    if (savedState) {
         try {
             const data = JSON.parse(savedState);
             pIndex = data.pIndex || 0;
             userAnswers = data.userAnswers || {};
         } catch(e) {}
-    } else {
-        localStorage.removeItem(savedStateKey);
     }
+} else {
+    localStorage.removeItem(savedStateKey);
 }
 
 runnerLangMode = 'bi';
@@ -2171,6 +2237,7 @@ const footerEl = document.querySelector('footer');
 if(footerEl) footerEl.classList.remove('hidden');
 
 document.getElementById('practice-runner-view').classList.add('hidden');
+document.getElementById('practice-resume-choice-view').classList.add('hidden');
 document.getElementById('practice-main-view').classList.remove('hidden');
 document.getElementById('runner-question-box').classList.remove('hidden');
 document.getElementById('runner-finished-box').classList.add('hidden');
@@ -2179,8 +2246,27 @@ document.getElementById('runner-finished-box').classList.add('hidden');
 let examTitle = "", examQuestions = [], eIndex = 0, examAnswers = {}, examTimerInterval = null, examSecondsLeft = 0, examLangMode = 'bi';
 
 function launchChapterSimulation(chapterTitle, totalQuestions, totalMinutes) {
-examTitle = chapterTitle + " - Mock Exam";
-examSecondsLeft = (totalMinutes || 30) * 60;
+pendingMockTitle = chapterTitle + " - Mock Exam";
+pendingMockQs = totalQuestions;
+pendingMockMins = totalMinutes || 30;
+
+const savedMockKey = 'targettire_mock_' + pendingMockTitle.replace(/\s+/g, '_');
+const savedMockState = localStorage.getItem(savedMockKey);
+
+if (savedMockState) {
+    document.getElementById('vault-main-view').classList.add('hidden');
+    document.getElementById('vault-runner-view').classList.add('hidden');
+    document.getElementById('mock-resume-choice-view').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+} else {
+    executeMockChoice('fresh');
+}
+}
+
+function executeMockChoice(choice) {
+document.getElementById('mock-resume-choice-view').classList.add('hidden');
+examTitle = pendingMockTitle;
+examSecondsLeft = pendingMockMins * 60;
 examAnswers = {};
 eIndex = 0;
 
@@ -2188,7 +2274,7 @@ document.getElementById('main-site-header').classList.add('hidden');
 const footerEl = document.querySelector('footer');
 if(footerEl) footerEl.classList.add('hidden');
 
-let baseList = getQuestionsForChapter(chapterTitle, "");
+let baseList = getQuestionsForChapter(pendingMockTitle, "");
 examQuestions = shuffleArray(baseList).map(q => {
 let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
 let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
@@ -2212,20 +2298,19 @@ answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorre
 };
 });
 
-// --- RESUME MOCK CHECK (LocalStorage) ---
-const savedMockKey = 'targettire_mock_' + chapterTitle.replace(/\s+/g, '_');
-const savedMockState = localStorage.getItem(savedMockKey);
-if (savedMockState) {
-    if (confirm("आपका पिछला मॉक टेस्ट अधूरा छूट गया था। क्या आप वहीं से रिज्यूम (Resume) करना चाहते हैं?")) {
+const savedMockKey = 'targettire_mock_' + pendingMockTitle.replace(/\s+/g, '_');
+if (choice === 'resume') {
+    const savedMockState = localStorage.getItem(savedMockKey);
+    if (savedMockState) {
         try {
             const data = JSON.parse(savedMockState);
             eIndex = data.eIndex || 0;
             examAnswers = data.examAnswers || {};
             examSecondsLeft = data.examSecondsLeft || examSecondsLeft;
         } catch(e) {}
-    } else {
-        localStorage.removeItem(savedMockKey);
     }
+} else {
+    localStorage.removeItem(savedMockKey);
 }
 
 document.getElementById('vault-main-view').classList.add('hidden');
@@ -2452,6 +2537,7 @@ date: new Date().toLocaleDateString()
 function exitExamVault() {
 clearInterval(examTimerInterval);
 document.getElementById('vault-runner-view').classList.add('hidden');
+document.getElementById('mock-resume-choice-view').classList.add('hidden');
 document.getElementById('vault-main-view').classList.remove('hidden');
 document.getElementById('exam-question-box').classList.remove('hidden');
 document.getElementById('exam-submitted-box').classList.add('hidden');
