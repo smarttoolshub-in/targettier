@@ -2142,6 +2142,7 @@ loadPracticeQuestion();
 }
 
 function selectPracticeOption(idx) {
+clearInterval(timerInterval); // 👈 उत्तर चुनते ही टाइमर रुकेगा
 userAnswers[pIndex] = idx;
 savePracticeProgress();
 showExplanationState(idx, practiceQuestions[pIndex]);
@@ -2169,7 +2170,7 @@ expBox.classList.remove('hidden');
 }
 
 function nextPracticeQuestion() {
-clearInterval(timerInterval);
+clearInterval(timerInterval); // 👈 अगला सवाल आने पर पिछला टाइमर साफ़ होगा
 pIndex++;
 savePracticeProgress();
 loadPracticeQuestion();
@@ -2177,7 +2178,7 @@ loadPracticeQuestion();
 
 function prevPracticeQuestion() {
 if (pIndex > 0) {
-clearInterval(timerInterval);
+clearInterval(timerInterval); // 👈 पिछلا सवाल आने पर टाइमर साफ़ होगा
 pIndex--;
 savePracticeProgress();
 loadPracticeQuestion();
@@ -2185,8 +2186,8 @@ loadPracticeQuestion();
 }
 
 function confirmExitPractice() {
+    clearInterval(timerInterval); // 👈 एग्जिट बटन दबाते ही टाइमर तुरंत रुकेगा
     openCustomConfirm("Exit Practice", "क्या आप वाकई टेस्ट छोड़कर डैशबोर्ड पर जाना चाहते हैं?", () => {
-        clearInterval(timerInterval);
         if (currentChapter) {
             localStorage.removeItem('targettire_practice_' + currentChapter.title.replace(/\s+/g, '_'));
         }
@@ -2477,8 +2478,8 @@ openCustomConfirm("Submit Exam", "क्या आप वाकई इस मॉ
 }
 
 function confirmExitExam() {
+    clearInterval(examTimerInterval); // 👈 मॉक टेस्ट का टाइमर तुरंत रुकेगा
     openCustomConfirm("Exit Simulation", "क्या आप वाकई मॉक टेस्ट छोड़कर डैशबोर्ड पर जाना चाहते हैं?", () => {
-        clearInterval(examTimerInterval);
         localStorage.removeItem('targettire_mock_' + examTitle.replace(/\s+/g, '_'));
         exitExamVault();
         switchTab('dashboard');
