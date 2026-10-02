@@ -2496,8 +2496,8 @@ document.getElementById('confirm-desc').innerText = desc;
 customConfirmCallback = onYes;
 document.getElementById('custom-confirm-modal').classList.remove('hidden');
 document.getElementById('confirm-yes-btn').onclick = () => {
-closeCustomConfirm();
-if(customConfirmCallback) customConfirmCallback();
+    if(customConfirmCallback) customConfirmCallback();
+    closeCustomConfirm();
 };
 }
 function closeCustomConfirm() {
