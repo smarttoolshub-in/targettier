@@ -57,7 +57,7 @@ user-select: text;
 </style>
 </head>
 <body class="bg-slate-50 dark:bg-[#0b0f19] text-slate-800 dark:text-slate-300 min-h-screen flex flex-col transition-colors duration-300">
-<header class="bg-white/95 dark:bg-[#0b0f19]/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800/80 sticky top-0 z-50 transition-colors duration-300">
+<header id="main-site-header" class="bg-white/95 dark:bg-[#0b0f19]/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800/80 sticky top-0 z-50 transition-colors duration-300">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex items-center justify-between h-20">
 <div class="flex items-center space-x-3">
@@ -380,7 +380,7 @@ This examination is one of the most prestigious competitive recruitment tests co
 </div>
 </div>
 
-<div id="practice-runner-view" class="hidden max-w-5xl mx-auto">
+<div id="practice-runner-view" class="hidden max-w-5xl mx-auto py-8">
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 <div class="lg:col-span-1 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-5 rounded-2xl shadow-xl transition-colors duration-300 h-fit">
 <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-4">
@@ -413,7 +413,12 @@ This examination is one of the most prestigious competitive recruitment tests co
 <div id="runner-question-box">
 <div class="flex justify-between items-center mb-3">
 <span id="runner-q-progress" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">Question 1 of 50</span>
-<span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded">Bilingual (EN / HI) • Shuffled</span>
+<div class="flex items-center gap-2">
+<span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded">Bilingual</span>
+<button onclick="toggleRunnerLanguage()" class="bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 font-bold text-[11px] px-2.5 py-1 rounded border border-indigo-500/30 transition cursor-pointer" title="Switch Question Language">
+<i class="fa-solid fa-language mr-1"></i> <span id="runner-lang-toggle-label">हिंदी / English</span>
+</button>
+</div>
 </div>
 <div class="mb-3">
 <p id="runner-q-text" class="text-sm sm:text-base font-semibold text-slate-900 dark:text-white mt-1 whitespace-pre-line leading-relaxed">Loading question...</p>
@@ -511,7 +516,7 @@ Return to Practice Hub
 </div>
 </div>
 
-<div id="vault-runner-view" class="hidden max-w-5xl mx-auto">
+<div id="vault-runner-view" class="hidden max-w-5xl mx-auto py-8">
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 <div class="lg:col-span-1 bg-white dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800/80 p-5 rounded-2xl shadow-xl transition-colors duration-300 h-fit">
 <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-4">
@@ -542,7 +547,12 @@ Return to Practice Hub
 <div id="exam-question-box">
 <div class="flex justify-between items-center mb-3">
 <span id="exam-q-progress" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">Question 1 of 50</span>
+<div class="flex items-center gap-2">
 <span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded">Proctored Mode</span>
+<button onclick="toggleExamLanguage()" class="bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 font-bold text-[11px] px-2.5 py-1 rounded border border-indigo-500/30 transition cursor-pointer" title="Switch Question Language">
+<i class="fa-solid fa-language mr-1"></i> <span id="exam-lang-toggle-label">हिंदी / English</span>
+</button>
+</div>
 </div>
 <div class="mb-6">
 <p id="exam-q-text" class="text-sm sm:text-base font-semibold text-slate-900 dark:text-white mt-1">Loading...</p>
@@ -680,7 +690,6 @@ Return to Mock Vault
 </div>
 </div>
 </main>
-
 <!-- Current Affairs Modal Popup -->
 <div id="current-affairs-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
 <div class="bg-white dark:bg-[#131b2e] w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-7 flex flex-col max-h-[85vh]">
@@ -1778,6 +1787,7 @@ let pIndex = 0;
 let userAnswers = {};
 let timerInterval = null;
 let timeLeft = 30;
+let runnerLangMode = 'bi'; // 'bi' (Both), 'en' (English only), 'hi' (Hindi only)
 
 function shuffleArray(array) {
 let arr = [...array];
@@ -1798,23 +1808,37 @@ return db[key];
 const cleanTitle = chapterTitle.split('(')[0].trim();
 return [
 {
-q: `Q1. In competitive examinations, what is the core foundational theorem/concept of '${cleanTitle}'?\n'${cleanTitle}' का मुख्य वैचारिक एवं सैद्धांतिक नियम क्या है?`,
-options: [
-`A) Fundamental analytical law and core property of ${cleanTitle}`,
-`B) Empirical inverse proportionality derivation`,
-`C) Non-linear asymptotic equilibrium`,
-`D) None of the above`
+qEn: `Q1. In competitive examinations, what is the core foundational theorem/concept of '${cleanTitle}'?`,
+qHi: `प्रश्न 1: प्रतियोगी परीक्षाओं में '${cleanTitle}' का मुख्य वैचारिक एवं सैद्धांतिक नियम क्या है?`,
+optionsEn: [
+`Fundamental analytical law and core property of ${cleanTitle}`,
+`Empirical inverse proportionality derivation`,
+`Non-linear asymptotic equilibrium`,
+`None of the above`
+],
+optionsHi: [
+`मूल विश्लेषणात्मक नियम और ${cleanTitle} का मुख्य गुण`,
+`आनुभविक व्युत्क्रमानुपाती व्युत्पत्ति`,
+`गैर-रैखिक स्पर्शोन्मुख संतुलन`,
+`इनमें से कोई नहीं`
 ],
 answer: 0,
 exp: `Explanation / स्पष्टीकरण:\n• Core Principle of ${cleanTitle}: In competitive tests, mastering this section requires understanding the primary governing axioms.`
 },
 {
-q: `Q2. When solving practical analytical problems under '${cleanTitle}', which approach guarantees the highest accuracy?\n'${cleanTitle}' के अंतर्गत व्यावहारिक प्रश्नों को हल करते समय कौन सी विधि सर्वाधिक सटीक मानी जाती है?`,
-options: [
-`A) Direct step-by-step conceptual formulation of ${cleanTitle}`,
-`B) Random iterative approximation`,
-`C) Unverified assumption technique`,
-`D) Arbitrary unit deduction`
+qEn: `Q2. When solving practical analytical problems under '${cleanTitle}', which approach guarantees the highest accuracy?`,
+qHi: `प्रश्न 2: '${cleanTitle}' के अंतर्गत व्यावहारिक प्रश्नों को हल करते समय कौन सी विधि सर्वाधिक सटीक मानी जाती है?`,
+optionsEn: [
+`Direct step-by-step conceptual formulation of ${cleanTitle}`,
+`Random iterative approximation`,
+`Unverified assumption technique`,
+`Arbitrary unit deduction`
+],
+optionsHi: [
+`सीधी चरण-दर-चरण वैचारिक सूत्रीकरण विधि`,
+`यादृच्छिक पुनरावृत्ति सन्निकटन`,
+`अत्यात्यापित मान्यता तकनीक`,
+`मनमाना इकाई कटौती`
 ],
 answer: 0,
 exp: `Explanation / स्पष्टीकरण:\n• Examination Strategy for ${cleanTitle}: Always apply direct formulaic relations.`
@@ -1824,6 +1848,11 @@ exp: `Explanation / स्पष्टीकरण:\n• Examination Strategy fo
 
 function startChapterPractice(chapterTitle, subjectName) {
 currentChapter = { title: chapterTitle, subjectName };
+// Focus Mode Activation: Hide header & footer, maximize practice area
+document.getElementById('main-site-header').classList.add('hidden');
+const footerEl = document.querySelector('footer');
+if(footerEl) footerEl.classList.add('hidden');
+
 document.getElementById('practice-main-view').classList.add('hidden');
 document.getElementById('practice-runner-view').classList.remove('hidden');
 document.getElementById('runner-chapter-title').innerText = currentChapter.title;
@@ -1832,19 +1861,55 @@ document.getElementById('runner-chapter-badge').innerText = currentChapter.subje
 let baseList = getQuestionsForChapter(chapterTitle, subjectName);
 practiceQuestions = shuffleArray(baseList).map(q => {
 let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
-let indexedOpts = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+// If questions don't have separate qEn/qHi, create them from q
+let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
+let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
+let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
+let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
+
+let indexedOpts = optsEn.map((opt, idx) => ({ 
+optEn: opt, 
+optHi: optsHi[idx] || opt, 
+originalIndex: idx 
+}));
 let shuffledIndexedOpts = shuffleArray(indexedOpts);
 return {
 ...q,
-options: shuffledIndexedOpts.map(item => item.opt),
+qEn: qEnText,
+qHi: qHiText,
+optionsEn: shuffledIndexedOpts.map(item => item.optEn),
+optionsHi: shuffledIndexedOpts.map(item => item.optHi),
 answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
 };
 });
 
 pIndex = 0;
 userAnswers = {};
+runnerLangMode = 'bi';
+updateRunnerLangButtonLabel();
 loadPracticeQuestion();
 renderQuestionPalette();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleRunnerLanguage() {
+if (runnerLangMode === 'bi') {
+runnerLangMode = 'en';
+} else if (runnerLangMode === 'en') {
+runnerLangMode = 'hi';
+} else {
+runnerLangMode = 'bi';
+}
+updateRunnerLangButtonLabel();
+loadPracticeQuestion();
+}
+
+function updateRunnerLangButtonLabel() {
+const lbl = document.getElementById('runner-lang-toggle-label');
+if(!lbl) return;
+if (runnerLangMode === 'bi') lbl.innerText = "हिंदी + English";
+else if (runnerLangMode === 'en') lbl.innerText = "English Only";
+else lbl.innerText = "हिंदी Only";
 }
 
 function renderQuestionPalette() {
@@ -1883,19 +1948,40 @@ return;
 }
 const q = practiceQuestions[pIndex];
 document.getElementById('runner-q-progress').innerText = `Question ${pIndex + 1} of ${practiceQuestions.length}`;
-document.getElementById('runner-q-text').innerText = q.q;
+
+
+let displayText = "";
+if (runnerLangMode === 'bi') {
+displayText = `${q.qEn}\n<span class="text-xs text-indigo-400 font-normal">(${q.qHi})</span>`;
+} else if (runnerLangMode === 'en') {
+displayText = q.qEn;
+} else {
+displayText = q.qHi;
+}
+document.getElementById('runner-q-text').innerHTML = displayText;
 
 const grid = document.getElementById('runner-options-grid');
 grid.innerHTML = '';
 const savedOpt = userAnswers[pIndex];
 
-q.options.forEach((opt, idx) => {
+for(let idx = 0; idx < q.optionsEn.length; idx++) {
+const optEn = q.optionsEn[idx];
+const optHi = q.optionsHi[idx];
+let optDisplay = "";
+if (runnerLangMode === 'bi') {
+optDisplay = `${optEn} <span class="text-xs text-slate-400 font-normal">/ ${optHi}</span>`;
+} else if (runnerLangMode === 'en') {
+optDisplay = optEn;
+} else {
+optDisplay = optHi;
+}
+
 const isChecked = (savedOpt === idx) ? 'checked' : '';
 const label = document.createElement('label');
 label.className = 'flex items-center gap-3 p-3.5 bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 cursor-pointer transition';
-label.innerHTML = `<input type="radio" name="practice-opt" value="${idx}" ${isChecked} onchange="selectPracticeOption(${idx})" class="text-indigo-600 focus:ring-indigo-500"> <div class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold">${opt}</div>`;
+label.innerHTML = `<input type="radio" name="practice-opt" value="${idx}" ${isChecked} onchange="selectPracticeOption(${idx})" class="text-indigo-600 focus:ring-indigo-500"> <div class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold">${optDisplay}</div>`;
 grid.appendChild(label);
-});
+}
 
 const expBox = document.getElementById('runner-explanation-box');
 if (savedOpt !== undefined) {
@@ -1949,7 +2035,7 @@ badgeEl.className = 'inline-flex items-center gap-2 px-3.5 py-1 rounded-full tex
 badgeEl.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Incorrect Answer / गलत उत्तर';
 expBox.className = 'mb-6 p-5 rounded-xl border border-rose-500/30 bg-rose-500/10 leading-relaxed';
 }
-document.getElementById('runner-exp-text').innerText = q.exp;
+document.getElementById('runner-exp-text').innerText = q.exp || "Explanation provided for correct evaluation.";
 expBox.classList.remove('hidden');
 }
 
@@ -2007,13 +2093,18 @@ date: new Date().toLocaleDateString()
 
 function exitPracticeRunner() {
 clearInterval(timerInterval);
+// Restore Header & Footer on exit
+document.getElementById('main-site-header').classList.remove('hidden');
+const footerEl = document.querySelector('footer');
+if(footerEl) footerEl.classList.remove('hidden');
+
 document.getElementById('practice-runner-view').classList.add('hidden');
 document.getElementById('practice-main-view').classList.remove('hidden');
 document.getElementById('runner-question-box').classList.remove('hidden');
 document.getElementById('runner-finished-box').classList.add('hidden');
 }
 
-let examTitle = "", examQuestions = [], eIndex = 0, examAnswers = {}, examTimerInterval = null, examSecondsLeft = 0;
+let examTitle = "", examQuestions = [], eIndex = 0, examAnswers = {}, examTimerInterval = null, examSecondsLeft = 0, examLangMode = 'bi';
 
 function launchChapterSimulation(chapterTitle, totalQuestions, totalMinutes) {
 examTitle = chapterTitle + " - Mock Exam";
@@ -2021,14 +2112,31 @@ examSecondsLeft = (totalMinutes || 30) * 60;
 examAnswers = {};
 eIndex = 0;
 
+// Focus Mode Activation for Mock Vault
+document.getElementById('main-site-header').classList.add('hidden');
+const footerEl = document.querySelector('footer');
+if(footerEl) footerEl.classList.add('hidden');
+
 let baseList = getQuestionsForChapter(chapterTitle, "");
 examQuestions = shuffleArray(baseList).map(q => {
 let sourceCorrect = (q.answer !== undefined) ? q.answer : 0;
-let indexedOpts = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+let qEnText = q.qEn || (q.q ? q.q.split('\n')[0] : "Question");
+let qHiText = q.qHi || (q.q ? q.q.split('\n')[1] || q.q.split('\n')[0] : "प्रश्न");
+let optsEn = q.optionsEn || q.options || ["A", "B", "C", "D"];
+let optsHi = q.optionsHi || q.options || ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"];
+
+let indexedOpts = optsEn.map((opt, idx) => ({ 
+optEn: opt, 
+optHi: optsHi[idx] || opt, 
+originalIndex: idx 
+}));
 let shuffledIndexedOpts = shuffleArray(indexedOpts);
 return {
 ...q,
-options: shuffledIndexedOpts.map(item => item.opt),
+qEn: qEnText,
+qHi: qHiText,
+optionsEn: shuffledIndexedOpts.map(item => item.optEn),
+optionsHi: shuffledIndexedOpts.map(item => item.optHi),
 answer: shuffledIndexedOpts.findIndex(item => item.originalIndex === sourceCorrect)
 };
 });
@@ -2037,9 +2145,32 @@ document.getElementById('vault-main-view').classList.add('hidden');
 document.getElementById('vault-runner-view').classList.remove('hidden');
 document.getElementById('exam-set-title').innerText = examTitle;
 
+examLangMode = 'bi';
+updateExamLangButtonLabel();
 loadExamQuestion();
 renderExamPalette();
 startExamMainTimer();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleExamLanguage() {
+if (examLangMode === 'bi') {
+examLangMode = 'en';
+} else if (examLangMode === 'en') {
+examLangMode = 'hi';
+} else {
+examLangMode = 'bi';
+}
+updateExamLangButtonLabel();
+loadExamQuestion();
+}
+
+function updateExamLangButtonLabel() {
+const lbl = document.getElementById('exam-lang-toggle-label');
+if(!lbl) return;
+if (examLangMode === 'bi') lbl.innerText = "हिंदी + English";
+else if (examLangMode === 'en') lbl.innerText = "English Only";
+else lbl.innerText = "हिंदी Only";
 }
 
 function startExamMainTimer() {
@@ -2092,19 +2223,39 @@ function loadExamQuestion() {
 if (eIndex >= examQuestions.length) return;
 const q = examQuestions[eIndex];
 document.getElementById('exam-q-progress').innerText = `Question ${eIndex + 1} of ${examQuestions.length}`;
-document.getElementById('exam-q-text').innerText = q.q;
+
+let displayText = "";
+if (examLangMode === 'bi') {
+displayText = `${q.qEn}\n<span class="text-xs text-indigo-400 font-normal">(${q.qHi})</span>`;
+} else if (examLangMode === 'en') {
+displayText = q.qEn;
+} else {
+displayText = q.qHi;
+}
+document.getElementById('exam-q-text').innerHTML = displayText;
 
 const grid = document.getElementById('exam-options-grid');
 grid.innerHTML = '';
 const savedOpt = examAnswers[eIndex];
 
-q.options.forEach((opt, idx) => {
+for(let idx = 0; idx < q.optionsEn.length; idx++) {
+const optEn = q.optionsEn[idx];
+const optHi = q.optionsHi[idx];
+let optDisplay = "";
+if (examLangMode === 'bi') {
+optDisplay = `${optEn} <span class="text-xs text-slate-400 font-normal">/ ${optHi}</span>`;
+} else if (examLangMode === 'en') {
+optDisplay = optEn;
+} else {
+optDisplay = optHi;
+}
+
 const isChecked = (savedOpt === idx) ? 'checked' : '';
 const label = document.createElement('label');
 label.className = 'flex items-center gap-3 p-3.5 bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 cursor-pointer transition';
-label.innerHTML = `<input type="radio" name="exam-opt" value="${idx}" ${isChecked} onchange="selectExamOption(${idx})" class="text-indigo-600 focus:ring-indigo-500"><div class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold">${opt}</div>`;
+label.innerHTML = `<input type="radio" name="exam-opt" value="${idx}" ${isChecked} onchange="selectExamOption(${idx})" class="text-indigo-600 focus:ring-indigo-500"><div class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold">${optDisplay}</div>`;
 grid.appendChild(label);
-});
+}
 
 document.getElementById('exam-prev-btn').disabled = (eIndex === 0);
 document.getElementById('exam-next-btn').innerText = (eIndex === examQuestions.length - 1) ? "Final Submit" : "Next";
@@ -2192,6 +2343,11 @@ date: new Date().toLocaleDateString()
 
 function exitExamVault() {
 clearInterval(examTimerInterval);
+// Restore Header & Footer on exit
+document.getElementById('main-site-header').classList.remove('hidden');
+const footerEl = document.querySelector('footer');
+if(footerEl) footerEl.classList.remove('hidden');
+
 document.getElementById('vault-runner-view').classList.add('hidden');
 document.getElementById('vault-main-view').classList.remove('hidden');
 document.getElementById('exam-question-box').classList.remove('hidden');
@@ -2438,6 +2594,22 @@ renderMyExamsTab();
 loadCurrentAffairsFromGist();
 };
 </script>
+    <!-- AI Chat Widget Script -->
     <script src="ai-chat.js"></script>
+
+   <!-- Footer - Body ke andar sabse niche -->
+    <footer style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background: #0b0f19; color: #94a3b8; border-top: 1px solid #1e293b; padding: 20px 48px; margin-top: auto; font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; z-index: 40;">
+        <div style="max-width: 1600px; margin: 0 auto; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; width: 100%; box-sizing: border-box;">
+            <p style="font-size: 13px; color: #e2e8f0; font-weight: 500; margin: 0;">
+                &copy; 2026 <strong>TargetTire</strong>. All Rights Reserved. Designed for Competitive Aspirants.
+            </p>
+            <p style="font-size: 12px; color: #64748b; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0;">
+                <span>🔒 100% Secure & Privacy Protected</span> | 
+                <span>⚡ Powered by Google AI Infrastructure</span> | 
+                <a href="#" style="color: #818cf8; text-decoration: none;">Privacy Policy</a> | 
+                <a href="#" style="color: #818cf8; text-decoration: none;">Terms & Conditions</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
