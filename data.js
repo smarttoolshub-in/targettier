@@ -25841,6 +25841,7 @@ Window.chapterQuestionsDB["Environmental Policies, Laws, and Ethics"] = [
     answer: 0,
     exp: "Explanation (En): The ultimate goal is to foster a sustainable planetary future where human needs and ecological integrity thrive together.\nस्पष्टीकरण (Hi): इसका अंतिम लक्ष्य एक ऐसी संधारणीय दुनिया का निर्माण करना है जहाँ मानव विकास और प्रकृति दोनों सुरक्षित और समृद्ध रह सकें।"
   }
+  ]
 ];
 
       
