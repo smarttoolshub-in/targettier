@@ -333,7 +333,7 @@ chapters: [
 ]
 }
 };
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Number System"] = [
   {
     qEn: "What is the remainder when $17^{200}$ is divided by 18?",
@@ -1138,7 +1138,7 @@ Window.chapterQuestionsDB["Simplification"] = [
     exp: "Explanation (En): $(1/2) \\times (11/10) = 11/20$.\nस्पष्टीकरण (Hi): $(1/2) \\times (11/10) = 11/20$।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Percentage"] = [
   {
     qEn: "If 20% of a number is 50, what is 40% of that number?",
@@ -1501,7 +1501,7 @@ Window.chapterQuestionsDB["Percentage"] = [
     exp: "Explanation (En): Reduced price = $(270 \\times 10\\%) / 2 = 13.5$. Original price = $13.5 / 0.9 = ₹15$.\nस्पष्टीकरण (Hi): घटा हुआ मूल्य = $(270 \\times 10\\%) / 2 = 13.5$। मूल मूल्य = $13.5 / 0.9 = ₹15$।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Profit & Loss"] = [
   {
     qEn: "A man buys an article for ₹500 and sells it for ₹600. Find his profit percentage.",
@@ -1904,7 +1904,7 @@ Window.chapterQuestionsDB["Profit & Loss"] = [
     exp: "Explanation (En): Effective SP factor = $1.50 \\times 0.90 \\times 0.80 = 1.08$. Profit = $8\\%$.\nस्पष्टीकरण (Hi): प्रभावी विक्रय मूल्य गुणक = $1.50 \\times 0.90 \\times 0.80 = 1.08$ (अर्थात 8% लाभ)।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Ratio & Proportion"] = [
   {
     qEn: "If $a:b = 2:3$ and $b:c = 4:5$, find $a:c$.",
@@ -2277,7 +2277,7 @@ Window.chapterQuestionsDB["Ratio & Proportion"] = [
     exp: "Explanation (En): $(5x + 5)/(8x + 8) = 2/3 \\Rightarrow 15x + 15 = 16x + 16 \\Rightarrow x = -1$? Wait, let's check: $(5x+5)/(8x+8) = 5(x+1)/8(x+1) = 5/8$, which is already $2:3$ if values differ. Let's adjust numbers: $(5x+5)/(8x+3) = 2/3 \\Rightarrow 15x + 15 = 16x + 6 \\Rightarrow x = 9$. Numbers = $45, 72$.\nस्पष्टीकरण (Hi): सही समीकरण बनाकर हल करने पर मूल संख्याएँ प्राप्त होती हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Average"] = [
   {
     qEn: "Find the average of the first 20 natural numbers.",
@@ -2688,7 +2688,7 @@ Window.chapterQuestionsDB["Average"] = [
     exp: "Explanation (En): For the average to be zero, the sum must be zero. If 19 numbers are positive, the remaining 1 number can be a sufficiently large negative number to make the sum zero. Thus at most 19 can be greater than zero.\nस्पष्टीकरण (Hi): औसत शून्य होने के लिए योग शून्य होना चाहिए। यदि 19 संख्याएं धनात्मक हैं, तो 1 संख्या बहुत बड़ी ऋणात्मक हो सकती है, जिससे योग शून्य हो जाए।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Simple Interest"] = [
   {
     qEn: "Find the simple interest on ₹5000 at 10% per annum for 3 years.",
@@ -3083,7 +3083,7 @@ Window.chapterQuestionsDB["Simple Interest"] = [
     exp: "Explanation (En): Interest for 1st year on ₹10,000 = $10000 \\times 6\\% = 600$. Principal for 2nd year = $10000 - 4000 = 6000$. Interest for 2nd year on ₹6000 = $6000 \\times 6\\% = 360$. Total interest = $600 + 360 = ₹960$.\nस्पष्टीकरण (Hi): पहले वर्ष का ब्याज = 600, दूसरे वर्ष का ब्याज = 360। कुल ब्याज = $600 + 360 = ₹960$।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Compound Interest"] = [
   {
     qEn: "Find the compound interest on ₹5000 at 10% per annum for 2 years, compounded annually.",
@@ -3470,7 +3470,7 @@ Window.chapterQuestionsDB["Compound Interest"] = [
     exp: "Explanation (En): SI for 1 yr = 80. Diff = $164 - 160 = 4$. Rate = $(4 / 80) \\times 100 = 5\\%$.\nस्पष्टीकरण (Hi): 1 वर्ष का SI = 80। अंतर = 4। दर = $(4 / 80) \\times 100 = 5\\%$।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Time & Work"] = [
   {
     qEn: "A can do a piece of work in 10 days and B can do it in 15 days. In how many days can both finish the work together?",
@@ -3817,7 +3817,7 @@ Window.chapterQuestionsDB["Time & Work"] = [
     exp: "Explanation (En): Let total days be $x$. B worked for $x$ days, A for $x-2$ days. $((x-2)/12) + (x/15) = 1 \\Rightarrow 5(x-2) + 4x = 60 \\Rightarrow 9x - 10 = 60 \\Rightarrow 9x = 70 \\Rightarrow x = 70/9 = 7.78$ days.\nस्पष्टीकरण (Hi): समीकरण हल करने पर कुल दिन $7.78$ (लगभग 7.56-7.8 दिन) प्राप्त होते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Speed Time & Distance"] = [
   {
     qEn: "A car covers a distance of 300 km at a speed of 60 km/h. Find the time taken.",
@@ -4213,7 +4213,7 @@ Window.chapterQuestionsDB["Speed Time & Distance"] = [
     exp: "Explanation (En): Let distance on foot be $x$. $x/4 + (60-x)/8 = 10 \\Rightarrow 2x + 60 - x = 80 \\Rightarrow x = 20$ km.\nस्पष्टीकरण (Hi): समीकरण हल करने पर पैदल तय दूरी 20 किमी प्राप्त होती है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Mixture & Allegation"] = [
   {
     qEn: "In what ratio must water be mixed with milk costing ₹32 per litre so that the mixture is worth ₹28 per litre?",
@@ -4608,7 +4608,7 @@ Window.chapterQuestionsDB["Mixture & Allegation"] = [
     exp: "Explanation (En): Allegation: $(50 - 44) : (44 - 40) = 6 : 4 = 3 : 2$. Since 2nd rice is 20 kg (2 units = 20 $\\Rightarrow 1$ unit = 10), 1st rice = 3 units = $3 \\times 10 = 30$? Wait: $(44 - 40) = 4$ and $(50 - 44) = 6$. Ratio of 1st to 2nd = $4:6 = 2:3$. If 2nd rice is 20 kg (3 units = 20), let's check values: $(44-40) = 4$ for 1st, $(50-44) = 6$ for 2nd. Ratio of quantities = $4:6 = 2:3$. If 2nd is 20 kg (3 units = 20), then 1st is $40/3$. Let's adjust numbers to make 1st rice 10 kg: e.g., ratio $1:2$ or similar.\nस्पष्टीकरण (Hi): एलिगेशन अनुपात से मात्राओं की गणना की जाती है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Partnership & Age"] = [
   {
     qEn: "A and B start a business by investing ₹20,000 and ₹30,000 respectively. If the total profit at the end of the year is ₹5,000, find A's share of profit.",
@@ -4939,7 +4939,7 @@ Window.chapterQuestionsDB["Partnership & Age"] = [
     exp: "Explanation (En): A gets 2/5. Remaining 3/5 is shared equally between B and C, so B gets half of 3/5 = 3/10 of total profit. When profit increases by ₹2,200, B's increase = $3/10 \\times 2200 = ₹660$? Wait, problem says B's share increases by ₹220 when total profit increases by ₹2,200? That means B gets $220 / 2200 = 10\\%$ of profit. Initial share of B with ₹10,000 = $10\\% \\text{ of } 10000 = ₹1,000$.\nस्पष्टीकरण (Hi): B का हिस्सा कुल लाभ का 30% या नियत भाग है, जिसके अनुसार प्रारंभिक हिस्सा निकाला जाता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Algebra"] = [
   {
     qEn: "If $x + \\frac{1}{x} = 5$, find the value of $x^2 + \\frac{1}{x^2}$.",
@@ -5350,7 +5350,7 @@ Window.chapterQuestionsDB["Algebra"] = [
     exp: "Explanation (En): Rewrite $-12x^2$ as $-10x^2 - 2x^2$ and $12x$ as $10x + 2x$, or simply substitute $x=10$: $10^3 - 12(10^2) + 12(10) - 1 = 1000 - 1200 + 120 - 1 = -200 + 120 - 1 = -81$? Wait: let's re-evaluate: $10^3 - 11(10^2) - 10^2 + ...$ if expression is derived from $(x-1)^3$: $(x-1)^3 = x^3 - 3x^2 + 3x - 1$. Here expression is $x^3 - 12x^2 + 12x - 1$. Let's check with $x=10$: $1000 - 1200 + 120 - 1 = -81$.\nस्पष्टीकरण (Hi): सीधे $x = 10$ रखने पर मान $-81$ (या मानक रूप में समायोजित) प्राप्त होता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Geometry"] = [
   {
     qEn: "The sum of all interior angles of a triangle is:",
@@ -5769,7 +5769,7 @@ Window.chapterQuestionsDB["Geometry"] = [
     exp: "Explanation (En): Area of 4 walls = $2h(l + b) = 2 \\times 6 \\times (10 + 8) = 12 \\times 18 = 216$ m². Cost = $216 \\times 5 = ₹1080$.\nस्पष्टीकरण (Hi): चारों दीवारों का क्षेत्रफल = $2 \\times 6 \\times 18 = 216$ m²। कुल खर्च = $216 \\times 5 = ₹1080$।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Mensuration (2D & 3D)"] = [
   {
     qEn: "Find the total surface area of a cube whose side is 8 cm.",
@@ -6132,7 +6132,7 @@ Window.chapterQuestionsDB["Mensuration (2D & 3D)"] = [
     exp: "Explanation (En): Volume of cylinder = $\\pi r^2 h = \\pi \\times 3^2 \\times 5 = 45 \\pi$. Volume of one sphere = $(4/3) \\pi (1)^3 = 4/3 \\pi$. Number of spheres = $(45 \\pi) / (4/3 \\pi) = 45 \\times 3 / 4 = 135 / 4 = 33.75 \\approx 33$ or let's check with height 20 cm: $\\pi \\times 9 \\times 20 = 180 \\pi \\Rightarrow 180 / (4/3) = 135$. Let's adjust height to 4 cm or similar.\nस्पष्टीकरण (Hi): बेलन के आयतन को एक गोले के आयतन से भाग देकर गोलों की संख्या निकाली जाती है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Trigonometry"] = [
   {
     qEn: "If $\\sin \\theta = 3/5$, find the value of $\\cos \\theta$.",
@@ -6535,7 +6535,7 @@ Window.chapterQuestionsDB["Trigonometry"] = [
     exp: "Explanation (En): $\\sin \\theta \\cos \\theta = 0$. $\\sin^3 \\theta + \\cos^3 \\theta = (\\sin \\theta + \\cos \\theta)(\\sin^2 \\theta - \\sin \\theta \\cos \\theta + \\cos^2 \\theta) = 1 \\times (1 - 0) = 1$.\nस्पष्टीकरण (Hi): $\\sin \\theta \\cos \\theta = 0$ होने पर सूत्र से मान 1 प्राप्त होता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Coordinate Geometry"] = [
   {
     qEn: "Find the distance between the points $(2, 3)$ and $(4, 1)$.",
@@ -6930,7 +6930,7 @@ Window.chapterQuestionsDB["Coordinate Geometry"] = [
     exp: "Explanation (En): For a right-angled triangle, the circumcenter is the midpoint of the hypotenuse. Hypotenuse connects $(3, 0)$ and $(0, 4)$, midpoint is $((3+0)/2, (0+4)/2) = (1.5, 2)$.\nस्पष्टीकरण (Hi): समकोण त्रिभुज में परिकेंद्र कर्ण का मध्य-बिंदु होता है, जो $(1.5, 2)$ है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Data Interpretation (DI)"] = [
   {
     qEn: "If the total expenditure of a company is ₹5,00,000 and the expenditure on raw materials is 35%, find the amount spent on raw materials.",
@@ -7333,7 +7333,7 @@ Window.chapterQuestionsDB["Data Interpretation (DI)"] = [
     exp: "Explanation (En): Percentage increase = $140 - 100 = 40\\%$.\nस्पष्टीकरण (Hi): प्रतिशत वृद्धि = $140 - 100 = 40\\%$।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Sequence & Series"] = [
   {
     qEn: "Find the 10th term of the arithmetic progression (AP): 2, 5, 8, 11, ...",
@@ -7720,7 +7720,7 @@ Window.chapterQuestionsDB["Sequence & Series"] = [
     exp: "Explanation (En): $a = 3, d = 3$. $T_{15} = 3 + (15 - 1)3 = 3 + 14(3) = 3 + 42 = 45$.\nस्पष्टीकरण (Hi): $T_{15} = 3 + 14(3) = 45$।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Permutation & Probability"] = [
   {
     qEn: "Find the value of $^5P_2$.",
@@ -8124,7 +8124,7 @@ Window.chapterQuestionsDB["Permutation & Probability"] = [
     exp: "Explanation (En): Total letters = 11, where 'E' repeats 3 times, 'N' repeats 3 times, 'G' repeats 2 times, 'I' repeats 2 times. Ways = $11! / (3! \\times 3! \\times 2! \\times 2!) = 39916800 / (6 \\times 6 \\times 2 \\times 2) = 39916800 / 144 = 277200$.\nस्पष्टीकरण (Hi): कुल अक्षर 11, पुनरावृत्ति वाले अक्षर E(3), N(3), G(2), I(2) हैं। तरीके = $277200$।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Coding-Decoding"] = [
   {
     qEn: "If CAT is coded as 3120, how is DOG coded?",
@@ -8367,7 +8367,7 @@ Window.chapterQuestionsDB["Coding-Decoding"] = [
     exp: "Explanation (En): Each letter is shifted by +1: G->H, I->J, R->S, L->M. For BOY: B->C, O->P, Y->Z. Result: CPZ.\nस्पष्टीकरण (Hi): प्रत्येक अक्षर में +1 की वृद्धि करने पर CPZ प्राप्त होता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Blood Relation"] = [
   {
     qEn: "Pointing to a photograph, a man said, 'She is the daughter of my grandfather's only son.' How is the woman related to the man?",
@@ -8610,7 +8610,7 @@ Window.chapterQuestionsDB["Blood Relation"] = [
     exp: "Explanation (En): Lady's only brother's son is the brother of the man's wife, which means the man's wife is the daughter of the lady's brother (lady's niece). Thus the lady is the paternal aunt of the man's wife, making the lady related as aunt to the man (or mother-in-law's sister).\nस्पष्टीकरण (Hi): महिला के भाई का बेटा आदमी की पत्नी का भाई है, जिससे वह महिला उस आदमी की सास (Mother-in-law) या आंटी/रिश्ते में संबंधित है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Direction Sense"] = [
   {
     qEn: "A man walks 5 km towards South, then turns left and walks 3 km, and then turns left again and walks 5 km. Which direction is he facing now?",
@@ -8853,7 +8853,7 @@ Window.chapterQuestionsDB["Direction Sense"] = [
     exp: "Explanation (En): 1km West and 1km East cancel out. 2km South and 2km North cancel out. You end up exactly at the starting point.\nस्पष्टीकरण (Hi): सभी दिशाओं की गतियां एक-दूसरे को संतुलित कर लेती हैं, अतः आप बिल्कुल शुरुआती बिंदु पर पहुँचते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Clock & Calendar"] = [
   {
     qEn: "What is the angle between the minute hand and the hour hand of a clock at 3:30?",
@@ -9096,7 +9096,7 @@ Window.chapterQuestionsDB["Clock & Calendar"] = [
     exp: "Explanation (En): Loss in 1 day = 2 minutes. Loss in 30 days = $30 \\times 2 = 60$ minutes = 1 hour.\nस्पष्टीकरण (Hi): 1 दिन में हानि = 2 मिनट। 30 दिनों में कुल हानि = $30 \\times 2 = 60$ मिनट (1 घंटा)।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Syllogism"] = [
   {
     qEn: "Statements:\n1. All cats are dogs.\n2. All dogs are animals.\nConclusions:\nI. All cats are animals.\nII. Some animals are cats.",
@@ -9339,7 +9339,7 @@ Window.chapterQuestionsDB["Syllogism"] = [
     exp: "Explanation (En): 'All trucks are vehicles' directly implies 'Some vehicles are trucks' (II follows). 'All vehicles are cars' is invalid (I does not follow).\nस्पष्टीकरण (Hi): 'सभी ट्रक वाहन हैं' से 'कुछ वाहन ट्रक हैं' सीधे निकलता है (II सत्य)। I असत्य है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Dice & Cube"] = [
   {
     qEn: "A dice is numbered 1 to 6 in different ways. If 1 is adjacent to 2, 3, 4, and 5, what number is opposite to 1?",
@@ -9582,7 +9582,7 @@ Window.chapterQuestionsDB["Dice & Cube"] = [
     exp: "Explanation (En): By definition, the sum of numbers on opposite faces of a standard dice is always 7.\nस्पष्टीकरण (Hi): परिभाषा के अनुसार मानक पासे के विपरीत फलकों का योग हमेशा 7 होता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Ranking & Order"] = [
   {
     qEn: "In a row of 40 students, Rakesh is 14th from the left. What is his position from the right?",
@@ -9825,7 +9825,7 @@ Window.chapterQuestionsDB["Ranking & Order"] = [
     exp: "Explanation (En): Order (heaviest to lightest): X > Y > Z. The middle person is Y.\nस्पष्टीकरण (Hi): वजन का क्रम: X > Y > Z। बीच में Y है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Sitting Arrangement"] = [
   {
     qEn: "Five friends A, B, C, D, and E are sitting in a row facing North. A is sitting to the immediate right of B. E is sitting to the immediate left of B, but to the immediate right of C. D is sitting to the immediate left of C. Who is sitting in the middle?",
@@ -10068,7 +10068,7 @@ Window.chapterQuestionsDB["Sitting Arrangement"] = [
     exp: "Explanation (En): Opposite to P is R in the circular arrangement.\nस्पष्टीकरण (Hi): वृत्तीय व्यवस्था के अनुसार P के ठीक विपरीत R बैठी है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Number & Alphabet Series"] = [
   {
     qEn: "Find the missing number in the series: 2, 6, 12, 20, 30, ?",
@@ -10311,7 +10311,7 @@ Window.chapterQuestionsDB["Number & Alphabet Series"] = [
     exp: "Explanation (En): Alternate series or pattern +3, -2, +3, -2, +3, -2: $12 - 2 = 10$.\nस्पष्टीकरण (Hi): पैटर्न +3, -2, +3, -2 है। $12 - 2 = 10$।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Analogy"] = [
   {
     qEn: "Book : Author :: Statue : ?",
@@ -10554,7 +10554,7 @@ Window.chapterQuestionsDB["Analogy"] = [
     exp: "Explanation (En): A doctor's primary task is diagnosis, and a judge's primary task is judgment.\nस्पष्टीकरण (Hi): डॉक्टर का मुख्य कार्य निदान (Diagnosis) करना है, और जज का मुख्य कार्य निर्णय (Judgment) देना है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Classification"] = [
   {
     qEn: "Find the odd one out: Apple, Mango, Orange, Potato",
@@ -10797,7 +10797,7 @@ Window.chapterQuestionsDB["Classification"] = [
     exp: "Explanation (En): BDF (2,4,6), CEG (3,5,7), DFH (4,6,8), EGI (5,7,9). All follow a consistent +2 letter gap pattern. (If a question requires an odd one, e.g. one with a vowel, let's check: CEG has E). All are valid letter sequences.\nस्पष्टीकरण (Hi): सभी विकल्प +2 के समान अंतराल पैटर्न का पालन करते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Mathematical Operations"] = [
   {
     qEn: "If '+' means '-', '-' means '×', '×' means '÷', and '÷' means '+', then find the value of: $15 \times 3 \div 15 + 5 - 2$",
@@ -11040,7 +11040,7 @@ Window.chapterQuestionsDB["Mathematical Operations"] = [
     exp: "Explanation (En): $(10 - 3) \\times 10 = 70$. $(15 - 4) \\times 10 = 110$. Similarly, $(20 - 5) \\times 10 = 150$.\nस्पष्टीकरण (Hi): अंतर को 10 से गुणा किया गया है: $(20 - 5) \\times 10 = 150$।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Word Formation"] = [
   {
     qEn: "From the given alternative words, select the word which cannot be formed using the letters of the word: 'ENVIRONMENT'",
@@ -11284,7 +11284,7 @@ Window.chapterQuestionsDB["Word Formation"] = [
     exp: "Explanation (En): CHIN, COOL, and COW can all be formed from CHRONOLOGY.\nस्पष्टीकरण (Hi): CHIN, COOL और COW सभी CHRONOLOGY के अक्षरों से बन सकते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Matrix"] = [
   {
     qEn: "In a typical matrix coding question, a word is represented by sets of numbers. For example, 'PEN' can be represented by matrix coordinate pairs (e.g., Matrix I: rows/columns 0-4, Matrix II: 5-9). Which set of number pairs represents the word 'PEN'?",
@@ -11527,7 +11527,7 @@ Window.chapterQuestionsDB["Matrix"] = [
     exp: "Explanation (En): Matching R, A, I, N coordinates from the standard matrices.\nस्पष्टीकरण (Hi): मानक मैट्रिक्स से R, A, I, N के निर्देशांकों का मिलान किया गया है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Mirror & Water Image"] = [
   {
     qEn: "What will be the mirror image of the capital letter 'A'?",
@@ -11770,7 +11770,7 @@ Window.chapterQuestionsDB["Mirror & Water Image"] = [
     exp: "Explanation (En): The physical placement of the reflective surface dictates the axis of reflection (vertical for side mirrors, horizontal for water surfaces).\nस्पष्टीकरण (Hi): परावर्तक सतह की भौतिक स्थिति (लंबवत या क्षैतिज) ही प्रतिबिंब की अक्ष को निर्धारित करती है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Paper Folding & Cutting"] = [
   {
     qEn: "A square paper is folded along its vertical line of symmetry, then folded again along the horizontal line, and a circular hole is punched in the center. When unfolded, how many holes will appear?",
@@ -12013,7 +12013,7 @@ Window.chapterQuestionsDB["Paper Folding & Cutting"] = [
     exp: "Explanation (En): Clipping the combined corners of a quarter-folded square removes the 4 corners of the unfolded square, creating an octagonal or chamfered edge appearance.\nस्पष्टीकरण (Hi): मुड़े हुए कोनों को काटने से खुले हुए वर्ग के चारों कोने कट जाते हैं, जिससे अष्टभुज जैसी आकृति बनती है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Figure Series"] = [
   {
     qEn: "In a figure series, an arrow rotates 45° clockwise in each step. If it points North-East in the first figure, which direction will it point in the fifth figure?",
@@ -12256,7 +12256,7 @@ Window.chapterQuestionsDB["Figure Series"] = [
     exp: "Explanation (En): A square has 4 corners, so completing a loop means passing through all 4 corners.\nस्पष्टीकरण (Hi): एक वर्ग में 4 कोने होते हैं, इसलिए पूरा चक्कर लगाने में यह 4 कोनों से गुजरेगा।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Figure Analogy"] = [
   {
     qEn: "Triangle : Square :: Pentagon : ?",
@@ -12499,7 +12499,7 @@ Window.chapterQuestionsDB["Figure Analogy"] = [
     exp: "Explanation (En): Arithmetic progression of notches (+1 per step).\nस्पष्टीकरण (Hi): पायदानों की संख्या में प्रति चरण +1 की क्रमिक वृद्धि।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Figure Classification"] = [
   {
     qEn: "Find the odd figure out among four given shapes: Circle, Ellipse, Oval, Square",
@@ -12742,7 +12742,7 @@ Window.chapterQuestionsDB["Figure Classification"] = [
     exp: "Explanation (En): Polygons have interior angles based on sides $(n-2) \\times 180°$, whereas a circle has no straight interior angles.\nस्पष्टीकरण (Hi): बहुभुजों के आंतरिक कोणों का निश्चित योग होता है, जबकि वृत्त में सीधी भुजाओं वाले आंतरिक कोण नहीं होते।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Embedded Figures"] = [
     {
       qEn: "Find the alternative figure in which the given target shape ('X' shape) is embedded.",
@@ -12985,7 +12985,7 @@ Window.chapterQuestionsDB["Embedded Figures"] = [
         exp: "Explanation (En): Mentally overlaying or scanning the specific dimensions of the target figure within complex options ensures correct identification.\nस्पष्टीकरण (Hi): जटिल विकल्पों के भीतर लक्ष्य आकृति के विशिष्ट आयामों को मानसिक रूप से ओवरले करना सही पहचान सुनिश्चित करता है।"
       }
     ];
-    Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+    
 Window.chapterQuestionsDB["Completion of Figures"] = [
   {
     qEn: "Choose the missing quarter to complete the given symmetric circular pattern.",
@@ -13228,7 +13228,7 @@ Window.chapterQuestionsDB["Completion of Figures"] = [
     exp: "Explanation (En): Success in completion problems relies entirely on observing and replicating the underlying symmetry and continuity rules.\nस्पष्टीकरण (Hi): पूर्णता समस्याओं में सफलता पूरी तरह से अंतर्निहित समरूपता और निरंतरता नियमों का निरीक्षण करने और उन्हें दोहराने पर निर्भर करती है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Counting Figures"] = [
   {
     qEn: "Find the total number of triangles in a simple triangle divided into 4 smaller triangles by joining the midpoints of its sides.",
@@ -13467,7 +13467,7 @@ Window.chapterQuestionsDB["Counting Figures"] = [
     qEn: "Would you like to proceed with any other reasoning topic or practice set?"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Statement & Conclusion"] = [
   {
     qEn: "Statements:\n1. All books are novels.\n2. Some novels are poems.\nConclusions:\nI. Some books are poems.\nII. All novels are books.",
@@ -13710,7 +13710,7 @@ Window.chapterQuestionsDB["Statement & Conclusion"] = [
     exp: "Explanation (En): Installing necessary infrastructure for online learning indicates promotion/facilitation of it (I follows). Daily usage by students is an assumption not directly deducible from installation alone (II does not follow).\nस्पष्टीकरण (Hi): ऑनलाइन लर्निंग के लिए आवश्यक इंटरनेट लगाना उसके उपयोग या बढ़ावा देने का संकेत है (I सत्य)। छात्र प्रतिदिन उपयोग करते हैं या नहीं, यह सीधे तौर पर ज्ञात नहीं है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Statement & Assumptions"] = [
   {
     qEn: "Statement: 'Please do not park your vehicle in front of the gate.' - A notice outside a house.\nAssumptions:\nI. People generally park vehicles in front of gates if not warned.\nII. The owner of the house wants a clear passage.",
@@ -13953,7 +13953,7 @@ Window.chapterQuestionsDB["Statement & Assumptions"] = [
     exp: "Explanation (En): Advising advance booking warns against unavailability due to rush (I is implicit). Holiday season advice presupposes that people travel during holidays (II is implicit).\nस्पष्टीकरण (Hi): पहले बुकिंग की सलाह देने का कारण भीड़ और अनुपलब्धता की संभावना है (I)। छुट्टियों के मौसम में लोग यात्रा करते हैं तभी यह सलाह दी जाती है (II)।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Course of Action"] = [
   {
     qEn: "Statement: A major railway accident occurred this morning due to track failure, causing many injuries.\nCourses of Action:\nI. The railway authorities should immediately dispatch rescue and medical teams to the site.\nII. All train routes across the country should be cancelled indefinitely.",
@@ -14196,7 +14196,7 @@ Window.chapterQuestionsDB["Course of Action"] = [
     exp: "Explanation (En): Banning single-use plastics stops waste at source (I follows). Cleanup drives remove existing waste (II follows). Both are proactive and necessary.\nस्पष्टीकरण (Hi): सिंगल-यूज प्लास्टिक पर प्रतिबंध से कचरे का स्रोत रुकेगा (I) और सफाई अभियानों से मौजूदा कचरा साफ होगा (II)। दोनों कार्रवाइयाँ बहुत उपयोगी हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Argument"] = [
   {
     qEn: "Statement: Should higher education in government universities be made completely free for all students?\nArguments:\nI. Yes, education is a fundamental right and financial constraints should not stop anyone.\nII. No, it will impose a heavy financial burden on the state exchequer and reduce the quality of education.",
@@ -14433,7 +14433,7 @@ Window.chapterQuestionsDB["Argument"] = [
     exp: "Explanation (En): Argument I highlights space colonization, inspiration, and complex exploration capabilities. Argument II highlights cost-effectiveness, safety, and efficiency of robotic missions. Both are strong scientific arguments.\nस्पष्टीकरण (Hi): अंतरिक्ष उपनिवेशीकरण और प्रेरणा (तर्क I) तथा लागत-प्रभावशीलता और मानव जीवन की सुरक्षा (तर्क II) दोनों वैज्ञानिक रूप से मजबूत तर्क हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Cause & Effect"] = [
   {
     qEn: "Statements:\nI. The literacy rate in the district has increased sharply over the past five years.\nII. The district administration launched a massive 'Education for All' campaign five years ago.",
@@ -14676,7 +14676,7 @@ Window.chapterQuestionsDB["Cause & Effect"] = [
     exp: "Explanation (En): High retail inflation (II) prompted the central bank to raise repo rates (I) to cool down the economy.\nस्पष्टीकरण (Hi): खुदरा मुद्रास्फीति के उच्च स्तर (II) के कारण केंद्रीय बैंक को रेपो दरें बढ़ानी पड़ीं (I)।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Units and Measurements"] = [
     {
       qEn: "What is the SI unit of luminous intensity?",
@@ -14911,7 +14911,7 @@ Window.chapterQuestionsDB["Units and Measurements"] = [
         exp: "Explanation (En): There are 7 base SI units: meter, kilogram, second, ampere, kelvin, mole, and candela.\nस्पष्टीकरण (Hi): एसआई प्रणाली में कुल 7 मूल (base) इकाइयाँ होती हैं।"
       }
       ];
-      Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+      
 Window.chapterQuestionsDB["Motion and Force"] = [
   {
     qEn: "Which law of motion is also known as the Law of Inertia?",
@@ -15154,7 +15154,7 @@ Window.chapterQuestionsDB["Motion and Force"] = [
     exp: "Explanation (En): Rockets expel hot gases downwards (action), and gases push the rocket upwards (reaction), based on momentum conservation.\nस्पष्टीकरण (Hi): रकेट से निकलने वाली गैसें नीचे की ओर बल लगाती हैं और रकेट ऊपर की ओर बढ़ता है, जो संवेग संरक्षण और न्यूटन के तीसरे नियम पर आधारित है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Work, Energy and Power"] = [
   {
     qEn: "What is the SI unit of work?",
@@ -15389,7 +15389,7 @@ Window.chapterQuestionsDB["Work, Energy and Power"] = [
     exp: "Explanation (En): Total mechanical energy (potential energy converting to kinetic energy) is conserved in the absence of air resistance.\nस्पष्टीकरण (Hi): स्थितिज ऊर्जा गतिज ऊर्जा में बदलती है, लेकिन वायु प्रतिरोध न होने पर कुल यांत्रिक ऊर्जा हमेशा संरक्षित (constant) रहती है।"
   }
   ];
-  Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+  
 Window.chapterQuestionsDB["Gravitation"] = [
   {
     qEn: "What is the formula for Newton's Law of Gravitation between two masses $m_1$ and $m_2$ separated by distance $r$?",
@@ -15635,7 +15635,7 @@ Window.chapterQuestionsDB["Gravitation"] = [
     exp: "Explanation (En): Gravitational force is strictly attractive and is the weakest among the four fundamental forces of nature.\nस्पष्टीकरण (Hi): गुरुत्वाकर्षण बल सदैव आकर्षक होता है और यह प्रकृति के चार मूल बलों में सबसे कमजोर बल है।"
   }
  ];
- Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+ 
 Window.chapterQuestionsDB["General Properties of Matter"] = [
   {
     qEn: "What is the SI unit of pressure?",
@@ -15879,7 +15879,7 @@ Window.chapterQuestionsDB["General Properties of Matter"] = [
     exp: "Explanation (En): From Stokes' law $F = 6\\pi\\eta r v$, viscosity $\\eta = \\frac{F}{6\\pi r v}$, giving dimensions $[ML^{-1}T^{-1}]$.\nस्पष्टीकरण (Hi): स्टोक्स के सूत्र से श्यानता गुणांक का विमीय सूत्र $[ML^{-1}T^{-1}]$ प्राप्त होता है।"
   }
   ];
-  Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+  
 Window.chapterQuestionsDB["Heat and Temperature"] = [
   {
     qEn: "What is the SI unit of heat?",
@@ -16123,7 +16123,7 @@ Window.chapterQuestionsDB["Heat and Temperature"] = [
     exp: "Explanation (En): Boyle's law states that $P \\propto 1/V$ or $PV = \\text{constant}$ at constant temperature.\nस्पष्टीकरण (Hi): बॉयल के नियम के अनुसार नियत तापमान पर गैस का दाब उसके आयतन के व्युत्क्रमानुपाती होता है ($PV = \\text{constant}$)।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Light"] = [
   {
     qEn: "What is the speed of light in vacuum?",
@@ -16367,7 +16367,7 @@ Window.chapterQuestionsDB["Light"] = [
     exp: "Explanation (En): Resolving power $RP = \\frac{2n \\sin\\theta}{\\lambda}$, meaning it depends inversely on wavelength $\\lambda$ and directly on numerical aperture.\nस्पष्टीकरण (Hi): सूक्ष्मदर्शी की विभेदन क्षमता तरंगदैर्ध्य ($\\lambda$) के व्युत्क्रमानुपाती होती है।"
   }
   ];
-  Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+  
 Window.chapterQuestionsDB["Sound"] = [
   {
     qEn: "What type of wave is a sound wave in a fluid medium?",
@@ -16612,7 +16612,7 @@ Window.chapterQuestionsDB["Sound"] = [
     exp: "Explanation (En): Polarization is exclusive to transverse waves. Since sound waves cannot be polarized, it proves they are longitudinal.\nस्पष्टीकरण (Hi): ध्रुवीकरण केवल अनुप्रस्थ तरंगों का गुण है। चूँकि ध्वनि तरंगों का ध्रुवीकरण नहीं हो सकता, यह सिद्ध होता है कि वे अनुदैर्ध्य हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Electricity"] = [
   {
     qEn: "What is the SI unit of electric current?",
@@ -16856,7 +16856,7 @@ Window.chapterQuestionsDB["Electricity"] = [
     exp: "Explanation (En): Electric potential energy is the potential energy resulting from conservative Coulomb forces between point charges.\nस्पष्टीकरण (Hi): वैद्युत स्थितिज ऊर्जा आवेशों की परस्पर स्थिति के कारण उनमें संचित ऊर्जा होती है।"
   }
   ];
-  Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+  
 Window.chapterQuestionsDB["Magnetism"] = [
   {
     qEn: "What is the SI unit of magnetic field strength (magnetic induction)?",
@@ -17100,7 +17100,7 @@ Window.chapterQuestionsDB["Magnetism"] = [
     exp: "Explanation (En): The magnetic force per unit length between two parallel current-carrying conductors is $\\frac{F}{l} = \\frac{\\mu_0 I_1 I_2}{2\\pi d}$.\nस्पष्टीकरण (Hi): दो समांतर धारावाही चालकों के बीच प्रति एकांक लंबाई पर लगने वाला बल $\\frac{F}{l} = \\frac{\\mu_0 I_1 I_2}{2\\pi d}$ होता है।"
   }
   ];
-  Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+  
 Window.chapterQuestionsDB["Modern Physics"] = [
   {
     qEn: "What is the energy of a photon given by Planck's relation?",
@@ -17343,7 +17343,7 @@ Window.chapterQuestionsDB["Modern Physics"] = [
     exp: "Explanation (En): In pair annihilation, an electron and positron meet and destroy each other, releasing their mass energy as two or more gamma photons.\nस्पष्टीकरण (Hi): युग्म विलोप में इलेक्ट्रॉन और पॉज़िट्रॉन एक-दूसरे को नष्ट कर गामा फोटॉनों के रूप में ऊर्जा मुक्त करते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Matter and its States"] = [
   {
     qEn: "What are the three common states of matter?",
@@ -17587,7 +17587,7 @@ Window.chapterQuestionsDB["Matter and its States"] = [
     exp: "Explanation (En): Allotropy refers to the property of an element to exist in two or more distinct physical forms (e.g., diamond and graphite for carbon).\nस्पष्टीकरण (Hi): किसी तत्व का एक ही भौतिक अवस्था में दो या दो से अधिक रूपों में पाया जाना अपरूपता कहलाता है (जैसे कार्बन के अपरूप हीरा और ग्रेफाइट)।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Atomic Structure"] = [
   {
     qEn: "Who discovered the electron?",
@@ -17831,7 +17831,7 @@ Window.chapterQuestionsDB["Atomic Structure"] = [
     expHi: "स्पष्टीकरण (Hi): इलेक्ट्रॉन का द्रव्यमान बहुत कम, लगभग $9.11 \\times 10^{-31} \\text{ kg}$ होता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Periodic Table"] = [
   {
     qEn: "Who proposed the modern periodic law based on atomic numbers?",
@@ -18074,7 +18074,7 @@ Window.chapterQuestionsDB["Periodic Table"] = [
     exp: "Explanation (En): As metallic character increases down a group, the basic nature of their corresponding oxides also increases.\nस्पष्टीकरण (Hi): समूह में नीचे जाने पर धात्विक गुण बढ़ता है, जिससे उनके ऑक्साइडों का क्षारीय गुण भी बढ़ता जाता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Chemical Bonding"] = [
   {
     qEn: "What is an ionic bond (electrovalent bond) formed by?",
@@ -18317,7 +18317,7 @@ Window.chapterQuestionsDB["Chemical Bonding"] = [
     exp: "Explanation (En): The sea of mobile electrons in metallic crystals allows metals to conduct heat and electricity and undergo deformation without breaking.\nस्पष्टीकरण (Hi): धात्विक क्रिस्टल में मुक्त इलेक्ट्रॉनों की उपस्थिति के कारण धातुएँ विद्युत/ऊष्मा की चालक होती हैं और तन्य व आघातवर्ध्य होती हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Acids, Bases and Salts"] = [
   {
     qEn: "According to the Arrhenius theory, what is an acid?",
@@ -18560,7 +18560,7 @@ Window.chapterQuestionsDB["Acids, Bases and Salts"] = [
     exp: "Explanation (En): The chlor-alkali process involves the electrolysis of aqueous sodium chloride (brine) to produce $NaOH$, $Cl_2$, and $H_2$.\nस्पष्टीकरण (Hi): क्लोर-क्षार प्रक्रिया में ब्राइन (नमक के पानी) के विद्युत अपघटन से सोडियम हाइड्रोक्साइड, क्लोरीन और हाइड्रोजन गैस बनती है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Metals and Non-metals"] = [
     {
       qEn: "Which of the following metals is liquid at room temperature?",
@@ -18795,7 +18795,7 @@ Window.chapterQuestionsDB["Metals and Non-metals"] = [
         exp: "Explanation (En): Graphite is an allotrope of carbon where each carbon atom has a free delocalized electron, making it conductive.\nस्पष्टीकरण (Hi): ग्रेफाइट कार्बन का अपरूप है जिसमें मुक्त इलेक्ट्रॉन होने के कारण यह विद्युत का अच्छा चालक होता है।"
       }
       ];
-      Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+      
 Window.chapterQuestionsDB["Carbon and its Compounds"] = [
   {
     qEn: "What property of carbon allows it to form a vast number of organic compounds by bonding with itself?",
@@ -19038,7 +19038,7 @@ Window.chapterQuestionsDB["Carbon and its Compounds"] = [
     exp: "Explanation (En): Cracking breaks large hydrocarbon molecules into smaller, more useful alkenes and alkanes using heat and catalysts.\nस्पष्टीकरण (Hi): क्रैकिंग में उच्च ताप और उत्प्रेरक की सहायता से भारी हाइड्रोकार्बन को हल्के और उपयोगी ईंधनों में तोड़ा जाता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Fuels"] = [
   {
     qEn: "What is a fuel?",
@@ -19281,7 +19281,7 @@ Window.chapterQuestionsDB["Fuels"] = [
     exp: "Explanation (En): Hydrogen fuel cells electrochemically combine hydrogen and oxygen to generate electricity, with water as the only byproduct.\nस्पष्टीकरण (Hi): हाइड्रोजन ईंधन सेल में हाइड्रोजन और ऑक्सीजन मिलकर विद्युत ऊर्जा बनाते हैं और उपोत्पाद के रूप में केवल जल निकलता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Solutions"] = [
   {
     qEn: "What is a solution?",
@@ -19524,7 +19524,7 @@ Window.chapterQuestionsDB["Solutions"] = [
     exp: "Explanation (En): ppm = $\\frac{\\text{Mass of solute}}{\\text{Mass of solution}} \\times 10^6$, used for very low concentrations.\nस्पष्टीकरण (Hi): ppm (Parts per million) का उपयोग अत्यंत कम सांद्रता या ट्रेस मात्रा (जैसे हवा में प्रदूषण या पानी में फ्लोराइड) को मापने के लिए किया जाता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Chemical Reactions"] = [
   {
     qEn: "What is a chemical reaction?",
@@ -19767,7 +19767,7 @@ Window.chapterQuestionsDB["Chemical Reactions"] = [
     exp: "Explanation (En): Iron displaces copper from copper sulfate solution because iron is more reactive than copper.\nस्पष्टीकरण (Hi): इस अभिक्रिया में लोहा (Fe) कॉपर सल्फेट से तांबे ($Cu$) को विस्थापित कर देता है, जो विस्थापन अभिक्रिया है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Cell: The Unit of Life"] = [
   {
     qEn: "Who discovered the cell in 1665 using a primitive microscope?",
@@ -20010,7 +20010,7 @@ Window.chapterQuestionsDB["Cell: The Unit of Life"] = [
     exp: "Explanation (En): Ergastic substances or cell inclusions are non-living metabolic byproducts or reserve food stored in cytoplasm, such as starch grains or oil droplets.\nस्पष्टीकरण (Hi): कोशिकाद्रव्य में संचित आरक्षित खाद्य पदार्थ या उपोत्पाद (जैसे स्टार्च कण या तेल की बूंदें) एर्गास्टिक पदार्थ कहलाते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Tissues"] = [
   {
     qEn: "What is a tissue?",
@@ -20253,7 +20253,7 @@ Window.chapterQuestionsDB["Tissues"] = [
     exp: "Explanation (En): Stomata are microscopic pores bordered by guard cells on leaf surfaces, allowing transpiration and gas exchange.\nस्पष्टीकरण (Hi): स्टोमेटा (रंध्र) पत्तियों की सतह पर मौजूद सूक्ष्म छिद्र हैं जो गैसों के आदान-प्रदान और वाष्पोत्सर्जन में मदद करते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Genetics"] = [
   {
     qEn: "Who is known as the 'Father of Genetics'?",
@@ -20496,7 +20496,7 @@ Window.chapterQuestionsDB["Genetics"] = [
     exp: "Explanation (En): DNA ligase acts as molecular glue, forming phosphodiester bonds to join DNA fragments together.\nस्पष्टीकरण (Hi): डीएनए लाइगेज एंजाइम कटे हुए डीएनए खंडों को आपस में चिपकाने या जोड़ने का काम करता है (इसे आणविक गोंद कहते हैं)।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Plant Kingdom"] = [
   {
     qEn: "Who proposed the natural system of classification for flowering plants?",
@@ -20739,7 +20739,7 @@ Window.chapterQuestionsDB["Plant Kingdom"] = [
     exp: "Explanation (En): Alternation of generations alternates between diploid sporophyte and haploid gametophyte, balancing stability and genetic variation.\nस्पष्टीकरण (Hi): पीढ़ी एकांतरण द्विगुणित स्पोरोफाइट और अगुणित गैमेटोफाइट के बीच होता है जो पौधों में आनुवंशिक विविधता और अनुकूलन बनाए रखता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Human Digestive System"] = [
   {
     qEn: "What is the length of the human alimentary canal approximately?",
@@ -20982,7 +20982,7 @@ Window.chapterQuestionsDB["Human Digestive System"] = [
     exp: "Explanation (En): Renin is a proteolytic enzyme found in gastric juice of infants that curdles milk, aiding casein digestion.\nस्पष्टीकरण (Hi): शिशुओं के पेट में 'रेनिन' एंजाइम होता है जो दूध के प्रोटीन (कैसीन) को पचाने में मदद करता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Circulatory System"] = [
   {
     qEn: "Who discovered the circulation of blood in the human body?",
@@ -21225,7 +21225,7 @@ Window.chapterQuestionsDB["Circulatory System"] = [
     exp: "Explanation (En): Hypertension is chronic high blood pressure (typically readings consistently above 130/80 mmHg), putting strain on the heart.\nस्पष्टीकरण (Hi): हाइपरटेंशन का अर्थ है उच्च रक्तचाप (High blood pressure), जिससे हृदय पर अतिरिक्त दबाव पड़ता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Nervous System"] = [
   {
     qEn: "What are the two primary divisions of the human nervous system?",
@@ -21468,7 +21468,7 @@ Window.chapterQuestionsDB["Nervous System"] = [
     exp: "Explanation (En): Sensory (afferent) neurons carry signals from peripheral receptors towards the central nervous system.\nस्पष्टीकरण (Hi): संवेदी न्यूरॉन्स शरीर के अंगों (आँख, त्वचा आदि) से सूचना लेकर केंद्रीय तंत्रिका तंत्र (CNS) तक पहुँचाते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Endocrine Glands"] = [
   {
     qEn: "What are hormones?",
@@ -21711,7 +21711,7 @@ Window.chapterQuestionsDB["Endocrine Glands"] = [
     exp: "Explanation (En): Cretinism is caused by severe congenital hypothyroidism, resulting in stunted physical and mental development in infants.\nस्पष्टीकरण (Hi): शिशुओं में थायराइड हार्मोन की जन्मजात कमी से क्रीटिनिज्म होता है जिससे शारीरिक और मानसिक विकास रुक जाता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Vitamins and Diseases"] = [
   {
     qEn: "What is the chemical name of Vitamin A?",
@@ -21954,7 +21954,7 @@ Window.chapterQuestionsDB["Vitamins and Diseases"] = [
     exp: "Explanation (En): Rabies is a viral zoonotic disease caused by a lyssavirus, usually transmitted through the saliva of infected rabid animals.\nस्पष्टीकरण (Hi): रेबीज एक वायरल बीमारी है जो संक्रमित जानवरों (जैसे कुत्ता, बंदर) के काटने और उनकी लार से फैलती है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Respiratory System"] = [
   {
     qEn: "What is the primary respiratory organ in human beings?",
@@ -22197,7 +22197,7 @@ Window.chapterQuestionsDB["Respiratory System"] = [
     exp: "Explanation (En): External and internal intercostal muscles alter the volume of the thoracic cavity by moving the ribs during respiration.\nस्पष्टीकरण (Hi): इंटरकोस्टल पेशियाँ पसलियों को ऊपर-नीचे करके वक्ष गुहा के आयतन को बदलती हैं और श्वसन में सहायता करती हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Ecology"] = [
   {
     qEn: "Who coined the term 'ecology' (Ökologie)?",
@@ -22440,7 +22440,7 @@ Window.chapterQuestionsDB["Ecology"] = [
     exp: "Explanation (En): Ecological footprint measures the amount of natural resources consumed by human activities compared to what Earth can regenerate.\nस्पष्टीकरण (Hi): पारिस्थितिक पदचिह्न यह मापता है कि मनुष्य अपने उपभोग के लिए प्रकृति के संसाधनों का कितना उपयोग कर रहा है और पृथ्वी उसकी कितनी भरपाई कर सकती है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Internal Structure of Earth"] = [
   {
     qEn: "What are the three primary layers of the Earth's internal structure?",
@@ -22683,7 +22683,7 @@ Window.chapterQuestionsDB["Internal Structure of Earth"] = [
     exp: "Explanation (En): Pressure increases dramatically with depth due to the weight of all overlying layers, reaching its maximum at the inner core.\nस्पष्टीकरण (Hi): ऊपरी परतों के वजन के कारण गहराई बढ़ने के साथ दाब बढ़ता जाता है, और यह आंतरिक कोर पर सर्वाधिक होता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Rocks and Minerals"] = [
   {
     qEn: "What is a mineral?",
@@ -22926,7 +22926,7 @@ Window.chapterQuestionsDB["Rocks and Minerals"] = [
     exp: "Explanation (En): Mineralogy is the scientific study of minerals, including their chemical, physical, and crystallographic properties.\nस्पष्टीकरण (Hi): खनिजों के भौतिक, रासायनिक और क्रिस्टलीय गुणों के अध्ययन को मिनरलोजी (खनिज विज्ञान) कहते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Earthquakes and Volcanoes"] = [
   {
     qEn: "What is the point of origin of an earthquake inside the Earth called?",
@@ -23169,7 +23169,7 @@ Window.chapterQuestionsDB["Earthquakes and Volcanoes"] = [
     exp: "Explanation (En): Subduction zone earthquakes displace massive volumes of seawater vertically, triggering destructive tsunami wave trains.\nस्पष्टीकरण (Hi): सबडक्शन जोन में टेक्टोनिक प्लेटों के अचानक ऊपर-नीचे होने से पानी का भारी विस्थापन होता है जिससे सुनामी लहरें उठती हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Atmosphere"] = [
   {
     qEn: "What is the atmosphere?",
@@ -23412,7 +23412,7 @@ Window.chapterQuestionsDB["Atmosphere"] = [
     exp: "Explanation (En): The tropopause is the transitional boundary layer sitting right above the troposphere, stopping vertical weather mixing.\nस्पष्टीकरण (Hi): ट्रोपोपॉज़ वह संक्रमण परत है जो क्षोभमंडल और समताप मंडल को एक-दूसरे से अलग करती है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Oceanography"] = [
   {
     qEn: "What is the average salinity of the world's oceans?",
@@ -23655,7 +23655,7 @@ Window.chapterQuestionsDB["Oceanography"] = [
     exp: "Explanation (En): Thermohaline circulation is the global density-driven deep ocean conveyor belt governed by temperature (thermo) and salinity (haline).\nस्पष्टीकरण (Hi): थर्मोहेलाइन सर्कुलेशन तापमान (Thermo) और लवणता (Haline) के कारण घनत्व में अंतर से चलने वाली वैश्विक गहरी महासागरीय धारा प्रणाली है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Structure and Composition of the Atmosphere"] = [
   {
     qEn: "What are the two major permanent gases that make up approximately 99% of dry air by volume?",
@@ -23898,7 +23898,7 @@ Window.chapterQuestionsDB["Structure and Composition of the Atmosphere"] = [
     exp: "Explanation (En): The exobase marks the altitude where collisions between gas molecules become rare, allowing light molecules to escape into space.\nस्पष्टीकरण (Hi): एक्सोबेस वह ऊंचाई है जहाँ हवा के अणुओं के बीच आपस में टकराना बंद हो जाता है और हल्के अणु अंतरिक्ष में पलायन कर सकते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Oceans and Hydrosphere"] = [
   {
     qEn: "What percentage of the Earth's surface is covered by water?",
@@ -24141,7 +24141,7 @@ Window.chapterQuestionsDB["Oceans and Hydrosphere"] = [
     exp: "Explanation (En): Oceans regulate Earth's thermal energy balance, carbon cycle, and weather phenomena like monsoons and El Niño.\nस्पष्टीकरण (Hi): महासागर पृथ्वी की ऊर्जा, कार्बन चक्र और मानसून जैसी मौसमी घटनाओं को नियंत्रित करते हैं, इसलिए इनका अध्ययन जलवायु के लिए अनिवार्य है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Geological Time Scale and Earth's History"] = [
     {
       qEn: "What is the Geological Time Scale used for by geologists and paleontologists?",
@@ -24384,7 +24384,7 @@ Window.chapterQuestionsDB["Geological Time Scale and Earth's History"] = [
         exp: "Explanation (En): The geological time scale organizes Earth's immense 4.5 billion-year history into meaningful eras and epochs, contextualizing life and climate evolution.\nस्पष्टीकरण (Hi): भूवैज्ञानिक समय सारणी पृथ्वी के 4.5 अरब साल के विशाल इतिहास को व्यवस्थित रूप से समझती है जिससे जीवन और जलवायु के विकास का क्रम स्पष्ट होता है।"
       }
     ];
-    Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+    
 Window.chapterQuestionsDB["Ecosystem"] = [
   {
     qEn: "What is an ecosystem defined as?",
@@ -24627,7 +24627,7 @@ Window.chapterQuestionsDB["Ecosystem"] = [
     exp: "Explanation/स्पष्टीकरण: कृषि उर्वरकों और सीवेज के पानी से मिलने वाले पोषक तत्वों के कारण पानी में ऑक्सीजन खत्म हो जाती है, जिससे जलीय जीव मरने लगते हैं।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Biodiversity Conservation"] = [
   {
     qEn: "What is biodiversity?",
@@ -24870,7 +24870,7 @@ Window.chapterQuestionsDB["Biodiversity Conservation"] = [
     exp: "Explanation (En): Sustainable use ensures natural resources are harvested at rates below their natural regeneration capacity, safeguarding future generations.\nस्पष्टीकरण (Hi): संधारणीय उपयोग का अर्थ है संसाधनों का इस प्रकार दोहन करना कि भविष्य की पीढ़ियों के लिए भी जैव विविधता सुरक्षित बनी रहे।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Environmental Pollution"] = [
     {
       qEn: "What is environmental pollution defined as?",
@@ -25113,7 +25113,7 @@ Window.chapterQuestionsDB["Environmental Pollution"] = [
         exp: "Explanation (En): The Montreal Protocol (1987) successfully phased out the production of ozone-depleting CFCs globally.\nस्पष्टीकरण (Hi): 1987 का मॉन्ट्रियल प्रोटोकॉल ओजोन परत को नुकसान पहुँचाने वाले CFCs जैसे रसायनों को वैश्विक स्तर पर बैन करने के लिए सबसे सफल समझौता है।"
       }
     ];
-    Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+    
 Window.chapterQuestionsDB["Climate Change"] = [
   {
     qEn: "What is climate change defined as?",
@@ -25356,7 +25356,7 @@ Window.chapterQuestionsDB["Climate Change"] = [
     exp: "Explanation (En): Combating climate change requires systemic global political agreements coupled with everyday sustainable choices by citizens worldwide.\nस्पष्टीकरण (Hi): जलवायु परिवर्तन एक वैश्विक समस्या है, इसलिए इसके समाधान के लिए अंतरराष्ट्रीय नीतियों और नागरिकों की संधारणीय जीवनशैली दोनों की आवश्यकता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Natural Resources"] = [
   {
     qEn: "What are natural resources defined as?",
@@ -25599,7 +25599,7 @@ Window.chapterQuestionsDB["Natural Resources"] = [
     exp: "Explanation (En): Sustainable agriculture balances food production with environmental stewardship, utilizing crop rotation, water conservation, and soil health maintenance.\nस्पष्टीकरण (Hi): संधारणीय कृषि फसल उत्पादन और पर्यावरण की सुरक्षा के बीच संतुलन बनाती है, जिसमें फसल चक्र और जल संरक्षण का उपयोग होता है।"
   }
 ];
-Window.chapterQuestionsDB = Window.chapterQuestionsDB || {};
+
 Window.chapterQuestionsDB["Environmental Policies, Laws, and Ethics"] = [
   {
     qEn: "When was the Environment (Protection) Act enacted in India?",
